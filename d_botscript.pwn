@@ -1,3 +1,6 @@
+//Script written by DEntisT, © & ® BRACE™.
+//for The New Dawn™ Community
+
 #pragma option -;+
 #include <a_samp>
 
