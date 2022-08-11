@@ -4169,7 +4169,9 @@ dc command:modhelp(cmdparams)
 	"**__Help Panel__**", "**Moderation Commands**\n\n\
 	"d_arrow"**`-ban`**: Bans an user from a certain server.\n\
 	"d_arrow"**`-unban`**: Revokes an user ban in a certain server.\n\
-	"d_arrow"**`-kick`**: Kicks an user from a certain server.\n\n", 
+	"d_arrow"**`-kick`**: Kicks an user from a certain server.\n\
+	"d_arrow"**`-roleall`**: Give everyone a role.\n\
+	"d_arrow"**`-deroleall`**: Take a role from everyone.\n\n", 
 	"",
 	"", col_embed, datetimelog, 
 	"",
@@ -5179,130 +5181,8 @@ dc command:moderation(cmdparams)
 		"d_arrow"**`-saveset`**: Save the current settings (emergency cases).\n\
 		"d_arrow"**`-sprofile`**: View the support staff profile.\n\
 		"d_arrow"**`-resetprofile`**: Reset a GM/support staff profile of a certain user to 0.\n\
-		"d_arrow"**`-roleall`**: Give everyone a role.\n\
-		"d_arrow"**`-deroleall`**: Take a role from everyone.\n\
 		"d_arrow"**`-rprole`**: Assign a role-play role to an user.", "","", col_embed, datetimelog, 
 		"","",""), GetMention(useridmention));
-	return 1;
-}
-
-dc command:roleall(cmdparams)
-{
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
-
-	servercheck(RiseOfNations);
-
-	modcheck;
-
-	new roleid[DCC_ID_SIZE+10];
-
-	if(sscanf(params, "s[50]", roleid))
-	{
-		SendChannelMessage(channel, ""d_no" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`-roleall [role ID or user mention]`");
-		return 1;
-	}
-
-	for(new i; i <= strlen(roleid); i++)
-	{
-		if(roleid[i] == '<') strdel(roleid, i, i+1);
-		if(roleid[i] == '@') strdel(roleid, i, i+1);
-		if(roleid[i] == '>') strdel(roleid, i, i+1);
-		if(roleid[i] == '!') strdel(roleid, i, i+1);
-		if(roleid[i] == '\32') strdel(roleid, i, i+1);
-		if(roleid[i] == '&') strdel(roleid, i, i+1);
-	}
-
-	rolecheck(roleid);
-
-	new DCC_Guild:server;
-
-	DCC_GetChannelGuild(channel, server);
-
-	new membercount;
-	DCC_GetGuildMemberCount(server, membercount);
-
-	SendChannelMessage(channel, ""d_yes" **PROCCESS STARTED** • %i users will be given a <@&%s> role in `%i` seconds!", membercount, roleid, membercount);
-
-	for (new i; i != membercount; i++)
-	{
-	    new DCC_User:user;
-	    if (!DCC_GetGuildMember(server, i, user))
-	    {
-	        // error
-	        continue;
-	    }
-
-	    // at this point you have access to all users in 
-	    // the Discord server you specified
-
-	    //DCC_GetUserId(user, id);
-
-	   	DCC_AddGuildMemberRole(server, user, DCC_FindRoleById(roleid));
-
-	}
-	SendChannelMessage(channel, ""d_yes" **USERS ROLED** • %i users were given a <@&%s> role.", membercount, roleid);	
-	return 1;
-}
-
-dc command:deroleall(cmdparams)
-{
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
-
-	servercheck(RiseOfNations);
-
-	modcheck;
-
-	new roleid[DCC_ID_SIZE+10];
-
-	if(sscanf(params, "s[50]", roleid))
-	{
-		SendChannelMessage(channel, ""d_no" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`-deroleall [role ID or user mention]`");
-		return 1;
-	}
-
-	for(new i; i <= strlen(roleid); i++)
-	{
-		if(roleid[i] == '<') strdel(roleid, i, i+1);
-		if(roleid[i] == '@') strdel(roleid, i, i+1);
-		if(roleid[i] == '>') strdel(roleid, i, i+1);
-		if(roleid[i] == '!') strdel(roleid, i, i+1);
-		if(roleid[i] == '\32') strdel(roleid, i, i+1);
-		if(roleid[i] == '&') strdel(roleid, i, i+1);
-	}
-
-	rolecheck(roleid);
-
-	new DCC_Guild:server;
-
-	DCC_GetChannelGuild(channel, server);
-
-	new membercount;
-	DCC_GetGuildMemberCount(server, membercount);
-
-	SendChannelMessage(channel, ""d_yes" **PROCCESS STARTED** • %i users will be removed from a <@&%s> role in `%i` seconds!", membercount, roleid, membercount);
-
-	for (new i; i != membercount; i++)
-	{
-	    new DCC_User:user;
-	    if (!DCC_GetGuildMember(server, i, user))
-	    {
-	        // error
-	        continue;
-	    }
-
-	    // at this point you have access to all users in 
-	    // the Discord server you specified
-
-	    //DCC_GetUserId(user, id);
-
-	   	DCC_RemoveGuildMemberRole(server, user, DCC_FindRoleById(roleid));
-
-	}
-	SendChannelMessage(channel, ""d_yes" **USERS DEROLED** • %i users were removed from a <@&%s> role.", membercount, roleid);	
 	return 1;
 }
 
@@ -5913,6 +5793,132 @@ dc command:unban(cmdparams)
 
 	SendChannelMessage(channel, ""d_yes" **UNBANNED** • <@%s> was unbanned successfully.", user);
 
+	return 1;
+}
+
+dc command:roleall(cmdparams)
+{
+	new DCC_Channel:channel;
+
+	DCC_GetMessageChannel(message, channel);
+
+	new DCC_Guild:guild;
+	DCC_GetChannelGuild(channel, guild);
+
+	setcheck%0(mod);
+
+	if(DCC_HasGuildMemberPermission(guild, author, PERMISSION_MANAGE_ROLES) == false)
+	{
+		SendChannelMessage(channel, ""d_no" **AUTHORIZATION ERROR** • You do not have a `MANAGE_ROLES` permission!");
+		return 1;
+	}
+
+	new roleid[DCC_ID_SIZE+10];
+
+	if(sscanf(params, "s[50]", roleid))
+	{
+		SendChannelMessage(channel, ""d_no" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`-roleall [role ID or user mention]`");
+		return 1;
+	}
+
+	for(new i; i <= strlen(roleid); i++)
+	{
+		if(roleid[i] == '<') strdel(roleid, i, i+1);
+		if(roleid[i] == '@') strdel(roleid, i, i+1);
+		if(roleid[i] == '>') strdel(roleid, i, i+1);
+		if(roleid[i] == '!') strdel(roleid, i, i+1);
+		if(roleid[i] == '\32') strdel(roleid, i, i+1);
+		if(roleid[i] == '&') strdel(roleid, i, i+1);
+	}
+
+	rolecheck(roleid);
+
+	new membercount;
+	DCC_GetGuildMemberCount(guild, membercount);
+
+	SendChannelMessage(channel, ""d_yes" **PROCCESS STARTED** • %i users will be given a <@&%s> role in `%i` seconds!", membercount, roleid, membercount);
+
+	for (new i; i != membercount; i++)
+	{
+	    new DCC_User:user;
+	    if (!DCC_GetGuildMember(guild, i, user))
+	    {
+	        // error
+	        continue;
+	    }
+
+	    // at this point you have access to all users in 
+	    // the Discord server you specified
+
+	    //DCC_GetUserId(user, id);
+
+	   	DCC_AddGuildMemberRole(guild, user, DCC_FindRoleById(roleid));
+
+	}
+	SendChannelMessage(channel, ""d_yes" **USERS ROLED** • %i users were given a <@&%s> role.", membercount, roleid);	
+	return 1;
+}
+
+dc command:deroleall(cmdparams)
+{
+	new DCC_Channel:channel;
+
+	DCC_GetMessageChannel(message, channel);
+
+	new DCC_Guild:guild;
+	DCC_GetChannelGuild(channel, guild);
+
+	setcheck%0(mod);
+
+	if(DCC_HasGuildMemberPermission(guild, author, PERMISSION_MANAGE_ROLES) == false)
+	{
+		SendChannelMessage(channel, ""d_no" **AUTHORIZATION ERROR** • You do not have a `MANAGE_ROLES` permission!");
+		return 1;
+	}
+
+	new roleid[DCC_ID_SIZE+10];
+
+	if(sscanf(params, "s[50]", roleid))
+	{
+		SendChannelMessage(channel, ""d_no" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`-deroleall [role ID or user mention]`");
+		return 1;
+	}
+
+	for(new i; i <= strlen(roleid); i++)
+	{
+		if(roleid[i] == '<') strdel(roleid, i, i+1);
+		if(roleid[i] == '@') strdel(roleid, i, i+1);
+		if(roleid[i] == '>') strdel(roleid, i, i+1);
+		if(roleid[i] == '!') strdel(roleid, i, i+1);
+		if(roleid[i] == '\32') strdel(roleid, i, i+1);
+		if(roleid[i] == '&') strdel(roleid, i, i+1);
+	}
+
+	rolecheck(roleid);
+
+	new membercount;
+	DCC_GetGuildMemberCount(guild, membercount);
+
+	SendChannelMessage(channel, ""d_yes" **PROCCESS STARTED** • %i users will be removed from a <@&%s> role in `%i` seconds!", membercount, roleid, membercount);
+
+	for (new i; i != membercount; i++)
+	{
+	    new DCC_User:user;
+	    if (!DCC_GetGuildMember(guild, i, user))
+	    {
+	        // error
+	        continue;
+	    }
+
+	    // at this point you have access to all users in 
+	    // the Discord server you specified
+
+	    //DCC_GetUserId(user, id);
+
+	   	DCC_RemoveGuildMemberRole(guild, user, DCC_FindRoleById(roleid));
+
+	}
+	SendChannelMessage(channel, ""d_yes" **USERS DEROLED** • %i users were removed from a <@&%s> role.", membercount, roleid);	
 	return 1;
 }
 
@@ -9752,7 +9758,7 @@ dc command:smhelp(cmdparams)
 		"d_arrow"**`-post`**: Post a message on social media.\n\
 		"d_arrow"**`-feed`**: The latest social media posts.", 
 		"",
-		"", col_embed, "Thanks for using our services! Please read '-smtos' to see Terms of Use of BRACE:tm: social media account.", 
+		"", col_embed, datetimelog, 
 		"",
 		"",
 		""), GetMention(useridmention));
