@@ -7,16 +7,6 @@
 
 #define SERVER_RISE_OF_NATIONS "RoN • Rise of Nations"
 
-#define DISCORD_PFP_LINK \
-"https://cdn.discordapp.com/attachments/960100310293024770/960100357697052702/Transparent_Diplomy.png"
-
-#define DISCORD_ATTACHMENT DISCORD_PFP_LINK
-//"https://cdn.discordapp.com/attachments/994549302821130330/1006117895228637184/earth-day1-scaled-3977174636.jpg"
-//"https://cdn.discordapp.com/attachments/960100310293024770/971821068203491338/The_New_Dawn-Server_Image.png"
-
-#define DISCORD_PFP_2_LINK \
-"https://cdn.discordapp.com/attachments/960100310293024770/975109118987730984/Transparent_Happy_Diplomy.png"
-
 #define CMD_PREFIX '-'
 
 new listpreview[4000];
@@ -114,7 +104,7 @@ stock strreplace(string[], const search[], const replacement[], bool:ignorecase 
     return count;
 }
 
-
+new datetimelog[256];
 #define RiseOfNations 	DCC_FindGuildById("965261756341559338")
 
 #define bankicklog 			DCC_FindChannelById("1006119258851385404") //d
@@ -699,15 +689,15 @@ new globalformat[1024];
 
 #define SendChannelMessage(%1,%2) \
 	format(globalformat,sizeof globalformat,%2);DCC_SendChannelEmbedMessage(%1, DCC_CreateEmbed( \
-			""diplomy"| **__"BOT_NAME" Bot__**", globalformat, "","", col_embed, "Thanks for using our services!", \
-			DISCORD_ATTACHMENT,DISCORD_PFP_2_LINK,""), "")
+			""diplomy"| **__"BOT_NAME" Bot__**", globalformat, "","", col_embed, datetimelog, \
+			"","",""), "")
 
 #define SendTip(%1,%2) DCC_SendChannelMessage(%1, ""d_star" **BOT TIP** • "%2)
 
 /*
 
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
-			"**__"SERVER_RISE_OF_NATIONS"__**", response, "","", col_embed, "Thanks for using our services!", 
+			"**__"SERVER_RISE_OF_NATIONS"__**", response, "","", col_embed, datetimelog, 
 			"","",""), GetMention(useridmention));*/
 
 #include <dcc>
@@ -2006,9 +1996,9 @@ public DCC_OnMessageCreate(DCC_Message: message)
 				"**__Report Response__**", reportstring, 
 				"",
 				"", 
-				col_embed, "Thanks for using our services!", 
+				col_embed, datetimelog, 
 				"",
-				DISCORD_PFP_LINK,
+				"",
 				"");
 
 			//SendChannelMessage(channel, msg);
@@ -2540,11 +2530,10 @@ public DCC_OnMessageCreate(DCC_Message: message)
 	{
 		new response [364];
 		format(response, sizeof response, 
-			"**__Hello!__**\n:wave: Hi, <@%s> - please use "d_arrow"**`-help`** to interact with **"BOT_NAME"**.\n\
-			"d_star" **TIP** • You can't use commands in `#gm-output`.", id);
+			":wave: • Hi, <@%s> - please use **`-help`** to interact with **"BOT_NAME"**.", id);
 
 		new DCC_Embed:msg2 = DCC_CreateEmbed(
-			"**__"BOT_NAME"__**", response, "","", col_embed, "Thanks for using our services!", 
+			"**__"BOT_NAME"__**", response, "","", col_embed, datetimelog, 
 			"","","");
 
 		//SendChannelMessage(channel, msg);
@@ -2605,11 +2594,10 @@ public DCC_OnMessageCreate(DCC_Message: message)
 	{
 		new response [364];
 		format(response, sizeof response, 
-			"**__Hello!__**\n:wave: Hi, <@%s> - please use "d_arrow"**`-help`** to interact with **"SERVER_RISE_OF_NATIONS"**.\n\
-			"d_star" **TIP** • You can't use commands in `#gm-output`.", id);
+			":wave: • Hi, <@%s> - please use **`-help`** to interact with **"BOT_NAME"**.", id);
 
 		new DCC_Embed:msg2 = DCC_CreateEmbed(
-			"**__"SERVER_RISE_OF_NATIONS"__**", response, "","", col_embed, "Thanks for using our services!", 
+			"**__"BOT_NAME"__**", response, "","", col_embed, datetimelog, 
 			"","","");
 
 		//SendChannelMessage(channel, msg);
@@ -2819,7 +2807,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 				}
 				AddReaction(message, DCC_CreateEmoji("☑️"));//AddReaction(message, yes);
 				DCC_SendChannelEmbedMessage(gm_count, DCC_CreateEmbed(
-				"**__"SERVER_RISE_OF_NATIONS"__**", count, "","", col_embed, "Thanks for using our services!", 
+				"**__"SERVER_RISE_OF_NATIONS"__**", count, "","", col_embed, datetimelog, 
 				"","",""));
 
 				SavePolGMCount(id,GetPolGMCount(id)+1);
@@ -2863,7 +2851,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 				}
 				AddReaction(message, DCC_CreateEmoji("☑️"));//AddReaction(message, yes);
 				DCC_SendChannelEmbedMessage(gm_count, DCC_CreateEmbed(
-				"**__"SERVER_RISE_OF_NATIONS"__**", count, "","", col_embed, "Thanks for using our services!", 
+				"**__"SERVER_RISE_OF_NATIONS"__**", count, "","", col_embed, datetimelog, 
 				"","",""));
 
 				SaveEcoGMCount(id,GetEcoGMCount(id)+1);
@@ -2907,7 +2895,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 				}
 				AddReaction(message, DCC_CreateEmoji("☑️"));//AddReaction(message, yes);
 				DCC_SendChannelEmbedMessage(gm_count, DCC_CreateEmbed(
-				"**__"SERVER_RISE_OF_NATIONS"__**", count, "","", col_embed, "Thanks for using our services!", 
+				"**__"SERVER_RISE_OF_NATIONS"__**", count, "","", col_embed, datetimelog, 
 				"","",""));
 
 				SaveMilGMCount(id,GetMilGMCount(id)+1);
@@ -2953,7 +2941,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 				}
 				AddReaction(message, DCC_CreateEmoji("☑️"));//AddReaction(message, yes);
 				DCC_SendChannelEmbedMessage(gm_count, DCC_CreateEmbed(
-				"**__"SERVER_RISE_OF_NATIONS"__**", count, "","", col_embed, "Thanks for using our services!", 
+				"**__"SERVER_RISE_OF_NATIONS"__**", count, "","", col_embed, datetimelog, 
 				"","",""));
 
 				SavePolEcoGMCount(id,GetPolEcoGMCount(id)+1);
@@ -2997,7 +2985,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 				}
 				AddReaction(message, DCC_CreateEmoji("☑️"));//AddReaction(message, yes);
 				DCC_SendChannelEmbedMessage(gm_count, DCC_CreateEmbed(
-				"**__"SERVER_RISE_OF_NATIONS"__**", count, "","", col_embed, "Thanks for using our services!", 
+				"**__"SERVER_RISE_OF_NATIONS"__**", count, "","", col_embed, datetimelog, 
 				"","",""));
 
 				SaveEcoMilGMCount(id,GetEcoMilGMCount(id)+1);
@@ -3041,7 +3029,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 				}
 				AddReaction(message, DCC_CreateEmoji("☑️"));//AddReaction(message, yes);
 				DCC_SendChannelEmbedMessage(gm_count, DCC_CreateEmbed(
-				"**__"SERVER_RISE_OF_NATIONS"__**", count, "","", col_embed, "Thanks for using our services!", 
+				"**__"SERVER_RISE_OF_NATIONS"__**", count, "","", col_embed, datetimelog, 
 				"","",""));
 
 				SaveMilPolGMCount(id,GetMilPolGMCount(id)+1);
@@ -3189,7 +3177,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 				}
 				AddReaction(message, DCC_CreateEmoji("☑️"));//AddReaction(message, yes);
 				DCC_SendChannelEmbedMessage(gm_count, DCC_CreateEmbed(
-				"**__"SERVER_RISE_OF_NATIONS"__**", count, "","", col_embed, "Thanks for using our services!", 
+				"**__"SERVER_RISE_OF_NATIONS"__**", count, "","", col_embed, datetimelog, 
 				"","",""));
 
 				SaveWarGMCount(id,GetWarGMCount(id)+1);
@@ -3567,7 +3555,7 @@ public OnDiscordCommandPerformed(DCC_Message: message, DCC_User: author, bool: s
 		"**__"SERVER_RISE_OF_NATIONS"__**", 
 		logmsg, 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",""), ""d_star" **INFO** • Mention me for more information!");
 	}
@@ -3584,6 +3572,10 @@ stock DeleteAFK(const id[])
 
 public OnGameModeInit()
 {
+	new y,m,d,h,n,s;
+	getdate(y,m,d);
+	gettime(h,n,s);
+	format(datetimelog, sizeof datetimelog, ""BOT_NAME" • %i/%i/%i • %i:%i:%i",y,m,d,h,n,s);
 	/*new membercount, rolecount, channelcount;
 	DCC_GetGuildMemberCount(RiseOfNations, membercount);
 	DCC_GetGuildRoleCount(RiseOfNations, rolecount);
@@ -3598,6 +3590,7 @@ public OnGameModeInit()
 	SetTimer("ActivityChange", 2000, true);
 	SetTimer("InactivityPurge", 3600000, true);
 	SetTimer("DateUpdate", 10000, true);
+	SetTimer("DateTimeLog", 1000, true);
 	//SetTimer("MsgPerSecReset", 1000, true);
 
 	//DCC_CreateCommand("help", "Bot help.", "discord_help", true, RiseOfNations);
@@ -3605,6 +3598,16 @@ public OnGameModeInit()
 	//submissionchannel = DCC_FindChannelById("965490451333402644");
 	LoadChannels();
 	dateupdated = 20;
+	return 1;
+}
+
+forward DateTimeLog();
+public DateTimeLog()
+{
+	new y,m,d,h,n,s;
+	getdate(y,m,d);
+	gettime(h,n,s);
+	format(datetimelog, sizeof datetimelog, ""BOT_NAME" • %i/%i/%i • %i:%i:%i",y,m,d,h,n,s);
 	return 1;
 }
 
@@ -3620,8 +3623,8 @@ main()
 		"**__"SERVER_RISE_OF_NATIONS"__**", 
 		""d_yes" • Bot has successfully (re)started - use `-help` or `d!help` for help!", 
 		"",
-		"", col_embed, "Thanks for using our services!", 
-		DISCORD_ATTACHMENT,
+		"", col_embed, datetimelog, 
+		"",
 		"","");
 
 	//SendChannelMessage(channel, msg);
@@ -3866,9 +3869,9 @@ dc command:annc(cmdparams)
 
 	new DCC_Embed:msg2 = DCC_CreateEmbed(
 		"**__"SERVER_RISE_OF_NATIONS"__** Announcement", msg, 
-		DISCORD_ATTACHMENT,
-		"", col_embed, "Thanks for using our services!", 
-		DISCORD_ATTACHMENT,
+		"",
+		"", col_embed, datetimelog, 
+		"",
 		"","");
 
 	//SendChannelMessage(channel, msg);
@@ -3979,9 +3982,9 @@ dc command:help(cmdparams)
 	on all other servers your economy balance will get updated). \
 	Same also counts for other stuff as AFK status and such.", 
 	"",
-	"", col_embed, "Thanks for using our services!", 
-	DISCORD_ATTACHMENT,
-	DISCORD_PFP_LINK,
+	"", col_embed, datetimelog, 
+	"",
+	"",
 	""), GetMention(useridmention));
 
 	return 1;
@@ -4003,9 +4006,9 @@ dc command:customhelp(cmdparams)
 	"d_arrow"**`-moderation`**: Help about server moderation.\n\
 	"d_arrow"**`-nrphelp`**: Nation role-play system help.\n\n", 
 	"",
-	"", col_embed, "Thanks for using our services!", 
-	DISCORD_ATTACHMENT,
-	DISCORD_PFP_LINK,
+	"", col_embed, datetimelog, 
+	"",
+	"",
 	""), GetMention(useridmention));
 
 	return 1;
@@ -4037,7 +4040,7 @@ dc command:features(cmdparams)
 		**9.** Role-play system!\n\n\
 		"d_star" **NOTE** • Bot is regularly maintained and updated, a lot of interesting cross-server features are coming soon!", 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",
 		""), GetMention(useridmention));
@@ -4059,7 +4062,7 @@ dc command:rphelp(cmdparams)
 		"d_arrow"**`-hunt`**: Go hunting and find stuff!\n\
 		"d_arrow"**`-eat`**: Consume stuff and max out your energy!\n", 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",
 		""), GetMention(useridmention));
@@ -4085,7 +4088,7 @@ dc command:tos(cmdparams)
 		\n**8.** Redistributing the bot's resources (such as images, logos, text) is prohibited.\n\
 		\n**9.** Read our Privacy Policy for more, use `-pp` command to do so.", 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",
 		""), GetMention(useridmention));
@@ -4108,7 +4111,7 @@ dc command:pp(cmdparams)
 		any data loss using the bot, you shouldn't use passwords, usernames and such information \
 		as list names, custom command names or anything else requiring a text input! Thanks.", 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",
 		""), GetMention(useridmention));
@@ -4128,7 +4131,7 @@ dc command:listhelp(cmdparams)
 		"d_arrow"**`-delelement`**: Delete a list element.\n\
 		"d_arrow"**`-viewlist`**: View a list.", 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",
 		""), GetMention(useridmention));
@@ -4145,7 +4148,7 @@ dc command:achelp(cmdparams)
 		"**__Help Panel__**", "**Anti-raid System commands**\n\n\
 		"d_arrow" Nothing to see here yet!", 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",
 		""), GetMention(useridmention));
@@ -4168,9 +4171,9 @@ dc command:modhelp(cmdparams)
 	"d_arrow"**`-unban`**: Revokes an user ban in a certain server.\n\
 	"d_arrow"**`-kick`**: Kicks an user from a certain server.\n\n", 
 	"",
-	"", col_embed, "Thanks for using our services!", 
-	DISCORD_ATTACHMENT,
-	DISCORD_PFP_LINK,
+	"", col_embed, datetimelog, 
+	"",
+	"",
 	""), GetMention(useridmention));
 
 	return 1;
@@ -4313,7 +4316,7 @@ dc command:viewlist(cmdparams)
 	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__List Preview__**", listpreview, 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",
 		""), GetMention(useridmention));
@@ -4333,7 +4336,7 @@ dc command:funhelp(cmdparams)
 		"d_arrow"**`-say`**: Say something anonymously.\n\
 		"d_arrow"**`-joke`**: Get a joke.", 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",
 		""), GetMention(useridmention));
@@ -4352,7 +4355,7 @@ dc command:bumphelp(cmdparams)
 		"d_arrow"**`-bump`**: Bump your server!\n\
 		"d_arrow"**`-servers`**: View the server leaderboards.", 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",
 		""), GetMention(useridmention));
@@ -4379,7 +4382,7 @@ dc command:bump(cmdparams)
     DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Bump Done!__**", ""d_yes" Your server successfully got bumped on the bot's global server leaderboard.", 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",
 		""), GetMention(useridmention));
@@ -4395,7 +4398,7 @@ dc command:servers(cmdparams)
     DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Coming soon!__**", ""d_no" This feature is currently unavailable, but don't give up with bumping - bump command works.", 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",
 		""), GetMention(useridmention));
@@ -4417,7 +4420,7 @@ dc command:lvlhelp(cmdparams)
 		"d_star" Every 100 messages you send, you climb up by one level! \
 		You can check your level using `-level` command.", 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",
 		""), GetMention(useridmention));
@@ -4442,7 +4445,7 @@ dc command:level(cmdparams)
 	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Level Statistics__**", lvl, 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",
 		""), GetMention(useridmention));
@@ -4462,7 +4465,7 @@ dc command:ccmdhelp(cmdparams)
 		"d_arrow"**`-delcmd`**: Delete a custom command.\n\n\
 		"d_star" **TIP** • Bot responds to these commands only when they have a `!` prefix.", 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",
 		""), GetMention(useridmention));
@@ -4571,9 +4574,9 @@ dc command:botsetup(cmdparams)
 		help panels) use `RiseOfNations` or `-` as a prefix, the `!` prefix is used to execute custom commands \
 		(read more about custom commands on `-ccmdhelp`)!", 
 		"",
-		"", col_embed, "Thanks for using our services!", 
-		DISCORD_ATTACHMENT,
-		DISCORD_PFP_LINK,
+		"", col_embed, datetimelog, 
+		"",
+		"",
 		""), ""d_star" **TIP** • Thanks for bothering inviting **"BOT_NAME"** to your server.");
 	return 1;
 }
@@ -4701,9 +4704,9 @@ dc command:website(cmdparams)
 		"**__"SERVER_RISE_OF_NATIONS" • Website__**", "\
 		"d_point" • Visit our community on the web! Access our site by clicking this [link](https://bracetm.000webhostapp.com/d_diplomy.html)!", 
 		"",
-		"", col_embed, "Thanks for using our services!", 
-		DISCORD_ATTACHMENT,
-		DISCORD_PFP_LINK,
+		"", col_embed, datetimelog, 
+		"",
+		"",
 		""), GetMention(useridmention));
 
 
@@ -4739,7 +4742,7 @@ dc command:ecohelp(cmdparams)
 		"d_arrow"**`-buy`**: Buy something from a "BOT_NAME" shop.\n\
 		"d_arrow"**`-inv`**: View your inventory.", 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",
 		""), GetMention(useridmention));
@@ -4781,7 +4784,7 @@ dc command:afkhelp(cmdparams)
 		"d_arrow"**`-afk`**: Set your AFK status.\n\
 		"d_star" **TIP** • Your AFK status gets removed once you send a message into any channel of a server.", 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",
 		""), GetMention(useridmention));
@@ -4839,7 +4842,7 @@ dc command:settings(cmdparams)
 		**`ccmd`**: Enable or disable custom commands.\n\
 		**`ac`**: Activate or deactivate anti-raid system.\n\
 		**`rp`**: Activate or deactivate a roleplay system.", 
-		"","", col_embed, "Thanks for using our services!", 
+		"","", col_embed, datetimelog, 
 		"","",""), GetMention(useridmention));
 		return 1;
 	}
@@ -5133,7 +5136,7 @@ dc command:warns(cmdparams)
 	format(msg, sizeof msg, "**__List of <@%s>'s warnings__**\n\n%s", user, content);
 
 	new DCC_Embed:msg2 = DCC_CreateEmbed(
-		"**__WARN LIST__**", msg, "","", col_embed, "Thanks for using our services!", 
+		"**__WARN LIST__**", msg, "","", col_embed, datetimelog, 
 		"","","");
 
 	//SendChannelMessage(channel, msg);
@@ -5178,7 +5181,7 @@ dc command:moderation(cmdparams)
 		"d_arrow"**`-resetprofile`**: Reset a GM/support staff profile of a certain user to 0.\n\
 		"d_arrow"**`-roleall`**: Give everyone a role.\n\
 		"d_arrow"**`-deroleall`**: Take a role from everyone.\n\
-		"d_arrow"**`-rprole`**: Assign a role-play role to an user.", "","", col_embed, "Thanks for using our services!", 
+		"d_arrow"**`-rprole`**: Assign a role-play role to an user.", "","", col_embed, datetimelog, 
 		"","",""), GetMention(useridmention));
 	return 1;
 }
@@ -5334,7 +5337,7 @@ dc command:rprole(cmdparams)
 		**`unsec`**: Give an UN secretariat role to user.\n\
 		**`spectator`**: Give a spectator role to user.\n\
 		**`player`**: Give a player role to user.",
-		"","", col_embed, "Thanks for using our services!", 
+		"","", col_embed, datetimelog, 
 		"","",""), GetMention(useridmention));
 		return 1;
 	}
@@ -5556,7 +5559,7 @@ dc command:poll(cmdparams)
 		Poll was posted by: <@%s>\nReact with :ballot_box_with_check: or "d_no" below.", strip[0], strip[1], id);
 	
 	new DCC_Embed:msg2 = DCC_CreateEmbed(
-		":newspaper: **__POLL__**", globalformat, "","", col_embed, "Thanks for using our services!", 
+		":newspaper: **__POLL__**", globalformat, "","", col_embed, datetimelog, 
 		"","","");
 
 	DCC_SendChannelEmbedMessage(channel, msg2, ""d_star" **INFO** • A new poll has been posted!");
@@ -6122,7 +6125,7 @@ dc command:gmlvl(cmdparams)
 		4. `Medium` - GM for 4 posts\n\
 		5. `Hard` - GM for 5 or more posts\n\n\
 		"d_star" **FACT** • GM leveling system has been recently updated with a new algorithm, \
-		which scans the GM message and then estimates the level, regardless of the number of posts.", "","", col_embed, "Thanks for using our services!", 
+		which scans the GM message and then estimates the level, regardless of the number of posts.", "","", col_embed, datetimelog, 
 		"","","");
 
 	//SendChannelMessage(channel, msg);
@@ -6410,7 +6413,7 @@ dc command:shop(cmdparams)
 	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Diplomy Shop__**", shop, 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",""), GetMention(useridmention));
 
@@ -6767,7 +6770,7 @@ dc command:inv(cmdparams)
 	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Your Inventory__**", inv, 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",""), GetMention(useridmention));
 
@@ -6876,7 +6879,7 @@ dc command:melt(cmdparams)
 		**__Items__**\n\
 		**`gold`**: Melt gold and get coins!\n\
 		**`meat`**: Cook raw meat and make it edible!\n", 
-		"","", col_embed, "Thanks for using our services!", 
+		"","", col_embed, datetimelog, 
 		"","",""), GetMention(useridmention));
 		return 1;
 	}
@@ -7038,7 +7041,7 @@ dc command:mystats(cmdparams)
 	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Your Statistics__**", stats, 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",""), GetMention(useridmention));
 
@@ -7065,7 +7068,7 @@ dc command:eat(cmdparams)
 		Usage: `-eat [item] [quantity]`\n\n\
 		**__Items__**\n\
 		**`meat`**: Eat cooked meat!\n", 
-		"","", col_embed, "Thanks for using our services!", 
+		"","", col_embed, datetimelog, 
 		"","",""), GetMention(useridmention));
 		return 1;
 	}
@@ -7150,7 +7153,7 @@ dc command:sprofile(cmdparams)
 	new DCC_Embed:msg2 = DCC_CreateEmbed(
 		"**__Support Staff Profile__**", msg, 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"","");
 
@@ -7223,7 +7226,7 @@ dc command:profile(cmdparams)
 	new DCC_Embed:msg2 = DCC_CreateEmbed(
 		"**__Game Master Profile__**", msg, 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"","");
 
@@ -7441,7 +7444,7 @@ dc command:top(cmdparams)
 	    DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 			"**__Game Master Leaderboard__**", globalformat, 
 			"",
-			"", col_embed, "Thanks for using our services!", 
+			"", col_embed, datetimelog, 
 			"",
 			"",""));
 		return 1;
@@ -7576,7 +7579,7 @@ dc command:top(cmdparams)
 	    DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 			"**__Game Master Leaderboard__**", globalformat, 
 			"",
-			"", col_embed, "Thanks for using our services!", 
+			"", col_embed, datetimelog, 
 			"",
 			"",""));
 		return 1;
@@ -7672,7 +7675,7 @@ dc command:top(cmdparams)
 	    DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 			"**__Game Master Leaderboard__**", globalformat, 
 			"",
-			"", col_embed, "Thanks for using our services!", 
+			"", col_embed, datetimelog, 
 			"",
 			"",""));
 		return 1;
@@ -7768,7 +7771,7 @@ dc command:top(cmdparams)
 	    DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 			"**__Game Master Leaderboard__**", globalformat, 
 			"",
-			"", col_embed, "Thanks for using our services!", 
+			"", col_embed, datetimelog, 
 			"",
 			"",""));
 		return 1;
@@ -7866,7 +7869,7 @@ dc command:top(cmdparams)
 	    DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 			"**__Game Master Leaderboard__**", globalformat, 
 			"",
-			"", col_embed, "Thanks for using our services!", 
+			"", col_embed, datetimelog, 
 			"",
 			"",""));
 		return 1;
@@ -7962,7 +7965,7 @@ dc command:top(cmdparams)
 	    DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 			"**__Game Master Leaderboard__**", globalformat, 
 			"",
-			"", col_embed, "Thanks for using our services!", 
+			"", col_embed, datetimelog, 
 			"",
 			"",""));
 		return 1;
@@ -8058,7 +8061,7 @@ dc command:top(cmdparams)
 	    DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 			"**__Game Master Leaderboard__**", globalformat, 
 			"",
-			"", col_embed, "Thanks for using our services!", 
+			"", col_embed, datetimelog, 
 			"",
 			"",""));
 		return 1;
@@ -8154,7 +8157,7 @@ dc command:top(cmdparams)
 	    DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 			"**__Game Master Leaderboard__**", globalformat, 
 			"",
-			"", col_embed, "Thanks for using our services!", 
+			"", col_embed, datetimelog, 
 			"",
 			"",""));
 		return 1;
@@ -8831,7 +8834,7 @@ dc command:nrphelp(cmdparams)
 		"d_arrow"**`-milstats`**: View military equipment statistics for a country.\n\
 		"d_arrow"**`-setmilstat`**: Update the country's military statistics.", 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",
 		""), GetMention(useridmention));
@@ -8963,7 +8966,7 @@ dc command:nrpapply(cmdparams)
 		**`pcoop`**: Start an application for a *`Provincial Cooperator`*.\n\
 		**`civilian`**: Start an application for a *`Civilian`*.\n\
 		**`unsec`**: Start an application for a *`UN Secreatariat`*.",
-		"","", col_embed, "Thanks for using our services!", 
+		"","", col_embed, datetimelog, 
 		"","",""), ""d_star" **INFO** • Have fun!");
 		return 1;
 	}
@@ -9128,7 +9131,7 @@ dc command:nrpstats(cmdparams)
 	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__RolePlay Country Statistics__**", msg, 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",""), GetMention(useridmention));
 	
@@ -9249,7 +9252,7 @@ dc command:setrpstat(cmdparams)
 		**`ipw`**: Set the countries this country is in pact with.\n\
 		**`ccy`**: Set the country's capital city.\n\
 		**`bcy`**: Set the country's biggest city.", 
-		"","", col_embed, "Thanks for using our services!", 
+		"","", col_embed, datetimelog, 
 		"","",""), GetMention(useridmention));
 		return 1;
 	}
@@ -9615,7 +9618,7 @@ dc command:setmilstat(cmdparams)
 		**``**:\n\
 		**``**:\n\
 		**``**:", 
-		"","", col_embed, "Thanks for using our services!", 
+		"","", col_embed, datetimelog, 
 		"","",""), GetMention(useridmention));
 		return 1;
 	}
@@ -9719,7 +9722,7 @@ dc command:milstats(cmdparams)
 	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Country Military Equipment Statistics__**", msg, 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",""), GetMention(useridmention));
 	
@@ -9772,7 +9775,7 @@ dc command:smtos(cmdparams)
 		> We deeply care about our community's security, therefore, we would like to ask you that if you notice an account that violates the mentioned terms of use, to immediately report that account via the `-report` command. Your report must include the user ID of the profile.\n\n\
 		> After you have reported the account, we will review and investigate the account and remove the reported content from the account.", 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",
 		""), GetMention(useridmention));
@@ -9963,7 +9966,7 @@ dc command:setaccdata(cmdparams)
 		**`name`**: Set an account name.\n\
 		**`bio`**: Set an account bio.\n\
 		**`pfp`**: Set a profile picture.", 
-		"","", col_embed, "Thanks for using our services!", 
+		"","", col_embed, datetimelog, 
 		"","",""), GetMention(useridmention));
 		return 1;
 	}
@@ -10115,7 +10118,7 @@ dc command:smprofile(cmdparams)
 	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__BRACE:tm: Account__**", msg, 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		GetPfp(user),""), GetMention(useridmention));
 	
@@ -10300,7 +10303,7 @@ dc command:feed(cmdparams)
 	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Diplomy Network Feed__**", feed, 
 		"",
-		"", col_embed, "Thanks for using our services!", 
+		"", col_embed, datetimelog, 
 		"",
 		"",""), GetMention(useridmention));
 	return 1;
