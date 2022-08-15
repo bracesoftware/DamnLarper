@@ -119,64 +119,8 @@ stock SaveSettings()
 
 new RISE_OF_NATIONS_GLOBALSTRING[1024];
 
-#define SendChannelMessage(%1,%2) \
-	format(formatted, sizeof formatted,%2); \
-	DCC_SendChannelEmbedMessage(%1, DCC_CreateEmbed( \
-			""botpfp"| **__"BOT_NAME"__**", formatted, "","", col_embed, datetimelog, \
-			"","",""), "")
-
-new info[2048];
-
-#define SendInfo(%1,%2) format(info, sizeof info, ""d_reply" • "%2);DCC_SendChannelMessage(%1, info)
-
 /*
-
-		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
-			"**__"SERVER_RISE_OF_NATIONS"__**", response, "","", col_embed, datetimelog, 
-			"","",""), GetMention(useridmention));*/
-
-#pragma warning disable 217
-
-#define CommandCooldownMin(%0,%1,%2,%3) \
-new h,m,s;gettime(h,m,s); \
-if((m>GetCommandUsedMin(%1,%2))||(m<GetCommandUsedMin(%1,%2)))SetCommandUsed(%1,%2,"0"); \
-if(GetPremium(%1) == 0 && GetCommandUsed(%1,%2)==1){\
-SendChannelMessage(%0, "**<@%s>**\n\n"d_reply" **COOLDOWN** • "%3" **You can use this command once every 60 seconds.**", %1); \
-return 1;}SetCommandUsed(%1,%2, "1");SetCommandUsedMin(%1,%2, m)
-
-#define CommandCooldownHr(%0,%1,%2,%3) \
-new h,m,s;gettime(h,m,s); \
-if((h>GetCommandUsedHr(%1,%2))||(h<GetCommandUsedHr(%1,%2)))SetCommandUsed(%1,%2,"0"); \
-if(GetPremium(%1) == 0 && GetCommandUsed(%1,%2)==1){\
-SendChannelMessage(%0, "**<@%s>**\n\n"d_reply" **COOLDOWN** • "%3" **You can use this command once every 1 hour.**", %1); \
-return 1;}SetCommandUsed(%1,%2, "1");SetCommandUsedHr(%1,%2, h)
-
-#define CommandCooldownDay(%0,%1,%2,%3) \
-new y,m,d;getdate(y,m,d); \
-if((d>GetCommandUsedDay(%1,%2))||(d<GetCommandUsedDay(%1,%2)))SetCommandUsed(%1,%2,"0"); \
-if(GetCommandUsed(%1,%2)==1){\
-SendChannelMessage(%0, "**<@%s>**\n\n"d_reply" **COOLDOWN** • "%3" **You can use this command once every 1 day.**", %1); \
-return 1;}SetCommandUsed(%1,%2, "1");SetCommandUsedDay(%1,%2, d)
-
-
-new dmstring[2048];
-
-#define SendDM(%1,%2) \
-	format(dmstring, sizeof dmstring,%2);DCC_CreatePrivateChannel(%1, "senddm", "s", dmstring)
-
-forward senddm(message[]);
-public senddm(message[])
-{
-	new DCC_Channel:channel = DCC_GetCreatedPrivateChannel();
-	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed( 
-			""botpfp"| **__"BOT_NAME"__**", message, "","", col_embed, datetimelog, 
-			"","",""), "");
-	return 1;
-}
-
-new formatted[2048];
-/*
-stock SendChannelMessage(DCC_Channel:channel, const message[], {Float,_}:...)
+stock @discord() SendMsg(DCC_Channel:channel, const message[], {Float,_}:...)
 {
 	static
 	    args,
@@ -214,30 +158,30 @@ stock SendChannelMessage(DCC_Channel:channel, const message[], {Float,_}:...)
 */
 stock LoadChannels()
 {
-	/*SendChannelMessage(bankicklog, syschannelstring);
-	SendChannelMessage(rpnotices, syschannelstring);
-	SendChannelMessage(war_gm_output, syschannelstring);
-	SendChannelMessage(submissionchannel, syschannelstring);
-	SendChannelMessage(dateupdate, syschannelstring);
-	SendChannelMessage(supportchannel, syschannelstring);
-	SendChannelMessage(lounge, syschannelstring);
-	SendChannelMessage(commandchannel, syschannelstring);
-	SendChannelMessage(gm_output, syschannelstring);
-	SendChannelMessage(gm_count, syschannelstring);
-	SendChannelMessage(logs, syschannelstring);
-	SendChannelMessage(announcements, syschannelstring);
-	SendChannelMessage(countchannel, syschannelstring);
-	SendChannelMessage(reports, syschannelstring);
-	SendChannelMessage(rpchannel, syschannelstring);
-	SendChannelMessage(rpchannel1, syschannelstring);
-	SendChannelMessage(rpchannel2, syschannelstring);
-	SendChannelMessage(rpchannel3, syschannelstring);
-	SendChannelMessage(rpchannel4, syschannelstring);
-	SendChannelMessage(rpchannel5, syschannelstring);
-	SendChannelMessage(rpchannel6, syschannelstring);
-	SendChannelMessage(rpchannel7, syschannelstring);
-	SendChannelMessage(appreview, syschannelstring);
-	SendChannelMessage(verifychannel, syschannelstring);*/
+	/*@discord() SendMsg(bankicklog, syschannelstring);
+	@discord() SendMsg(rpnotices, syschannelstring);
+	@discord() SendMsg(war_gm_output, syschannelstring);
+	@discord() SendMsg(submissionchannel, syschannelstring);
+	@discord() SendMsg(dateupdate, syschannelstring);
+	@discord() SendMsg(supportchannel, syschannelstring);
+	@discord() SendMsg(lounge, syschannelstring);
+	@discord() SendMsg(commandchannel, syschannelstring);
+	@discord() SendMsg(gm_output, syschannelstring);
+	@discord() SendMsg(gm_count, syschannelstring);
+	@discord() SendMsg(logs, syschannelstring);
+	@discord() SendMsg(announcements, syschannelstring);
+	@discord() SendMsg(countchannel, syschannelstring);
+	@discord() SendMsg(reports, syschannelstring);
+	@discord() SendMsg(rpchannel, syschannelstring);
+	@discord() SendMsg(rpchannel1, syschannelstring);
+	@discord() SendMsg(rpchannel2, syschannelstring);
+	@discord() SendMsg(rpchannel3, syschannelstring);
+	@discord() SendMsg(rpchannel4, syschannelstring);
+	@discord() SendMsg(rpchannel5, syschannelstring);
+	@discord() SendMsg(rpchannel6, syschannelstring);
+	@discord() SendMsg(rpchannel7, syschannelstring);
+	@discord() SendMsg(appreview, syschannelstring);
+	@discord() SendMsg(verifychannel, syschannelstring);*/
 }
 
 // Custom Commands
@@ -288,7 +232,7 @@ stock ProcessCommand(const cmd[], DCC_Channel:channel)
 
 	if(!IsCommand(cmd))
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • This custom command doesn't exist.");
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • This custom command doesn't exist.");
 		return 0;
 	}
 
@@ -1291,11 +1235,13 @@ public MsgPerSecReset(id[])
 	return 1;
 }
 
-stock GetVerifyCode(const user[])
+stock GetVerifyCode(DCC_Guild:guild, const user[])
 {
+	new id[DCC_ID_SIZE];
+	DCC_GetGuildId(guild, id);
 	new file_name[150];
 	format(file_name, sizeof file_name,
-		"vdata/code_%s.ini", user);
+		"vdata/code_%s_%s.ini", user, id);
 	new strFromFile2[128];
 	format(strFromFile2, sizeof strFromFile2, "0000");
 	if(!fexist(file_name)) return strFromFile2;
@@ -1311,10 +1257,12 @@ stock GetVerifyCode(const user[])
 	return strFromFile2;
 }
 
-stock SetVerifyCode(const user[], const value[])
+stock SetVerifyCode(DCC_Guild:guild, const user[], const value[])
 {
+	new id[DCC_ID_SIZE];
+	DCC_GetGuildId(guild, id);
 	new file_name[150];
-	format(file_name, sizeof file_name,"vdata/code_%s.ini",user);
+	format(file_name, sizeof file_name,"vdata/code_%s_%s.ini",user, id);
 	new File: file2 = fopen(file_name, io_write);
 	fwrite(file2, value);
 	fclose(file2);
@@ -1329,16 +1277,8 @@ public DCC_OnGuildMemberAdd(DCC_Guild:guild, DCC_User:user)
 
 		DCC_GetUserId(user, id);
 
-		SendChannelMessage(lounge, ":wave: • Hello, <@%s>! First of all, we would like to welcome you and thank you for joining our community **"SERVER_RISE_OF_NATIONS"**. To get started with roleplay, read <#965523854988570644> and <#965523792405352458>. In case you are interested in something, look at <#965523810524753930> - you may find what you are looking for. If you are interested in roles, take a look at <#968181829473554452>! When everything is ready, without hesitation apply for the desired entity (state, union, co-op, organization or sports club) in <#965490451333402644> using a specific template in <#965490312246095872>. If you need any other help, feel free to contact us via the ticket in <#965529291599269898>. That would be it! Thanks again - see you later!", id);
+		@discord() SendMsg(lounge, ""botpfp" • Hello, <@%s>! First of all, we would like to welcome you and thank you for joining our community **"SERVER_RISE_OF_NATIONS"**. To get started with roleplay, read <#965523854988570644> and <#965523792405352458>. In case you are interested in something, look at <#965523810524753930> - you may find what you are looking for. If you are interested in roles, take a look at <#968181829473554452>! When everything is ready, without hesitation apply for the desired entity (state, union, co-op, organization or sports club) in <#965490451333402644> using a specific template in <#965490312246095872>. If you need any other help, feel free to contact us via the ticket in <#965529291599269898>. That would be it! Thanks again - see you later!", id);
 		
-		new code[10];
-
-		format(code, sizeof code, "%i", random(100000));
-
-		SetVerifyCode(id, code);
-
-		SendChannelMessage(verifychannel, ":wave: **WELCOME TO THE GUILD** • Hello <@%s>! Thanks for choosing **"SERVER_RISE_OF_NATIONS"**! But in order to access the server, please use a `"BOT_PREFIX"verify` command.\n\nYour verification code is: `%s`", id, code);
-
 		DCC_AddGuildMemberRole(guild, user, standardrole1);
 		DCC_AddGuildMemberRole(guild, user, standardrole2);
 		DCC_AddGuildMemberRole(guild, user, standardrole3);
@@ -1352,7 +1292,19 @@ public DCC_OnGuildMemberAdd(DCC_Guild:guild, DCC_User:user)
 
 		DCC_GetUserId(user, id);
 
-		SendChannelMessage(DCC_FindChannelById(GetGuildAirportChannel(guild)), ""d_reply"**JOIN** • <@%s> joined the guild!", id);
+		@discord() SendMsg(DCC_FindChannelById(GetGuildAirportChannel(guild)), ""d_reply"**JOIN** • <@%s> joined the guild!", id);
+	
+		if(GetGuildVerification(guild) == 1)
+		{
+			new code[10];
+
+			format(code, sizeof code, "%i", random(100000));
+
+			SetVerifyCode(guild, id, code);
+
+			@discord() SendMsg(DCC_FindChannelById(GetGuildVerificationChannel(guild)), ""botpfp" **WELCOME TO THE GUILD** • Hello <@%s>! Thanks for choosing this guild to join! But in order to send messages here, please use a `"BOT_PREFIX"verify` command.\n\nYour verification code **for this guild** is: `%s`", id, code);
+			@discord() SendInfo(DCC_FindChannelById(GetGuildVerificationChannel(guild)), "<@%s>\n\nPlease make sure to verify as fast as possible to be able to chat, use commands and more!", id);
+		}
 	}
 	return 1;
 }
@@ -1365,7 +1317,7 @@ public DCC_OnGuildMemberRemove(DCC_Guild:guild, DCC_User:user)
 
 		DCC_GetUserId(user, id);
 
-		SendChannelMessage(lounge, ":wave: • Unfortunately, <@%s> left our community. Farewell!",id);
+		@discord() SendMsg(lounge, ""botpfp" • Unfortunately, <@%s> left our community. Farewell!",id);
 	}
 	else
 	{
@@ -1373,7 +1325,7 @@ public DCC_OnGuildMemberRemove(DCC_Guild:guild, DCC_User:user)
 
 		DCC_GetUserId(user, id);
 
-		SendChannelMessage(DCC_FindChannelById(GetGuildAirportChannel(guild)), ""d_reply"**LEAVE** • <@%s> left the guild!", id);
+		@discord() SendMsg(DCC_FindChannelById(GetGuildAirportChannel(guild)), ""d_reply"**LEAVE** • <@%s> left the guild!", id);
 	}
 	return 1;
 }
@@ -1441,6 +1393,16 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 	SetMention(id, mention);
 
+	if(author != bot && GetGuildVerification(guild) == 1 && GetUserVerification(guild, id) == 0)
+	{
+		if(channel != DCC_FindChannelById(GetGuildVerificationChannel(guild)))
+		{
+			DCC_DeleteMessage(message);
+			@discord() SendInfo(DCC_FindChannelById(GetGuildVerificationChannel(guild)), "<@%s>\n\n"d_reply" **UNVERIFIED!** • You aren't verified in this guild so your message was deleted! You can use commands and chat **only** in this channel. You can use `"BOT_PREFIX"newverifycode` to generate a new verification code for this guild in case you lost yours or didn't even get it.", id);
+			return 1;
+		}
+	}
+
 	// Message control
 
 	for(new i; i < strlen(msg); i++)
@@ -1454,7 +1416,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 			msg[i+5] == 't')
 		{
 			DCC_DeleteMessage(message);
-			SendChannelMessage(channel, ""d_reply" **MESSAGE MANAGEMENT** • Watch your language, <@%s>!", id);
+			@discord() SendMsg(channel, ""d_reply" **MESSAGE MANAGEMENT** • Watch your language, <@%s>!", id);
 		}
 		if(channel == submissionchannel)
 		{
@@ -1495,8 +1457,8 @@ public DCC_OnMessageCreate(DCC_Message: message)
 			SetReportQuestion(id, "2");
 			SetReportAnswer(id, 1, msg);
 
-			SendChannelMessage(channel, "**__REPORT PANEL__**\n**Question 2** • <@%s>\n\n"d_arrow"*`Please describe your reported subject in short words!`*\n\n", id);
-			SendInfo(channel, "Please reply to the question above with the proper answer.");
+			@discord() SendMsg(channel, "**__REPORT PANEL__**\n**Question 2** • <@%s>\n\n"d_arrow"*`Please describe your reported subject in short words!`*\n\n", id);
+			@discord() SendInfo(channel, "Please reply to the question above with the proper answer.");
 			return 1;
 		}
 		if(GetReportQuestion(id) == 2)
@@ -1504,8 +1466,8 @@ public DCC_OnMessageCreate(DCC_Message: message)
 			SetReportQuestion(id, "3");
 			SetReportAnswer(id, 2, msg);
 
-			SendChannelMessage(channel, "**__REPORT PANEL__**\n**Question 3** • <@%s>\n\n"d_arrow"*`Please write a description of a problem in details!`*\n\n", id);
-			SendInfo(channel, "Please reply to the question above with the proper answer.");
+			@discord() SendMsg(channel, "**__REPORT PANEL__**\n**Question 3** • <@%s>\n\n"d_arrow"*`Please write a description of a problem in details!`*\n\n", id);
+			@discord() SendInfo(channel, "Please reply to the question above with the proper answer.");
 			return 1;
 		}
 		if(GetReportQuestion(id) == 3)
@@ -1531,10 +1493,10 @@ public DCC_OnMessageCreate(DCC_Message: message)
 				"",
 				"");
 
-			//SendChannelMessage(channel, msg);
+			//@discord() SendMsg(channel, msg);
 
 			DCC_SendChannelEmbedMessage(channel, msg2, ""delimiterlol" **SUCCESS** • Read the text below for more information!");
-			SendChannelMessage(reports, "__**Report Received**__\n\n"d_reply" • Report issued by: <@%s>\n\n**The Form**\n"d_arrow"Reported: `%s`\n"d_arrow"Subject: `%s`\n"d_arrow"Problem description: `%s`\n", id, GetReportAnswer(id, 1), GetReportAnswer(id, 2), GetReportAnswer(id, 3));
+			@discord() SendMsg(reports, "__**Report Received**__\n\n"d_reply" • Report issued by: <@%s>\n\n**The Form**\n"d_arrow"Reported: `%s`\n"d_arrow"Subject: `%s`\n"d_arrow"Problem description: `%s`\n", id, GetReportAnswer(id, 1), GetReportAnswer(id, 2), GetReportAnswer(id, 3));
 			return 1;
 		}
 	}
@@ -1551,7 +1513,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 2** • Nation • <@%s>\n\n*`Who is the head of the nation (president) you're applying for?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 2** • Nation • <@%s>\n\n*`Who is the head of the nation (president) you're applying for?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 2)
@@ -1562,7 +1524,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 3** • Nation • <@%s>\n\n*`Who is the head of government (prime minister) of the nation you're applying for?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 3** • Nation • <@%s>\n\n*`Who is the head of government (prime minister) of the nation you're applying for?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 3)
@@ -1573,7 +1535,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 4** • Nation • <@%s>\n\n*`What is the GDP of the nation you're applying for?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 4** • Nation • <@%s>\n\n*`What is the GDP of the nation you're applying for?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 4)
@@ -1584,7 +1546,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 5** • Nation • <@%s>\n\n*`What is the GDP per capita of the nation you're applying for?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 5** • Nation • <@%s>\n\n*`What is the GDP per capita of the nation you're applying for?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 5)
@@ -1595,7 +1557,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 6** • Nation • <@%s>\n\n*`What is the military budget of the nation you're applying for?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 6** • Nation • <@%s>\n\n*`What is the military budget of the nation you're applying for?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 6)
@@ -1606,7 +1568,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 7** • Nation • <@%s>\n\n*`In whose international organizations is the nation you're applying for?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 7** • Nation • <@%s>\n\n*`In whose international organizations is the nation you're applying for?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 7)
@@ -1617,7 +1579,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 8** • Nation • <@%s>\n\n*`What's the alignment of the nation you're applying for? Is your nation supporting eastern or western bloc?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 8** • Nation • <@%s>\n\n*`What's the alignment of the nation you're applying for? Is your nation supporting eastern or western bloc?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 8)
@@ -1628,7 +1590,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**FINAL QUESTION (No.9)** • Nation • <@%s>\n\n*`Number of citizens/population of the nation you're applying for? Is your nation supporting eastern or western bloc?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**FINAL QUESTION (No.9)** • Nation • <@%s>\n\n*`Number of citizens/population of the nation you're applying for? Is your nation supporting eastern or western bloc?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 9)
@@ -1640,9 +1602,9 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, ""d_reply" **APPLICATION SENT** • Your (<@%s>) application was successfully sent to the staff team. You can check the RP notices channel to see if you are accepted - or just check your roles!", id);
+				@discord() SendMsg(channel, ""d_reply" **APPLICATION SENT** • Your (<@%s>) application was successfully sent to the staff team. You can check the RP notices channel to see if you are accepted - or just check your roles!", id);
 				
-				SendChannelMessage(appreview, "__**Application for a `Nation`**__\n\nApplication issued by: <@%s>\n\n**The Form**\nName of the State: `%s`\nHead of State: `%s`\nHead of Government: `%s`\nGDP: `%s`\nGDP per capita: `%s`\nMilitary budget: `%s`\nInternational organization membership: `%s`\nAlignment: `%s`\nPopulation: `%s`\n", id, GetUserAnswer(id, 1), GetUserAnswer(id, 2), GetUserAnswer(id, 3), GetUserAnswer(id, 4), GetUserAnswer(id, 5), GetUserAnswer(id, 6), GetUserAnswer(id, 7), GetUserAnswer(id, 8), GetUserAnswer(id, 9));
+				@discord() SendMsg(appreview, "__**Application for a `Nation`**__\n\nApplication issued by: <@%s>\n\n**The Form**\nName of the State: `%s`\nHead of State: `%s`\nHead of Government: `%s`\nGDP: `%s`\nGDP per capita: `%s`\nMilitary budget: `%s`\nInternational organization membership: `%s`\nAlignment: `%s`\nPopulation: `%s`\n", id, GetUserAnswer(id, 1), GetUserAnswer(id, 2), GetUserAnswer(id, 3), GetUserAnswer(id, 4), GetUserAnswer(id, 5), GetUserAnswer(id, 6), GetUserAnswer(id, 7), GetUserAnswer(id, 8), GetUserAnswer(id, 9));
 			}
 		}
 		//rebelorg
@@ -1656,7 +1618,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 2** • Rebellion Organization • <@%s>\n\n*`What's the official name of your rebellion?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 2** • Rebellion Organization • <@%s>\n\n*`What's the official name of your rebellion?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 2)
@@ -1667,7 +1629,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 3** • Rebellion Organization • <@%s>\n\n*`What is your denonym?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 3** • Rebellion Organization • <@%s>\n\n*`What is your denonym?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 3)
@@ -1678,7 +1640,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 4** • Rebellion Organization • <@%s>\n\n*`How much influental is your rebellion?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 4** • Rebellion Organization • <@%s>\n\n*`How much influental is your rebellion?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 4)
@@ -1689,7 +1651,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 5** • Rebellion Organization • <@%s>\n\n*`What is your ideology?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 5** • Rebellion Organization • <@%s>\n\n*`What is your ideology?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 5)
@@ -1700,7 +1662,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 6** • Rebellion Organization • <@%s>\n\n*`How much money do you have?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 6** • Rebellion Organization • <@%s>\n\n*`How much money do you have?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 6)
@@ -1711,7 +1673,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 7** • Rebellion Organization • <@%s>\n\n*`Who are your allies?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 7** • Rebellion Organization • <@%s>\n\n*`Who are your allies?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 7)
@@ -1722,7 +1684,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 8** • Rebellion Organization • <@%s>\n\n*`How many supporters do you have?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 8** • Rebellion Organization • <@%s>\n\n*`How many supporters do you have?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 8)
@@ -1733,7 +1695,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**FINAL QUESTION (No.9)** • Rebellion Organization • <@%s>\n\n*`How many fighters do you have?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**FINAL QUESTION (No.9)** • Rebellion Organization • <@%s>\n\n*`How many fighters do you have?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 9)
@@ -1745,9 +1707,9 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, ""d_reply" **APPLICATION SENT** • Your (<@%s>) application was successfully sent to the staff team. You can check the RP notices channel to see if you are accepted - or just check your roles!", id);
+				@discord() SendMsg(channel, ""d_reply" **APPLICATION SENT** • Your (<@%s>) application was successfully sent to the staff team. You can check the RP notices channel to see if you are accepted - or just check your roles!", id);
 				
-				SendChannelMessage(appreview, "__**Application for a `Rebellion Organization`**__\n\nApplication issued by: <@%s>\n\n**The Form**\nCountries based in: `%s`\nName of Rebellion: `%s`\nDenonym: `%s`\nInfluence: `%s`\nIdeology: `%s`\nMoney owned: `%s`\nAllies: `%s`\nSupporters: `%s`\nFighters: `%s`\n", id, GetUserAnswer(id, 1), GetUserAnswer(id, 2), GetUserAnswer(id, 3), GetUserAnswer(id, 4), GetUserAnswer(id, 5), GetUserAnswer(id, 6), GetUserAnswer(id, 7), GetUserAnswer(id, 8), GetUserAnswer(id, 9));
+				@discord() SendMsg(appreview, "__**Application for a `Rebellion Organization`**__\n\nApplication issued by: <@%s>\n\n**The Form**\nCountries based in: `%s`\nName of Rebellion: `%s`\nDenonym: `%s`\nInfluence: `%s`\nIdeology: `%s`\nMoney owned: `%s`\nAllies: `%s`\nSupporters: `%s`\nFighters: `%s`\n", id, GetUserAnswer(id, 1), GetUserAnswer(id, 2), GetUserAnswer(id, 3), GetUserAnswer(id, 4), GetUserAnswer(id, 5), GetUserAnswer(id, 6), GetUserAnswer(id, 7), GetUserAnswer(id, 8), GetUserAnswer(id, 9));
 			}
 		}
 		//politicalorg
@@ -1761,7 +1723,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 2** • Political Organization • <@%s>\n\n*`What's the official name of your organization?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 2** • Political Organization • <@%s>\n\n*`What's the official name of your organization?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 2)
@@ -1772,7 +1734,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 3** • Political Organization • <@%s>\n\n*`How many seats do you have in pairlament upper house? How many seats do you have in pairlament lower house?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 3** • Political Organization • <@%s>\n\n*`How many seats do you have in pairlament upper house? How many seats do you have in pairlament lower house?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 3)
@@ -1783,7 +1745,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 4** • Political Organization • <@%s>\n\n*`How much influental is your political organization?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 4** • Political Organization • <@%s>\n\n*`How much influental is your political organization?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 4)
@@ -1794,7 +1756,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 5** • Political Organization • <@%s>\n\n*`What is your ideology?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 5** • Political Organization • <@%s>\n\n*`What is your ideology?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 5)
@@ -1805,7 +1767,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 6** • Political Organization • <@%s>\n\n*`How much money do you have?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 6** • Political Organization • <@%s>\n\n*`How much money do you have?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 6)
@@ -1816,7 +1778,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 7** • Political Organization • <@%s>\n\n*`Who are your allies?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 7** • Political Organization • <@%s>\n\n*`Who are your allies?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 7)
@@ -1827,7 +1789,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 8** • Political Organization • <@%s>\n\n*`How many supporters do you have?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 8** • Political Organization • <@%s>\n\n*`How many supporters do you have?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 8)
@@ -1838,7 +1800,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**FINAL QUESTION (No.9)** • Political Organization • <@%s>\n\n*`How many members do you have?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**FINAL QUESTION (No.9)** • Political Organization • <@%s>\n\n*`How many members do you have?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 9)
@@ -1850,9 +1812,9 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, ""d_reply" **APPLICATION SENT** • Your (<@%s>) application was successfully sent to the staff team. You can check the RP notices channel to see if you are accepted - or just check your roles!", id);
+				@discord() SendMsg(channel, ""d_reply" **APPLICATION SENT** • Your (<@%s>) application was successfully sent to the staff team. You can check the RP notices channel to see if you are accepted - or just check your roles!", id);
 				
-				SendChannelMessage(appreview, "__**Application for a `Political Organization`**__\n\nApplication issued by: <@%s>\n\n**The Form**\nCountries based in: `%s`\nName of Organization: `%s`\nNumber of seats in pairlament (upper and lower house): `%s`\nInfluence: `%s`\nIdeology: `%s`\nMoney owned: `%s`\nAllies: `%s`\nSupporters: `%s`\nMembers: `%s`\n", id, GetUserAnswer(id, 1), GetUserAnswer(id, 2), GetUserAnswer(id, 3), GetUserAnswer(id, 4), GetUserAnswer(id, 5), GetUserAnswer(id, 6), GetUserAnswer(id, 7), GetUserAnswer(id, 8), GetUserAnswer(id, 9));
+				@discord() SendMsg(appreview, "__**Application for a `Political Organization`**__\n\nApplication issued by: <@%s>\n\n**The Form**\nCountries based in: `%s`\nName of Organization: `%s`\nNumber of seats in pairlament (upper and lower house): `%s`\nInfluence: `%s`\nIdeology: `%s`\nMoney owned: `%s`\nAllies: `%s`\nSupporters: `%s`\nMembers: `%s`\n", id, GetUserAnswer(id, 1), GetUserAnswer(id, 2), GetUserAnswer(id, 3), GetUserAnswer(id, 4), GetUserAnswer(id, 5), GetUserAnswer(id, 6), GetUserAnswer(id, 7), GetUserAnswer(id, 8), GetUserAnswer(id, 9));
 			}
 		}
 		//corporation
@@ -1866,7 +1828,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 2** • Corporation • <@%s>\n\n*`In which branch of industry is your corporation working in?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 2** • Corporation • <@%s>\n\n*`In which branch of industry is your corporation working in?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 2)
@@ -1877,7 +1839,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 3** • Corporation • <@%s>\n\n*`Who is the Chief Executive Officer of your company?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 3** • Corporation • <@%s>\n\n*`Who is the Chief Executive Officer of your company?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 3)
@@ -1888,7 +1850,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 4** • Corporation • <@%s>\n\n*`Who is the Chief Operations Officer of your company?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 4** • Corporation • <@%s>\n\n*`Who is the Chief Operations Officer of your company?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 4)
@@ -1899,7 +1861,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 5** • Corporation • <@%s>\n\n*`Who is the Chief Finance Officer of your company?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 5** • Corporation • <@%s>\n\n*`Who is the Chief Finance Officer of your company?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 5)
@@ -1910,7 +1872,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 6** • Corporation • <@%s>\n\n*`How much do you have money owned?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 6** • Corporation • <@%s>\n\n*`How much do you have money owned?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 6)
@@ -1921,7 +1883,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 7** • Corporation • <@%s>\n\n*`How much do you pay your employees each month?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 7** • Corporation • <@%s>\n\n*`How much do you pay your employees each month?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 7)
@@ -1932,7 +1894,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**Question 8** • Corporation • <@%s>\n\n*`How much employees do you have?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**Question 8** • Corporation • <@%s>\n\n*`How much employees do you have?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 8)
@@ -1943,7 +1905,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, "**FINAL QUESTION (No.9)** • Corporation • <@%s>\n\n*`How many customers do you have?`*\n\nPlease reply here.", id);
+				@discord() SendMsg(channel, "**FINAL QUESTION (No.9)** • Corporation • <@%s>\n\n*`How many customers do you have?`*\n\nPlease reply here.", id);
 				return 1;
 			}
 			if(GetUserQuestion(id) == 9)
@@ -1955,9 +1917,9 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				AddReaction(message, DCC_CreateEmoji("☑️"));
 
-				SendChannelMessage(channel, ""d_reply" **APPLICATION SENT** • Your (<@%s>) application was successfully sent to the staff team. You can check the RP notices channel to see if you are accepted - or just check your roles!", id);
+				@discord() SendMsg(channel, ""d_reply" **APPLICATION SENT** • Your (<@%s>) application was successfully sent to the staff team. You can check the RP notices channel to see if you are accepted - or just check your roles!", id);
 				
-				SendChannelMessage(appreview, "__**Application for a `Corporation`**__\n\nApplication issued by: <@%s>\n\n**The Form**\nName: `%s`\nIndustry type: `%s`\nChief Executive Offier: `%s`\nChief Operations Officer: `%s`\nChief Finance Officer: `%s`\nNet worth: `%s`\nMonthly employee salary: `%s`\nEmployees: `%s`\nCustomers: `%s`\n", id, GetUserAnswer(id, 1), GetUserAnswer(id, 2), GetUserAnswer(id, 3), GetUserAnswer(id, 4), GetUserAnswer(id, 5), GetUserAnswer(id, 6), GetUserAnswer(id, 7), GetUserAnswer(id, 8), GetUserAnswer(id, 9));
+				@discord() SendMsg(appreview, "__**Application for a `Corporation`**__\n\nApplication issued by: <@%s>\n\n**The Form**\nName: `%s`\nIndustry type: `%s`\nChief Executive Offier: `%s`\nChief Operations Officer: `%s`\nChief Finance Officer: `%s`\nNet worth: `%s`\nMonthly employee salary: `%s`\nEmployees: `%s`\nCustomers: `%s`\n", id, GetUserAnswer(id, 1), GetUserAnswer(id, 2), GetUserAnswer(id, 3), GetUserAnswer(id, 4), GetUserAnswer(id, 5), GetUserAnswer(id, 6), GetUserAnswer(id, 7), GetUserAnswer(id, 8), GetUserAnswer(id, 9));
 			}
 		}
 	}
@@ -2032,7 +1994,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 					msg[i+3] == 'g')
 				{
 					DCC_DeleteMessage(message);
-					SendChannelMessage(channel, ":shield: **SERVER SECURITY** • <@%s>'s message has been removed because it contains inappropriate words, slurs or threatens another user or a community.", id);
+					@discord() SendMsg(channel, ":shield: **SERVER SECURITY** • <@%s>'s message has been removed because it contains inappropriate words, slurs or threatens another user or a community.", id);
 					return 1;
 				}
 				if(msg[i] == 'c' && 
@@ -2041,7 +2003,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 					msg[i+3] == 't')
 				{
 					DCC_DeleteMessage(message);
-					SendChannelMessage(channel, ":shield: **SERVER SECURITY** • <@%s>'s message has been removed because it contains inappropriate words, slurs or threatens another user or a community.", id);
+					@discord() SendMsg(channel, ":shield: **SERVER SECURITY** • <@%s>'s message has been removed because it contains inappropriate words, slurs or threatens another user or a community.", id);
 					return 1;
 				}
 			}
@@ -2049,7 +2011,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 	}
 	/*if(!strcmp(id, "705887674497499238") || !strcmp(id, "914596738801762404"))
 	{
-		SendChannelMessage(channel, "<@705887674497499238> <@914596738801762404> North is the best HoS! Fuck catalin and youri! IDGAFFF");
+		@discord() SendMsg(channel, "<@705887674497499238> <@914596738801762404> North is the best HoS! Fuck catalin and youri! IDGAFFF");
 	}*/
 
 	// Other features
@@ -2060,13 +2022,13 @@ public DCC_OnMessageCreate(DCC_Message: message)
 	{
 		new response [364];
 		format(response, sizeof response, 
-			":wave: • Hi, <@%s> - please use **`"BOT_PREFIX"help`** to interact with **"BOT_NAME"**.", id);
+			""botpfp" • Hi, <@%s> - please use **`"BOT_PREFIX"help`** to interact with **"BOT_NAME"**.", id);
 
 		new DCC_Embed:msg2 = DCC_CreateEmbed(
 			"**__"BOT_NAME"__**", response, "","", col_embed, datetimelog, 
 			"","","");
 
-		//SendChannelMessage(channel, msg);
+		//@discord() SendMsg(channel, msg);
 
 		DCC_SendChannelEmbedMessage(channel, msg2, ""botpfp" • My prefix is `damn`.");
 		return 1;
@@ -2105,7 +2067,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 				if(IsAFK(user))
 				{
-					SendChannelMessage(channel, ""d_reply" • This user (<@%s>) is now AFK. Reason: `%s`", user, GetAFK(user));
+					@discord() SendMsg(channel, ""d_reply" • This user (<@%s>) is now AFK. Reason: `%s`", user, GetAFK(user));
 				}
 				break;
 			}
@@ -2116,7 +2078,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 	{
 		DeleteAFK(id);
 
-		SendChannelMessage(channel, ":wave: **Welcome back,** <@%s> - I've removed your AFK status!", id);
+		@discord() SendMsg(channel, ""botpfp" **Welcome back,** <@%s> - I've removed your AFK status!", id);
 	}
 	// 012345678901234567890
 	// <@"BOT_USER_ID">
@@ -2130,12 +2092,12 @@ public DCC_OnMessageCreate(DCC_Message: message)
 				new count2;
 				if(sscanf(msg, "i", count2))
 				{
-					SendChannelMessage(channel, ""d_reply" **WARNING** • This is a counting channel. Don't chat here!");
+					@discord() SendMsg(channel, ""d_reply" **WARNING** • This is a counting channel. Don't chat here!");
 					return 1;
 				}
 				if(count2 != GetGuildCountGame(guild)+1)
 				{
-					SendChannelMessage(channel, "**__COUNT RUINED!__**\n"d_reply" • Unfortunately, <@%s> ruined the count at `%i`!\n\n"delimiterlol" • We'll go again! The next number is `1`.", id, GetGuildCountGame(guild)+1);
+					@discord() SendMsg(channel, "**__COUNT RUINED!__**\n"d_reply" • Unfortunately, <@%s> ruined the count at `%i`!\n\n"delimiterlol" • We'll go again! The next number is `1`.", id, GetGuildCountGame(guild)+1);
 					SaveGuildCountGame(guild, 0);
 					return 1;
 				}
@@ -2151,7 +2113,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 			channel == rpchannel3 || channel == rpchannel4 || channel == rpchannel5 ||
 			channel == rpchannel6 || channel == rpchannel7)
 		{
-			SendChannelMessage(rpnotices, "<@%s> successfully submitted a RP sample! GameMasters will GM it soon. Click [here](https://discord.com/channels/987003062726058004/%s/%s) to view the message.", id, channelid, msgid);
+			@discord() SendMsg(rpnotices, "<@%s> successfully submitted a RP sample! GameMasters will GM it soon. Click [here](https://discord.com/channels/987003062726058004/%s/%s) to view the message.", id, channelid, msgid);
 		}
 		if(channel == gm_output)
 		{	
@@ -2268,17 +2230,17 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 			if(dept != 1 && dept != 3 && dept != 8 && dept != 4 && dept != 11 && dept != 9 && linkcount != 0)
 			{
-				SendChannelMessage(channel, ""d_reply" **GM COUNT** • Sorry, <@%s> - invalid department label(s) provided. You can use: `[pol]`, `[eco]`, `[mil]`, `[pol][eco]`, `[eco][mil]`, `[mil][pol]`", id);
+				@discord() SendMsg(channel, ""d_reply" **GM COUNT** • Sorry, <@%s> - invalid department label(s) provided. You can use: `[pol]`, `[eco]`, `[mil]`, `[pol][eco]`, `[eco][mil]`, `[mil][pol]`", id);
 				return 1;
 			}
 			else if(dept == 0 && linkcount == 0)
 			{
-				SendChannelMessage(channel, ""d_reply" **GM COUNT** • <@%s>, you can't chat or use commands in there!\n"delimiterlol" • If you think this is a mistake, report a bug using `"BOT_PREFIX"report` or check if you used a valid GM template (`"BOT_PREFIX"gmtemp`).", id);
+				@discord() SendMsg(channel, ""d_reply" **GM COUNT** • <@%s>, you can't chat or use commands in there!\n"delimiterlol" • If you think this is a mistake, report a bug using `"BOT_PREFIX"report` or check if you used a valid GM template (`"BOT_PREFIX"gmtemp`).", id);
 				return 1;
 			}
 			else if(linkcount == 0)
 			{
-				SendChannelMessage(channel, ""d_reply" **GM COUNT** • Sorry, your GM wasn't counted <@%s> - you need to provide a post link in your GM!", id);
+				@discord() SendMsg(channel, ""d_reply" **GM COUNT** • Sorry, your GM wasn't counted <@%s> - you need to provide a post link in your GM!", id);
 				return 1;
 			}
 
@@ -2611,16 +2573,16 @@ public DCC_OnMessageCreate(DCC_Message: message)
 			
 			if(dept != 1)
 			{
-				SendChannelMessage(channel, ""d_reply" **GM COUNT** • Sorry, <@%s> - invalid department label(s) provided. You can use: `[war]`", id);
+				@discord() SendMsg(channel, ""d_reply" **GM COUNT** • Sorry, <@%s> - invalid department label(s) provided. You can use: `[war]`", id);
 				return 1;
 			}
 			else if(dept == 0 && linkcount == 0)
 			{
-				SendChannelMessage(channel, ""d_reply" **GM COUNT** • <@%s>, you can't chat or use commands in there!\n"delimiterlol" • If you think this is a mistake, report a bug using `"BOT_PREFIX"report` or check if you used a valid GM template (`"BOT_PREFIX"gmtemp`).", id);
+				@discord() SendMsg(channel, ""d_reply" **GM COUNT** • <@%s>, you can't chat or use commands in there!\n"delimiterlol" • If you think this is a mistake, report a bug using `"BOT_PREFIX"report` or check if you used a valid GM template (`"BOT_PREFIX"gmtemp`).", id);
 			}
 			else if(linkcount == 0)
 			{
-				SendChannelMessage(channel, ""d_reply" **GM COUNT** • Sorry, your GM wasn't counted <@%s> - you need to provide a post link in your GM!", id);
+				@discord() SendMsg(channel, ""d_reply" **GM COUNT** • Sorry, your GM wasn't counted <@%s> - you need to provide a post link in your GM!", id);
 				return 1;
 			}
 
@@ -2764,7 +2726,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 	if(!strcmp(content, "-") || !strcmp(content, "damn") || !strcmp(content, "Damn"))
 	{
-		SendChannelMessage(channel, ""d_reply" **UNKNOWN COMMAND** • <@%s>, you need to use it like this: `"BOT_PREFIX"<command> [arguments]`", id);
+		@discord() SendMsg(channel, ""d_reply" **UNKNOWN COMMAND** • <@%s>, you need to use it like this: `"BOT_PREFIX"<command> [arguments]`", id);
 		return 1;
 	}
 
@@ -2825,18 +2787,18 @@ public OnDiscordCommandReceived(DCC_Message:message, DCC_User:author, params[])
 
 	/*if(guild == DCC_FindGuildById("795007259439923200"))
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • The bot is not going to respond to GM results or requests anymore. The bot services are going to be fully shut down by **10th May 2022**.");
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • The bot is not going to respond to GM results or requests anymore. The bot services are going to be fully shut down by **10th May 2022**.");
 		return 1;
 	}*/
 
 	if(IsBlacklisted(id))
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • You're blacklisted from using bot commands.");
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • You're blacklisted from using bot commands.");
 		return 0;
 	}
 	/*if(!strcmp(id, "705887674497499238") || !strcmp(id, "914596738801762404"))
 	{
-		SendChannelMessage(channel, "<@705887674497499238> <@914596738801762404> I only listen to North!!!");
+		@discord() SendMsg(channel, "<@705887674497499238> <@914596738801762404> I only listen to North!!!");
 		return 1;
 	}*/
 	return 1;
@@ -2932,7 +2894,7 @@ public InactivityPurge()
 	    	SaveInactivityHours(id, GetInactivityHours(id) + 1);
 	    	if(GetInactivityHours(id) == 72)
 	    	{
-	    		SendChannelMessage(logs, ""d_reply" **INACTIVITY PURGE** • Game Master <@%s> was inactive for 72 hours (3 days)!", id);
+	    		@discord() SendMsg(logs, ""d_reply" **INACTIVITY PURGE** • Game Master <@%s> was inactive for 72 hours (3 days)!", id);
 	    	}
 	    }
 
@@ -2944,7 +2906,7 @@ public InactivityPurge()
 	    	SaveInactivityHours(id, GetInactivityHours(id) + 1);
 	    	if(GetInactivityHours(id) == 72)
 	    	{
-	    		SendChannelMessage(logs, ""d_reply" **INACTIVITY PURGE** • Probationary Game Master <@%s> was inactive for 72 hours (3 days)!", id);
+	    		@discord() SendMsg(logs, ""d_reply" **INACTIVITY PURGE** • Probationary Game Master <@%s> was inactive for 72 hours (3 days)!", id);
 	    	}
 	    }
 	}
@@ -2956,7 +2918,7 @@ public InactivityPurge()
     	SaveInactivityHours(staffid[i], GetInactivityHours(staffid[i]) + 1);
     	if(GetInactivityHours(staffid[i]) == 72)
     	{
-    		SendChannelMessage(rpnotices, ""d_reply" **INACTIVITY PURGE** • <@%s> was inactive for 72 hours (3 days)!", staffid[i]);
+    		@discord() SendMsg(rpnotices, ""d_reply" **INACTIVITY PURGE** • <@%s> was inactive for 72 hours (3 days)!", staffid[i]);
     	}
     }*/
 	return 1;
@@ -3152,6 +3114,111 @@ stock SetGuildCountChannel(DCC_Guild:guild, const value[])
 	return 1;
 }
 
+stock GetGuildVerificationChannel(DCC_Guild:guild)
+{
+	new id[DCC_ID_SIZE];
+	DCC_GetGuildId(guild, id);
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"serverdata/vfc_%s.ini", id);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock SetGuildVerificationChannel(DCC_Guild:guild, const value[])
+{
+	new id[DCC_ID_SIZE];
+	DCC_GetGuildId(guild, id);
+	new file_name[150];
+	format(file_name, sizeof file_name,"serverdata/vfc_%s.ini",id);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+stock GetGuildVerification(DCC_Guild:guild)
+{
+	new id[DCC_ID_SIZE];
+	DCC_GetGuildId(guild, id);
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"serverdata/verf_%s.ini", id);
+	new strFromFile2[128];
+	if(!fexist(file_name)) return 0;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strval(strFromFile2);
+	}
+	return strval(strFromFile2);
+}
+
+stock SetGuildVerification(DCC_Guild:guild, value)
+{
+	new id[DCC_ID_SIZE];
+	DCC_GetGuildId(guild, id);
+	new file_name[150], string[10];
+
+	format(file_name, sizeof file_name,"serverdata/verf_%s.ini",id);
+	format(string, sizeof(string), "%i", value);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, string);
+	fclose(file2);
+	return 1;
+}
+
+
+stock GetUserVerification(DCC_Guild:guild, const user[])
+{
+	new id[DCC_ID_SIZE];
+	DCC_GetGuildId(guild, id);
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"serverdata/ver_%s_%s.ini", id,user);
+	new strFromFile2[128];
+	if(!fexist(file_name)) return 0;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strval(strFromFile2);
+	}
+	return strval(strFromFile2);
+}
+
+stock SetUserVerification(DCC_Guild:guild, const user[], value)
+{
+	new id[DCC_ID_SIZE];
+	DCC_GetGuildId(guild, id);
+	new file_name[150], string[10];
+
+	format(file_name, sizeof file_name,"serverdata/ver_%s_%s.ini",id,user);
+	format(string, sizeof(string), "%i", value);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, string);
+	fclose(file2);
+	return 1;
+}
+
 stock GetGuildCountGame(DCC_Guild:guild)
 {
 	new id[DCC_ID_SIZE];
@@ -3199,7 +3266,7 @@ public OnDiscordCommandPerformed(DCC_Message: message, DCC_User: author, bool: s
 	DCC_GetChannelGuild(channel, guild);
 	if (!success) 
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • The command entered doesn't exist.");
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • The command entered doesn't exist.");
 		return 1;
 	}
 	else if(success)
@@ -3230,7 +3297,7 @@ public OnDiscordCommandPerformed(DCC_Message: message, DCC_User: author, bool: s
 	}
 	if(BOT_BETA_PHASE == 1)
 	{
-		SendInfo(channel, ""BOT_NAME" achieved the **Beta Test** phase of development, help us in the development process by reporting all the bugs and issues using the `"BOT_PREFIX"report` command!");
+		@discord() SendInfo(channel, ""BOT_NAME" achieved the **Beta Test** phase of development, help us in the development process by reporting all the bugs and issues using the `"BOT_PREFIX"report` command!");
 	}
 	return 1;
 }
@@ -3300,7 +3367,7 @@ main()
 		"",
 		"","");
 
-	//SendChannelMessage(channel, msg);
+	//@discord() SendMsg(channel, msg);
 
 	DCC_SendChannelEmbedMessage(commandchannel, msg2, ""delimiterlol" **INFO** • Mention me for more information!");
 	DCC_SendChannelEmbedMessage(logs, msg2, ""delimiterlol" **INFO** • Mention me for more information!");
@@ -3320,7 +3387,7 @@ public DCC_OnChannelCreate(DCC_Channel:channel)
 	format(logmsg, sizeof logmsg, "**__Channel created__**\n\n\
 		"d_reply" Name: **#%s**", name);
 
-	SendChannelMessage(logs, logmsg);
+	@discord() SendMsg(logs, logmsg);
 	return 1;
 }
 
@@ -3336,7 +3403,7 @@ public DCC_OnChannelDelete(DCC_Channel:channel)
 	format(logmsg, sizeof logmsg, "**__Channel deleted__**\n\n\
 		"d_reply" Name: **#%s**", name);
 
-	SendChannelMessage(logs, logmsg);
+	@discord() SendMsg(logs, logmsg);
 	return 1;
 }
 
@@ -3355,7 +3422,7 @@ public DCC_OnMessageDelete(DCC_Message:message)
 	format(logmsg, sizeof logmsg, "**__Message deleted__**\n\n\
 		"d_reply" User: <@%s>\n"d_reply" Content: **%s**", id, content);
 
-	SendChannelMessage(logs, logmsg);
+	@discord() SendMsg(logs, logmsg);
 	return 1;
 }
 
@@ -3369,7 +3436,7 @@ public DCC_OnUserUpdate(DCC_User:user)
 
 	format(logmsg, sizeof logmsg, "**__User update__**\n\n"d_reply" • User <@%s> has been updated.", id);
 
-	SendChannelMessage(logs, logmsg);
+	@discord() SendMsg(logs, logmsg);
 
 	return 1;
 }
@@ -3409,7 +3476,7 @@ public DateUpdate()
 	{
 		if(dateupdated == 8)
 		{
-			SendChannelMessage(dateupdate, "A month has passed!");
+			@discord() SendMsg(dateupdate, "A month has passed!");
 			dateupdated = 20;
 		}
 	}
@@ -3417,7 +3484,7 @@ public DateUpdate()
 	{
 		if(dateupdated == 20)
 		{
-			SendChannelMessage(dateupdate, "A month has passed!");
+			@discord() SendMsg(dateupdate, "A month has passed!");
 			dateupdated = 8;
 		}
 	}
@@ -3432,32 +3499,88 @@ public DateUpdate()
 
 	DCC_GetMessageChannel(message, channel);
 
-	servercheck(RiseOfNations);
-
 	new user[DCC_ID_SIZE];
 
 	DCC_GetUserId(author, user);
+
+	new DCC_Guild:guild;
+	DCC_GetChannelGuild(channel, guild);
+
+	if(GetGuildVerification(guild) == 0)
+	{
+		@discord() SendInfo(channel, "This guild does not require verification of the users!");
+		return 1;
+	}
 
 	new code[10];
 
 	if(sscanf(params, "s[10]", code))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"verify [your verify code]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"verify [your verify code]`");
 		return 1;
 	}
 
-	if(!strcmp(code, GetVerifyCode(user)))
+	if(!strcmp(code, GetVerifyCode(guild, user)))
 	{
-		DCC_AddGuildMemberRole(RiseOfNations, author, spectator);
-		DCC_RemoveGuildMemberRole(RiseOfNations, author, unverified);
-
-		SendChannelMessage(channel, ""d_reply" **VERIFICATION WAS SUCCESSFUL** • You were successfully verified!");
+		SetUserVerification(guild, user, 1);
+		@discord() SendMsg(channel, ""d_reply" **VERIFICATION WAS SUCCESSFUL** • You were successfully verified!");
 		return 1;
 	}
 
-	SendChannelMessage(channel, ""d_reply" **VERIFICATION WAS UNSUCCESSFUL** • Your verification code wasn't correct! Please try again.");
+	@discord() SendMsg(channel, ""d_reply" **VERIFICATION WAS UNSUCCESSFUL** • Your verification code wasn't correct! Please try again.");
+	@discord() SendInfo(channel, "Use `"BOT_PREFIX"newverifycode` to generate a new verification code for this guild.");
 	return 1;
 }
+
+@discord() command:newverifycode(@discord() cmd_params)
+{
+	new DCC_Channel:channel;
+
+	DCC_GetMessageChannel(message, channel);
+
+	new id[DCC_ID_SIZE];
+
+	DCC_GetUserId(author, id);
+
+	new DCC_Guild:guild;
+	DCC_GetChannelGuild(channel, guild);
+
+	if(GetGuildVerification(guild) == 0)
+	{
+		@discord() SendInfo(channel, "This guild does not require verification of the users!");
+		return 1;
+	}
+	@discord() SendInfo(channel, "New verification code is being generated...");
+	new code[10];
+	format(code, sizeof code, "%i", random(100000));
+
+	SetVerifyCode(guild, id, code);
+
+	@discord() SendMsg(DCC_FindChannelById(GetGuildVerificationChannel(guild)), ""botpfp" **WELCOME TO THE GUILD** • Hello <@%s>! Thanks for choosing this guild to join! But in order to send messages here, please use a `"BOT_PREFIX"verify` command.\n\nYour verification code **for this guild** is: `%s`", id, code);
+	@discord() SendInfo(DCC_FindChannelById(GetGuildVerificationChannel(guild)), "<@%s>\n\nPlease make sure to verify as fast as possible to be able to chat, use commands and more!", id);
+	return 1;
+}
+
+@discord() command:balance(@discord() cmd_params)
+{
+	return discord_bal(message, author, PARAMETERS);
+}
+
+@discord() command:deposit(@discord() cmd_params)
+{
+	return discord_dep(message, author, PARAMETERS);
+}
+
+@discord() command:withdraw(@discord() cmd_params)
+{
+	return discord_with(message, author, PARAMETERS);
+}
+
+@discord() command:inventory(@discord() cmd_params)
+{
+	return discord_inv(message, author, PARAMETERS);
+}
+
 
 @discord() command:addmod(@discord() cmd_params)
 {
@@ -3471,7 +3594,7 @@ public DateUpdate()
 
 	if(sscanf(params, "s", user))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"addmod [user ID or user mention]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"addmod [user ID or user mention]`");
 		return 1;
 	}
 
@@ -3491,7 +3614,7 @@ public DateUpdate()
 
 	if(fexist(file_name))
 	{
-		SendChannelMessage(channel, ""d_reply" • This user is already a moderator!");
+		@discord() SendMsg(channel, ""d_reply" • This user is already a moderator!");
 		return 1;
 	}
 
@@ -3499,7 +3622,7 @@ public DateUpdate()
 	fwrite(file2, "");
 	fclose(file2);
 
-	SendChannelMessage(channel, ""d_reply" • User <@%s> added to the moderator team successfully.", user);
+	@discord() SendMsg(channel, ""d_reply" • User <@%s> added to the moderator team successfully.", user);
 
 	return 1;
 }
@@ -3516,7 +3639,7 @@ public DateUpdate()
 
 	if(sscanf(params, "s", user))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"addpremium [user ID or user mention]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"addpremium [user ID or user mention]`");
 		return 1;
 	}
 
@@ -3533,7 +3656,9 @@ public DateUpdate()
 
 	SetPremium(user, 1);
 	
-	SendChannelMessage(channel, ""d_reply" **PREMIUM PERKS GIVEN** • <@%s> was given the "BOT_NAME" Premium membership.", user);
+	@discord() SendMsg(channel, ""d_reply" **PREMIUM PERKS GIVEN** • <@%s> was given the "BOT_NAME" Premium membership.", user);
+
+	@discord() SendDM(DCC_FindUserById(user), "**GREAT NEWS!** • You were given "d_premium" | `"BOT_NAME" Premium` perks by a global moderator.");
 
 	return 1;
 }
@@ -3550,7 +3675,7 @@ public DateUpdate()
 
 	if(sscanf(params, "s", user))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"delpremium [user ID or user mention]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"delpremium [user ID or user mention]`");
 		return 1;
 	}
 
@@ -3567,7 +3692,9 @@ public DateUpdate()
 
 	SetPremium(user, 0);
 	
-	SendChannelMessage(channel, ""d_reply" **PREMIUM PERKS REMOVED** • <@%s> was removed from the "BOT_NAME" Premium membership.", user);
+	@discord() SendMsg(channel, ""d_reply" **PREMIUM PERKS REMOVED** • <@%s> was removed from the "BOT_NAME" Premium membership.", user);
+
+	@discord() SendDM(DCC_FindUserById(user), "**UNFORTUNATE NEWS** • Your "d_premium" | `"BOT_NAME" Premium` perks were taken away by a global moderator.");
 
 	return 1;
 }
@@ -3588,7 +3715,7 @@ public DateUpdate()
 
 	if(sscanf(params, "s[512]", string))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"annc [announcement text]`\n\
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"annc [announcement text]`\n\
 			"delimiterlol" **TIP** • In order to strip to a new line, at the point you want to add a new line add `\\` symbol.\n\
 			**Example:** `"BOT_PREFIX"annc Funny\\text.`");
 		return 1;
@@ -3611,11 +3738,11 @@ public DateUpdate()
 		"",
 		"","");
 
-	//SendChannelMessage(channel, msg);
+	//@discord() SendMsg(channel, msg);
 
 	DCC_SendChannelEmbedMessage(announcements, msg2, ""delimiterlol" **INFO** • This is an announcement repost made with `"BOT_PREFIX"annc` mod command.");
 
-	SendChannelMessage(channel, ""d_reply" • Announcement was posted successfully.");
+	@discord() SendMsg(channel, ""d_reply" • Announcement was posted successfully.");
 	return 1;
 }
 
@@ -3632,7 +3759,7 @@ public DateUpdate()
 
 	if(sscanf(params, "s", user))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"delmod [user ID or user mention]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"delmod [user ID or user mention]`");
 		return 1;
 	}
 
@@ -3649,7 +3776,7 @@ public DateUpdate()
 
 	if(!strcmp(user, "617419819108663296"))
 	{
-		SendChannelMessage(channel, ""d_reply" • This user can't be removed as the user is a bot owner!");
+		@discord() SendMsg(channel, ""d_reply" • This user can't be removed as the user is a bot owner!");
 		return 1;
 	}
 
@@ -3658,12 +3785,12 @@ public DateUpdate()
 	
 	if(!fexist(file_name))
 	{
-		SendChannelMessage(channel, ""d_reply" • This user is not a moderator!");
+		@discord() SendMsg(channel, ""d_reply" • This user is not a moderator!");
 		return 1;
 	}
 
 	fremove(file_name);
-	SendChannelMessage(channel, ""d_reply" • User <@%s> removed from the moderator team successfully.", user);
+	@discord() SendMsg(channel, ""d_reply" • User <@%s> removed from the moderator team successfully.", user);
 
 	return 1;
 }
@@ -3698,6 +3825,7 @@ public DateUpdate()
 		"d_arrow"**`"BOT_PREFIX"tos`**\n"d_reply"Read our application's Terms of Service.\n\
 		"d_arrow"**`"BOT_PREFIX"pp`**\n"d_reply"Read our Privacy Policy.\n\n\
 		"delimiterlol" • __List of Main Commands__\n\
+		"d_arrow"**`"BOT_PREFIX"help verification`**\n"d_reply"Help about verification system.\n\
 		"d_arrow"**`"BOT_PREFIX"help moderation`**\n"d_reply"Help about moderation commands.\n\
 		"d_arrow"**`"BOT_PREFIX"help economy`**\n"d_reply"Help about economy commands.\n\
 		"d_arrow"**`"BOT_PREFIX"help afk`**\n"d_reply"Help about AFK system.\n\
@@ -3758,23 +3886,21 @@ public DateUpdate()
 		""), GetMention(useridmention));
 		return 1;
 	}
-	/*new params2[364];
-	format(params2, sizeof params2, "%s", params);
-	for(new i; i < strlen(params2); i++)
+	if(!strcmp(option, "verification"))
 	{
-
-	}
-	if(!strcmp(option, "command"))
-	{
-		new cmdname[32];
-		if(sscanf(params2, "s[32]", cmdname))
-		{
-			SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"help command [command name]`");
-			return 1;
-		}
+		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
+		"**__Help Panel__**", "**Verification System Commands**\n\n\
+		"d_arrow"**`"BOT_PREFIX"verify`**\n"d_reply"Verify yourself!\n\
+		"d_arrow"**`"BOT_PREFIX"newverifycode`**\n"d_reply"Get a new verification code in case of anything!\n\
+		\n", 
+		"",
+		"", col_embed, datetimelog, 
+		"",
+		"",
+		""), GetMention(useridmention));
 		return 1;
-	}*/
-
+	}
+	//other systems
 	if(!strcmp(option, "custom"))
 	{
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
@@ -3810,15 +3936,15 @@ public DateUpdate()
 	{
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Help Panel__**", "**__Economy commands__**\n\n\
-		"d_arrow"**`"BOT_PREFIX"bal`**\n"d_reply"View your balance.\n\
+		"d_arrow"**`"BOT_PREFIX"bal` `"BOT_PREFIX"balance`**\n"d_reply"View your balance.\n\
 		"d_arrow"**`"BOT_PREFIX"work`**\n"d_reply"Work and earn money.\n\
-		"d_arrow"**`"BOT_PREFIX"dep`**\n"d_reply"Deposit money.\n\
+		"d_arrow"**`"BOT_PREFIX"dep` `"BOT_PREFIX"deposit`**\n"d_reply"Deposit money.\n\
 		"d_arrow"**`"BOT_PREFIX"bankacc`**\n"d_reply"Open a bank account.\n\
-		"d_arrow"**`"BOT_PREFIX"with`**\n"d_reply"Withdraw money.\n\
+		"d_arrow"**`"BOT_PREFIX"with` `"BOT_PREFIX"withdraw`**\n"d_reply"Withdraw money.\n\
 		"d_arrow"**`"BOT_PREFIX"rob`**\n"d_reply"Rob a member.\n\
 		"d_arrow"**`"BOT_PREFIX"shop`**\n"d_reply"Open a "BOT_NAME" shop.\n\
 		"d_arrow"**`"BOT_PREFIX"buy`**\n"d_reply"Buy something from a "BOT_NAME" shop.\n\
-		"d_arrow"**`"BOT_PREFIX"inv`**\n"d_reply"View your inventory.\n\
+		"d_arrow"**`"BOT_PREFIX"inv` `"BOT_PREFIX"inventory`**\n"d_reply"View your inventory.\n\
 		"d_arrow"**`"BOT_PREFIX"daily`**\n"d_reply"Claim your daily money.\n\
 		"d_arrow"**`"BOT_PREFIX"beg`**\n"d_reply"Beg for money on the streets!\n\
 		"d_arrow"**`"BOT_PREFIX"heist`**\n"d_reply"Rob someone's bank balance!\n\
@@ -3999,7 +4125,7 @@ public DateUpdate()
 		""), GetMention(useridmention));
 		return 1;
 	}
-	SendChannelMessage(channel, ""d_reply" **UNKNOWN TOPIC** • Help panel with that name wasn't found!");
+	@discord() SendMsg(channel, ""d_reply" **UNKNOWN TOPIC** • Help panel with that name wasn't found!");
 	return 1;
 }
 
@@ -4103,19 +4229,19 @@ public DateUpdate()
 
 	if(sscanf(params, "s[20]", listname))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"createlist [list name]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"createlist [list name]`");
 		return 1;
 	}
 
 	if(IsValidList(listname))
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • This list already has been created.");
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • This list already has been created.");
 		return 1;
 	}
 
 	CreateList(id, listname);
 
-	SendChannelMessage(channel, ""d_reply" **LIST CREATED** • Your list has been created successfully.");
+	@discord() SendMsg(channel, ""d_reply" **LIST CREATED** • Your list has been created successfully.");
 
 	return 1;
 }
@@ -4132,25 +4258,25 @@ public DateUpdate()
 
 	if(sscanf(params, "s[20]s[50]", listname, element))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"addelement [list name] [element]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"addelement [list name] [element]`");
 		return 1;
 	}
 
 	if(!IsValidList(listname))
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • This list doesn't exist.");
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • This list doesn't exist.");
 		return 1;
 	}
 
 	if(!OwnsList(listname, id))
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • You can only modify lists that you created!");
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • You can only modify lists that you created!");
 		return 1;
 	}
 
 	AddListElement(listname, element);
 
-	SendChannelMessage(channel, ""d_reply" **LIST MODIFIED** • Your list has been successfully modified.");
+	@discord() SendMsg(channel, ""d_reply" **LIST MODIFIED** • Your list has been successfully modified.");
 	return 1;
 }
 
@@ -4166,25 +4292,25 @@ public DateUpdate()
 
 	if(sscanf(params, "s[20]i", listname, element))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"delelement [list name] [element ID]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"delelement [list name] [element ID]`");
 		return 1;
 	}
 
 	if(!IsValidList(listname))
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • This list doesn't exist.");
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • This list doesn't exist.");
 		return 1;
 	}
 
 	if(!OwnsList(listname, id))
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • You can only modify lists that you created!");
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • You can only modify lists that you created!");
 		return 1;
 	}
 
 	RemoveListElement(listname, element-1);
 
-	SendChannelMessage(channel, ""d_reply" **LIST MODIFIED** • Your list has been successfully modified.");
+	@discord() SendMsg(channel, ""d_reply" **LIST MODIFIED** • Your list has been successfully modified.");
 	return 1;
 }
 
@@ -4198,13 +4324,13 @@ public DateUpdate()
 
 	if(sscanf(params, "s[20]", listname))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"viewlist [list name]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"viewlist [list name]`");
 		return 1;
 	}
 
 	if(!IsValidList(listname))
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • This list doesn't exist.");
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • This list doesn't exist.");
 		return 1;
 	}
 
@@ -4319,13 +4445,13 @@ public DateUpdate()
 
 	if(sscanf(params, "s[32]s[256]", cmdname, text))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"declcmd [command name] [text to respond with]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"declcmd [command name] [text to respond with]`");
 		return 1;
 	}
 
 	if(IsCommand(cmdname))
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • This command is already registered!");
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • This command is already registered!");
 		return 1;
 	}
 
@@ -4333,19 +4459,19 @@ public DateUpdate()
 	{
 		if(text[i] == '<' && text[i+1] == '@')
 		{
-			SendChannelMessage(channel, ""d_reply" **ERROR** • Invalid characters detected in the text response.");
+			@discord() SendMsg(channel, ""d_reply" **ERROR** • Invalid characters detected in the text response.");
 			return 1;
 		}
 		if(text[i] == '<' && text[i+1] == '!' && text[i+2] == '@')
 		{
-			SendChannelMessage(channel,""d_reply" **ERROR** • Invalid characters detected in the text response.");
+			@discord() SendMsg(channel,""d_reply" **ERROR** • Invalid characters detected in the text response.");
 			return 1;
 		}
 	}
 
 	CreateCommand(cmdname, id, text);
 
-	SendChannelMessage(channel, ""d_reply" **COMMAND CREATED** • Your custom command is successfully registered!\n> "d_reply" Try using it now!");
+	@discord() SendMsg(channel, ""d_reply" **COMMAND CREATED** • Your custom command is successfully registered!\n> "d_reply" Try using it now!");
 	return 1;
 }
 
@@ -4365,25 +4491,25 @@ public DateUpdate()
 
 	if(sscanf(params, "s[32]", cmdname))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"delcmd [command name]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"delcmd [command name]`");
 		return 1;
 	}
 
 	if(!IsCommand(cmdname))
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • This command doesn't exist!");
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • This command doesn't exist!");
 		return 1;
 	}
 
 	if(!IsUsersCommand(cmdname, id))
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • You can only delete the commands that you created!");
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • You can only delete the commands that you created!");
 		return 1;
 	}
 
 	DeleteCommand(cmdname);
 
-	SendChannelMessage(channel, ""d_reply" **COMMAND DELETED** • Your custom command is successfully deleted!");
+	@discord() SendMsg(channel, ""d_reply" **COMMAND DELETED** • Your custom command is successfully deleted!");
 	
 	return 1;
 }
@@ -4418,12 +4544,12 @@ public DateUpdate()
 
 	new id[DCC_ID_SIZE];DCC_GetUserId(author, id);
 	SetUserReportChannel(id, cid);
-	SendChannelMessage(channel, ""d_reply" **REPORT FORM LOADED** • <@%s> successfully entered a report mode.", id);
+	@discord() SendMsg(channel, ""d_reply" **REPORT FORM LOADED** • <@%s> successfully entered a report mode.", id);
 
 	SetReportQuestion(id, "1");
 
-	SendChannelMessage(channel, "**__REPORT PANEL__**\n**Question 1** • <@%s>\n\n"d_arrow"*`What are you reporting? Please describe.`*\n\n", id);
-	SendInfo(channel, "Please reply to the question above with the proper answer.");
+	@discord() SendMsg(channel, "**__REPORT PANEL__**\n**Question 1** • <@%s>\n\n"d_arrow"*`What are you reporting? Please describe.`*\n\n", id);
+	@discord() SendInfo(channel, "Please reply to the question above with the proper answer.");
 	return 1;
 }
 
@@ -4435,7 +4561,7 @@ public DateUpdate()
 
 	modcheck;
 
-	SendChannelMessage(channel, ""delimiterlol" **INFO** • `No errors found.`\n"botpfp" **NOTE** • This system is currently under a beta phase!");
+	@discord() SendMsg(channel, ""delimiterlol" **INFO** • `No errors found.`\n"botpfp" **NOTE** • This system is currently under a beta phase!");
 	return 1;
 }
 
@@ -4450,13 +4576,13 @@ public DateUpdate()
 
 	new id[DCC_ID_SIZE]; DCC_GetUserId(author,id);if(GetGamepad(id) == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • You need a "d_gamepad" | `Gamepad` to use miscellaneous commands!");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_gamepad" | `Gamepad` to use miscellaneous commands!");
 		return 1;
 	}
 
 	if(sscanf(params, "s[256]", query))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"search [search text]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"search [search text]`");
 		return 1;
 	}
 
@@ -4465,7 +4591,7 @@ public DateUpdate()
 		if(query[i] == ' ') query[i] = '+';
 	}
 
-	SendChannelMessage(channel, ""d_reply" **SEARCHING FINISHED** • Your search results: \nhttps://www.google.com/search?q=%s\n`%i results in 0,%is`", query, random(100000), random(10));
+	@discord() SendMsg(channel, ""d_reply" **SEARCHING FINISHED** • Your search results: \nhttps://www.google.com/search?q=%s\n`%i results in 0,%is`", query, random(100000), random(10));
 	return 1;
 }
 
@@ -4479,19 +4605,19 @@ public DateUpdate()
 
 	new id[DCC_ID_SIZE]; DCC_GetUserId(author,id);if(GetGamepad(id) == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • You need a "d_gamepad" | `Gamepad` to use miscellaneous commands!");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_gamepad" | `Gamepad` to use miscellaneous commands!");
 		return 1;
 	}
 
 	if(sscanf(params, "s[256]", t))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"say [text]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"say [text]`");
 		return 1;
 	}
 
 	DCC_DeleteMessage(message);
 
-	SendChannelMessage(channel, "%s", t);
+	@discord() SendMsg(channel, "%s", t);
 	return 1;
 }
 
@@ -4504,7 +4630,7 @@ public DateUpdate()
 
 	new id[DCC_ID_SIZE]; DCC_GetUserId(author,id);if(GetGamepad(id) == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • You need a "d_gamepad" | `Gamepad` to use miscellaneous commands!");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_gamepad" | `Gamepad` to use miscellaneous commands!");
 		return 1;
 	}
 
@@ -4517,7 +4643,7 @@ public DateUpdate()
 {
 	new DCC_Channel:c;
 	DCC_GetMessageChannel(message,c);
-	SendChannelMessage(c,"https://cdn.discordapp.com/attachments/795025965985693716/959382383034007592/IMG_4433.jpg");
+	@discord() SendMsg(c,"https://cdn.discordapp.com/attachments/795025965985693716/959382383034007592/IMG_4433.jpg");
 	return 1;
 }
 */
@@ -4546,7 +4672,7 @@ public DateUpdate()
 
 	DCC_GetMessageChannel(message, channel);
 
-	SendChannelMessage(channel, "• **Last Update**\n"d_reply"Script was (re)compiled last time at `%s-%s`.\n• **Script Version**\n"d_reply"Bot code version: `"BOT_VERSION"`",__date, __time);
+	@discord() SendMsg(channel, "• **Last Update**\n"d_reply"Script was (re)compiled last time at `%s-%s`.\n• **Script Version**\n"d_reply"Bot code version: `"BOT_VERSION"`",__date, __time);
 
 	return 1;
 }
@@ -4563,13 +4689,13 @@ public DateUpdate()
 
 	if(HasBankAccount(id))
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • You already have opened a bank account.");
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • You already have opened a bank account.");
 		return 1;
 	}
 
 	OpenBankAccount(id);
 
-	SendChannelMessage(channel, ""d_reply" **BANK** • You successfully opened a bank account.");
+	@discord() SendMsg(channel, ""d_reply" **BANK** • You successfully opened a bank account.");
 
 	return 1;
 }
@@ -4586,7 +4712,7 @@ public DateUpdate()
 
 	if(sscanf(params, "s[256]", afkstatus))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"afk [AFK status text]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"afk [AFK status text]`");
 		return 1;
 	}
 
@@ -4596,7 +4722,7 @@ public DateUpdate()
 
 	SetAFK(id, afkstatus);
 
-	SendChannelMessage(channel, ""d_reply" • Alright, <@%s> - you're now AFK.", id);
+	@discord() SendMsg(channel, ""d_reply" • Alright, <@%s> - you're now AFK.", id);
 
 	return 1;
 }
@@ -4632,7 +4758,7 @@ public DateUpdate()
 	}
 	if(!strcmp(option, "view"))
 	{
-		SendChannelMessage(channel, "**__Bot Settings Panel__**\n"delimiterlol" • This is settings configuration preview.\n\n**`logs`** • %s\n**`gmc`** • %s\n**`eco`** • %s\n**`mod`** • %s\n**`count`** • %s\n**`ccmd`** • %s\n**`ac`** • %s\n**`rp`** • %s", settings[log] ? d_yes : d_no, settings[gmc] ? d_yes : d_no, settings[eco] ? d_yes : d_no, settings[mod] ? d_yes : d_no, settings[cnt] ? d_yes : d_no, settings[ccmd] ? d_yes : d_no,settings[ac] ? d_yes : d_no,settings[rp] ? d_yes : d_no);
+		@discord() SendMsg(channel, "**__Bot Settings Panel__**\n"delimiterlol" • This is settings configuration preview.\n\n**`logs`** • %s\n**`gmc`** • %s\n**`eco`** • %s\n**`mod`** • %s\n**`count`** • %s\n**`ccmd`** • %s\n**`ac`** • %s\n**`rp`** • %s", settings[log] ? d_yes : d_no, settings[gmc] ? d_yes : d_no, settings[eco] ? d_yes : d_no, settings[mod] ? d_yes : d_no, settings[cnt] ? d_yes : d_no, settings[ccmd] ? d_yes : d_no,settings[ac] ? d_yes : d_no,settings[rp] ? d_yes : d_no);
 		return 1;
 	}
 
@@ -4643,13 +4769,13 @@ public DateUpdate()
 		if(settings[ccmd] == 1)
 		{
 			settings[ccmd] = 0;
-			SendChannelMessage(channel, ""d_reply" • Custom commands system has been disabled.");
+			@discord() SendMsg(channel, ""d_reply" • Custom commands system has been disabled.");
 			return 1;
 		}
 		if(settings[ccmd] == 0)
 		{
 			settings[ccmd] = 1;
-			SendChannelMessage(channel, ""d_reply" • Custom commands system has been enabled.");
+			@discord() SendMsg(channel, ""d_reply" • Custom commands system has been enabled.");
 			return 1;
 		}
 	}
@@ -4660,13 +4786,13 @@ public DateUpdate()
 		if(settings[log] == 1)
 		{
 			settings[log] = 0;
-			SendChannelMessage(channel, ""d_reply" • Log system has been disabled.");
+			@discord() SendMsg(channel, ""d_reply" • Log system has been disabled.");
 			return 1;
 		}
 		if(settings[log] == 0)
 		{
 			settings[log] = 1;
-			SendChannelMessage(channel, ""d_reply" • Log system has been enabled.");
+			@discord() SendMsg(channel, ""d_reply" • Log system has been enabled.");
 			return 1;
 		}
 	}
@@ -4677,13 +4803,13 @@ public DateUpdate()
 		if(settings[eco] == 1)
 		{
 			settings[eco] = 0;
-			SendChannelMessage(channel, ""d_reply" • Economy commands have been disabled.");
+			@discord() SendMsg(channel, ""d_reply" • Economy commands have been disabled.");
 			return 1;
 		}
 		if(settings[eco] == 0)
 		{
 			settings[eco] = 1;
-			SendChannelMessage(channel, ""d_reply" • Economy commands have been enabled.");
+			@discord() SendMsg(channel, ""d_reply" • Economy commands have been enabled.");
 			return 1;
 		}
 	}
@@ -4694,13 +4820,13 @@ public DateUpdate()
 		if(settings[cnt] == 1)
 		{
 			settings[cnt] = 0;
-			SendChannelMessage(channel, ""d_reply" • Counting system has been disabled.");
+			@discord() SendMsg(channel, ""d_reply" • Counting system has been disabled.");
 			return 1;
 		}
 		if(settings[cnt] == 0)
 		{
 			settings[cnt] = 1;
-			SendChannelMessage(channel, ""d_reply" • Counting system has been enabled.");
+			@discord() SendMsg(channel, ""d_reply" • Counting system has been enabled.");
 			return 1;
 		}
 	}
@@ -4711,13 +4837,13 @@ public DateUpdate()
 		if(settings[gmc] == 1)
 		{
 			settings[gmc] = 0;
-			SendChannelMessage(channel, ""d_reply" • GM counting system has been disabled.");
+			@discord() SendMsg(channel, ""d_reply" • GM counting system has been disabled.");
 			return 1;
 		}
 		if(settings[gmc] == 0)
 		{
 			settings[gmc] = 1;
-			SendChannelMessage(channel, ""d_reply" • GM counting system has been enabled.");
+			@discord() SendMsg(channel, ""d_reply" • GM counting system has been enabled.");
 			return 1;
 		}
 	}
@@ -4728,13 +4854,13 @@ public DateUpdate()
 		if(settings[mod] == 1)
 		{
 			settings[mod] = 0;
-			SendChannelMessage(channel, ""d_reply" • Moderation commands have been disabled.");
+			@discord() SendMsg(channel, ""d_reply" • Moderation commands have been disabled.");
 			return 1;
 		}
 		if(settings[mod] == 0)
 		{
 			settings[mod] = 1;
-			SendChannelMessage(channel, ""d_reply" • Moderation commands have been enabled.");
+			@discord() SendMsg(channel, ""d_reply" • Moderation commands have been enabled.");
 			return 1;
 		}
 	}
@@ -4745,13 +4871,13 @@ public DateUpdate()
 		if(settings[ac] == 1)
 		{
 			settings[ac] = 0;
-			SendChannelMessage(channel, ""d_reply" • Anti-raid has been disabled.");
+			@discord() SendMsg(channel, ""d_reply" • Anti-raid has been disabled.");
 			return 1;
 		}
 		if(settings[ac] == 0)
 		{
 			settings[ac] = 1;
-			SendChannelMessage(channel, ""d_reply" • Anti-raid has been enabled.");
+			@discord() SendMsg(channel, ""d_reply" • Anti-raid has been enabled.");
 			return 1;
 		}
 	}
@@ -4762,19 +4888,19 @@ public DateUpdate()
 		if(settings[rp] == 1)
 		{
 			settings[rp] = 0;
-			SendChannelMessage(channel, ""d_reply" • RolePlay system has been disabled.");
+			@discord() SendMsg(channel, ""d_reply" • RolePlay system has been disabled.");
 			return 1;
 		}
 		if(settings[rp] == 0)
 		{
 			settings[rp] = 1;
-			SendChannelMessage(channel, ""d_reply" • RolePlay system has been enabled.");
+			@discord() SendMsg(channel, ""d_reply" • RolePlay system has been enabled.");
 			return 1;
 		}
 	}
 	else
 	{
-		SendChannelMessage(channel, ""d_reply" **UNKNOWN OPTION** • Invalid option provided, use `"BOT_PREFIX"settings` to view a list of available options.");
+		@discord() SendMsg(channel, ""d_reply" **UNKNOWN OPTION** • Invalid option provided, use `"BOT_PREFIX"settings` to view a list of available options.");
 	}
 	return 1;
 }
@@ -4795,7 +4921,7 @@ public DateUpdate()
 
 	if(sscanf(params, "ss", user, reason))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"warn [user ID or user mention] [reason]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"warn [user ID or user mention] [reason]`");
 		return 1;
 	}
 
@@ -4812,13 +4938,13 @@ public DateUpdate()
 
 	if(!strcmp(user, "617419819108663296"))
 	{
-		SendChannelMessage(channel, ""d_reply" • This user can't be warned as the user is a bot owner!");
+		@discord() SendMsg(channel, ""d_reply" • This user can't be warned as the user is a bot owner!");
 		return 1;
 	}
 
 	if(!strcmp(user, "888667418904363078"))
 	{
-		SendChannelMessage(channel, ""d_reply" • This user can't be warned as the user is a website maintainer!");
+		@discord() SendMsg(channel, ""d_reply" • This user can't be warned as the user is a website maintainer!");
 		return 1;
 	}
 
@@ -4829,7 +4955,7 @@ public DateUpdate()
 
 	new msg[512];
 	format(msg, sizeof msg, ""d_reply" • User <@%s> was warned successfully.\n**REASON** • `%s`", user, reason);
-	SendChannelMessage(channel, msg);
+	@discord() SendMsg(channel, msg);
 	return 1;
 }
 
@@ -4864,7 +4990,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(sscanf(params, "s", user))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"warns [user ID or user mention]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"warns [user ID or user mention]`");
 		return 1;
 	}
 
@@ -4883,13 +5009,13 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	parameters = strtok(params, idx);
 
-	if(strlen(parameters) == 0) return SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"warns [user ID or user mention]`");
+	if(strlen(parameters) == 0) return @discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"warns [user ID or user mention]`");
 
 	format(user, sizeof user, "%s", parameters);*/
 
 	if(!strcmp(user, "617419819108663296"))
 	{
-		SendChannelMessage(channel, ""d_reply" • Operation failed!");
+		@discord() SendMsg(channel, ""d_reply" • Operation failed!");
 		return 1;
 	}
 
@@ -4898,7 +5024,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(!fexist(filename))
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • This user has no warnings.");
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • This user has no warnings.");
 		return 1;
 	}
 
@@ -4923,7 +5049,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 		"**__WARN LIST__**", msg, "","", col_embed, datetimelog, 
 		"","","");
 
-	//SendChannelMessage(channel, msg);
+	//@discord() SendMsg(channel, msg);
 
 	DCC_SendChannelEmbedMessage(channel, msg2);
 
@@ -4937,7 +5063,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 	new DCC_Channel:channel;
 	DCC_GetMessageChannel(message, channel);
 	new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
-	/*SendChannelMessage(channel, "**__Bot settings__**\n\n\
+	/*@discord() SendMsg(channel, "**__Bot settings__**\n\n\
 		"d_arrow"**`"BOT_PREFIX"logs`**\n"d_reply"Enable or disable the log system.\n\
 		"d_arrow"**`"BOT_PREFIX"gmc`**\n"d_reply"Activate or deactivate GM counting.\n\
 		"d_arrow"**`"BOT_PREFIX"eco`**\n"d_reply"Toggle economy commands on or off.");*/
@@ -5017,7 +5143,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 	{
 		DCC_AddGuildMemberRole(RiseOfNations, DCC_FindUserById(user), nation);
 
-		SendChannelMessage(channel, ""d_reply" **USER ROLED** • <@%s> was successfully given the *`Nation`* role.", user);
+		@discord() SendMsg(channel, ""d_reply" **USER ROLED** • <@%s> was successfully given the *`Nation`* role.", user);
 
 		return 1;
 	}
@@ -5025,7 +5151,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 	{
 		DCC_AddGuildMemberRole(RiseOfNations, DCC_FindUserById(user), rebelorg);
 
-		SendChannelMessage(channel, ""d_reply" **USER ROLED** • <@%s> was successfully given the *`Rebellion Organization`* role.", user);
+		@discord() SendMsg(channel, ""d_reply" **USER ROLED** • <@%s> was successfully given the *`Rebellion Organization`* role.", user);
 
 		return 1;
 	}
@@ -5033,7 +5159,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 	{
 		DCC_AddGuildMemberRole(RiseOfNations, DCC_FindUserById(user), politicalorg);
 
-		SendChannelMessage(channel, ""d_reply" **USER ROLED** • <@%s> was successfully given the *`Political Organization`* role.", user);
+		@discord() SendMsg(channel, ""d_reply" **USER ROLED** • <@%s> was successfully given the *`Political Organization`* role.", user);
 
 		return 1;
 	}
@@ -5041,7 +5167,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 	{
 		DCC_AddGuildMemberRole(RiseOfNations, DCC_FindUserById(user), corporation);
 
-		SendChannelMessage(channel, ""d_reply" **USER ROLED** • <@%s> was successfully given the *`Corporation`* role.", user);
+		@discord() SendMsg(channel, ""d_reply" **USER ROLED** • <@%s> was successfully given the *`Corporation`* role.", user);
 
 		return 1;
 	}
@@ -5049,7 +5175,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 	{
 		DCC_AddGuildMemberRole(RiseOfNations, DCC_FindUserById(user), acoop);
 
-		SendChannelMessage(channel, ""d_reply" **USER ROLED** • <@%s> was successfully given the *`Administrative Cooperator`* role.", user);
+		@discord() SendMsg(channel, ""d_reply" **USER ROLED** • <@%s> was successfully given the *`Administrative Cooperator`* role.", user);
 
 		return 1;
 	}
@@ -5057,7 +5183,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 	{
 		DCC_AddGuildMemberRole(RiseOfNations, DCC_FindUserById(user), pcoop);
 
-		SendChannelMessage(channel, ""d_reply" **USER ROLED** • <@%s> was successfully given the *`Provincial Cooperator`* role.", user);
+		@discord() SendMsg(channel, ""d_reply" **USER ROLED** • <@%s> was successfully given the *`Provincial Cooperator`* role.", user);
 
 		return 1;
 	}
@@ -5065,7 +5191,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 	{
 		DCC_AddGuildMemberRole(RiseOfNations, DCC_FindUserById(user), civilian);
 
-		SendChannelMessage(channel, ""d_reply" **USER ROLED** • <@%s> was successfully given the *`Civilian`* role.", user);
+		@discord() SendMsg(channel, ""d_reply" **USER ROLED** • <@%s> was successfully given the *`Civilian`* role.", user);
 
 		return 1;
 	}
@@ -5073,7 +5199,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 	{
 		DCC_AddGuildMemberRole(RiseOfNations, DCC_FindUserById(user), unsec);
 
-		SendChannelMessage(channel, ""d_reply" **USER ROLED** • <@%s> was successfully given the *`UN Secretariat`* role.", user);
+		@discord() SendMsg(channel, ""d_reply" **USER ROLED** • <@%s> was successfully given the *`UN Secretariat`* role.", user);
 
 		return 1;
 	}
@@ -5081,7 +5207,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 	{
 		DCC_AddGuildMemberRole(RiseOfNations, DCC_FindUserById(user), playerrole);
 
-		SendChannelMessage(channel, ""d_reply" **USER ROLED** • <@%s> was successfully given the *`Player`* role.", user);
+		@discord() SendMsg(channel, ""d_reply" **USER ROLED** • <@%s> was successfully given the *`Player`* role.", user);
 
 		return 1;
 	}
@@ -5089,13 +5215,13 @@ stock strtok(const string[], &index, delimiter = ' ') {
 	{
 		DCC_AddGuildMemberRole(RiseOfNations, DCC_FindUserById(user), spectator);
 
-		SendChannelMessage(channel, ""d_reply" **USER ROLED** • <@%s> was successfully given the *`Spectator`* role.", user);
+		@discord() SendMsg(channel, ""d_reply" **USER ROLED** • <@%s> was successfully given the *`Spectator`* role.", user);
 
 		return 1;
 	}
 	else
 	{
-		SendChannelMessage(channel, ""d_reply" **UNKNOWN OPTION** • Invalid role option provided, use `"BOT_PREFIX"rprole` to view a list of available options.");
+		@discord() SendMsg(channel, ""d_reply" **UNKNOWN OPTION** • Invalid role option provided, use `"BOT_PREFIX"rprole` to view a list of available options.");
 	}
 	return 1;
 }
@@ -5109,7 +5235,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 	modcheck;
 
 	SaveSettings();
-	SendChannelMessage(channel, ""d_reply" **SETTINGS SAVED** • Current bot settings saved successfully.");
+	@discord() SendMsg(channel, ""d_reply" **SETTINGS SAVED** • Current bot settings saved successfully.");
 	return 1;
 }
 /*
@@ -5125,7 +5251,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(sscanf(params, "s[31]", user))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"addstaff [user ID or user mention]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"addstaff [user ID or user mention]`");
 		return 1;
 	}
 
@@ -5140,12 +5266,12 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(IsStaff(user))
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • This user is already in a staff configuration file.");
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • This user is already in a staff configuration file.");
 		return 1;
 	}
 
 	SaveStaffString(user);
-	SendChannelMessage(channel, ""d_reply" **MEMBER ADDED** • <@%s> is now added to the staff team configuration file.", user);
+	@discord() SendMsg(channel, ""d_reply" **MEMBER ADDED** • <@%s> is now added to the staff team configuration file.", user);
 	return 1;
 }
 
@@ -5161,7 +5287,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(sscanf(params, "s[31]", user))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"remstaff [user ID or user mention]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"remstaff [user ID or user mention]`");
 		return 1;
 	}
 
@@ -5176,12 +5302,12 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(!IsStaff(user))
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • This user is not found in the staff configuration file.");
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • This user is not found in the staff configuration file.");
 		return 1;
 	}
 
 	DeleteStaffMember(user);
-	SendChannelMessage(channel, ""d_reply" **MEMBER REMOVED** • <@%s> is now removed from the staff team configuration file.", user);
+	@discord() SendMsg(channel, ""d_reply" **MEMBER REMOVED** • <@%s> is now removed from the staff team configuration file.", user);
 	return 1;
 }*/
 
@@ -5199,7 +5325,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(sscanf(params, "s[512]", text))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"poll [poll name]*[poll text]`\n\
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"poll [poll name]*[poll text]`\n\
 			"delimiterlol" **TIP** • Command usage example: `"BOT_PREFIX"poll Void an action*I vote to void this and this, bla bla...`");
 		return 1;
 	}
@@ -5213,7 +5339,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 	DCC_GetUserId(author, id);
 
 	format(RISE_OF_NATIONS_GLOBALSTRING,sizeof RISE_OF_NATIONS_GLOBALSTRING, "**__%s__**\n"d_reply" *%s*\n\n:dizzy: • \
-		Poll was posted by: <@%s>\nReact with :ballot_box_with_check: or "d_reply" below.", strip[0], strip[1], id);
+		Poll was posted by: <@%s>\nReact with "d_yes" or "d_reply" below.", strip[0], strip[1], id);
 	
 	new DCC_Embed:msg2 = DCC_CreateEmbed(
 		":newspaper: **__POLL__**", RISE_OF_NATIONS_GLOBALSTRING, "","", col_embed, datetimelog, 
@@ -5244,7 +5370,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(sscanf(params, "si", user, gmcount))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"setgmc [user ID or user mention] [GM count]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"setgmc [user ID or user mention] [GM count]`");
 		return 1;
 	}
 
@@ -5261,7 +5387,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	SaveGMCount(user, gmcount);
 
-	SendChannelMessage(channel, ""d_reply" **GM COUNT SET** • <@%s>'s GM count was modified successfully. New GM count: `%i`", user, gmcount);
+	@discord() SendMsg(channel, ""d_reply" **GM COUNT SET** • <@%s>'s GM count was modified successfully. New GM count: `%i`", user, gmcount);
 
 	return 1;
 }
@@ -5280,7 +5406,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(sscanf(params, "s[31]s[15]i", user, label, gmcount))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"setgmcc [user ID or user mention] [department label(s)] [GM count]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"setgmcc [user ID or user mention] [department label(s)] [GM count]`");
 		return 1;
 	}
 
@@ -5329,21 +5455,21 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(dept == 1) // Politics department solo
 	{
-		SendChannelMessage(channel, ""d_reply" **POLITICS GM COUNT** • Successfully modified the <@%s>'s GM count - check it using `"BOT_PREFIX"profile`.", user);
+		@discord() SendMsg(channel, ""d_reply" **POLITICS GM COUNT** • Successfully modified the <@%s>'s GM count - check it using `"BOT_PREFIX"profile`.", user);
 		SavePolGMCount(user,gmcount);
 		return 1;
 	}
 
 	if(dept == 3) // Economics solo
 	{
-		SendChannelMessage(channel, ""d_reply" **ECONOMICS GM COUNT** • Successfully modified the <@%s>'s GM count - check it using `"BOT_PREFIX"profile`.", user);
+		@discord() SendMsg(channel, ""d_reply" **ECONOMICS GM COUNT** • Successfully modified the <@%s>'s GM count - check it using `"BOT_PREFIX"profile`.", user);
 		SaveEcoGMCount(user,gmcount);
 		return 1;
 	}
 
 	if(dept == 8) // Military solo
 	{
-		SendChannelMessage(channel, ""d_reply" **MILITARY GM COUNT** • Successfully modified the <@%s>'s GM count - check it using `"BOT_PREFIX"profile`.", user);
+		@discord() SendMsg(channel, ""d_reply" **MILITARY GM COUNT** • Successfully modified the <@%s>'s GM count - check it using `"BOT_PREFIX"profile`.", user);
 		SaveMilGMCount(user,gmcount);
 		return 1;
 	}
@@ -5352,28 +5478,28 @@ stock strtok(const string[], &index, delimiter = ' ') {
 	
 	if(dept == 4) // pol eco
 	{
-		SendChannelMessage(channel, ""d_reply" **POLITICS & ECONOMICS GM COUNT** • Successfully modified the <@%s>'s GM count - check it using `"BOT_PREFIX"profile`.", user);
+		@discord() SendMsg(channel, ""d_reply" **POLITICS & ECONOMICS GM COUNT** • Successfully modified the <@%s>'s GM count - check it using `"BOT_PREFIX"profile`.", user);
 		SavePolEcoGMCount(user,gmcount);
 		return 1;
 	}
 
 	if(dept == 11) // eco mil
 	{
-		SendChannelMessage(channel, ""d_reply" **ECONOMICS & MILITARY GM COUNT** • Successfully modified the <@%s>'s GM count - check it using `"BOT_PREFIX"profile`.", user);
+		@discord() SendMsg(channel, ""d_reply" **ECONOMICS & MILITARY GM COUNT** • Successfully modified the <@%s>'s GM count - check it using `"BOT_PREFIX"profile`.", user);
 		SaveEcoMilGMCount(user,gmcount);
 		return 1;
 	}
 
 	if(dept == 9) // mil pol
 	{
-		SendChannelMessage(channel, ""d_reply" **MILITARY & POLITICS GM COUNT** • Successfully modified the <@%s>'s GM count - check it using `"BOT_PREFIX"profile`.", user);
+		@discord() SendMsg(channel, ""d_reply" **MILITARY & POLITICS GM COUNT** • Successfully modified the <@%s>'s GM count - check it using `"BOT_PREFIX"profile`.", user);
 		SaveMilPolGMCount(user,gmcount);
 		return 1;
 	}
 
 	if(dept != 1 && dept != 3 && dept != 8 && dept != 4 && dept != 11 && dept != 9)
 	{
-		SendChannelMessage(channel, ""d_reply" **GM COUNT MODIFICATION** • Sorry, invalid department label(s) provided. You can use: `[pol]`, `[eco]`, `[mil]`, `[pol][eco]`, `[eco][mil]`, `[mil][pol]`\n\n"delimiterlol" • Make sure you don't have spaces between `]`s and `[`s!");
+		@discord() SendMsg(channel, ""d_reply" **GM COUNT MODIFICATION** • Sorry, invalid department label(s) provided. You can use: `[pol]`, `[eco]`, `[mil]`, `[pol][eco]`, `[eco][mil]`, `[mil][pol]`\n\n"delimiterlol" • Make sure you don't have spaces between `]`s and `[`s!");
 		return 1;
 	}
 
@@ -5394,7 +5520,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(sscanf(params, "s[31]ii", user, lvl, gmcount))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"setgmclvl [user ID or user mention] [level ID] [GM count]`\n\
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"setgmclvl [user ID or user mention] [level ID] [GM count]`\n\
 			"delimiterlol" **LEVEL IDs** • These are the current GM levels: easy - `1`, subnormal - `2`, normal - `3`, medium - `4`, hard - `5`");
 		return 1;
 	}
@@ -5412,35 +5538,35 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(lvl == 1)
 	{
-		SendChannelMessage(channel, ""d_reply" **MODIFICATION SUCCESS** • GM count modification on level **Easy** for <@%s> was successful. Check it using `"BOT_PREFIX"profile`.", user);
+		@discord() SendMsg(channel, ""d_reply" **MODIFICATION SUCCESS** • GM count modification on level **Easy** for <@%s> was successful. Check it using `"BOT_PREFIX"profile`.", user);
 		SaveEasyGMCount(user, gmcount);
 		return 1;
 	}
 	if(lvl == 2)
 	{
-		SendChannelMessage(channel, ""d_reply" **MODIFICATION SUCCESS** • GM count modification on level **Subnormal** for <@%s> was successful. Check it using `"BOT_PREFIX"profile`.", user);
+		@discord() SendMsg(channel, ""d_reply" **MODIFICATION SUCCESS** • GM count modification on level **Subnormal** for <@%s> was successful. Check it using `"BOT_PREFIX"profile`.", user);
 		SaveSubnormalGMCount(user, gmcount);
 		return 1;
 	}
 	if(lvl == 3)
 	{
-		SendChannelMessage(channel, ""d_reply" **MODIFICATION SUCCESS** • GM count modification on level **Normal** for <@%s> was successful. Check it using `"BOT_PREFIX"profile`.", user);
+		@discord() SendMsg(channel, ""d_reply" **MODIFICATION SUCCESS** • GM count modification on level **Normal** for <@%s> was successful. Check it using `"BOT_PREFIX"profile`.", user);
 		SaveNormalGMCount(user, gmcount);
 		return 1;
 	}
 	if(lvl == 4)
 	{
-		SendChannelMessage(channel, ""d_reply" **MODIFICATION SUCCESS** • GM count modification on level **Medium** for <@%s> was successful. Check it using `"BOT_PREFIX"profile`.", user);
+		@discord() SendMsg(channel, ""d_reply" **MODIFICATION SUCCESS** • GM count modification on level **Medium** for <@%s> was successful. Check it using `"BOT_PREFIX"profile`.", user);
 		SaveMediumGMCount(user, gmcount);
 		return 1;
 	}
 	if(lvl == 5)
 	{
-		SendChannelMessage(channel, ""d_reply" **MODIFICATION SUCCESS** • GM count modification on level **Hard** for <@%s> was successful. Check it using `"BOT_PREFIX"profile`.", user);
+		@discord() SendMsg(channel, ""d_reply" **MODIFICATION SUCCESS** • GM count modification on level **Hard** for <@%s> was successful. Check it using `"BOT_PREFIX"profile`.", user);
 		SaveHardGMCount(user, gmcount);
 		return 1;
 	}
-	SendChannelMessage(channel, "> "d_reply" **ERROR** • Invalid level ID provided.");
+	@discord() SendMsg(channel, "> "d_reply" **ERROR** • Invalid level ID provided.");
 	return 1;
 }
 
@@ -5454,7 +5580,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(sscanf(params, "s", user))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"getgmc [user ID or user mention]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"getgmc [user ID or user mention]`");
 		return 1;
 	}
 
@@ -5469,7 +5595,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	usercheck(user);
 
-	SendChannelMessage(channel, ""d_reply" **MEMBER'S GM COUNT** • <@%s> did `%i` GMs since the last reset.", user, GetGMCount(user));
+	@discord() SendMsg(channel, ""d_reply" **MEMBER'S GM COUNT** • <@%s> did `%i` GMs since the last reset.", user, GetGMCount(user));
 
 	return 1;
 }
@@ -5489,7 +5615,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(DCC_HasGuildMemberPermission(guild, author, PERMISSION_MANAGE_GUILD) == false)
 	{
-		SendChannelMessage(channel, ""d_reply" **AUTHORIZATION ERROR** • You do not have a `MANAGE_GUILD` permission!");
+		@discord() SendMsg(channel, ""d_reply" **AUTHORIZATION ERROR** • You do not have a `MANAGE_GUILD` permission!");
 		return 1;
 	}
 
@@ -5499,7 +5625,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(sscanf(params, "s[30]s[50]", option, value))
 	{
-		//SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"serverconfig [option]`");
+		//@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"serverconfig [option]`");
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Server Configuration__**", ""delimiterlol" • Setup how "BOT_NAME" will work in your server!\n\
 		Usage: `"BOT_PREFIX"serverconfig [option] [value]`\n\n\
@@ -5507,6 +5633,8 @@ stock strtok(const string[], &index, delimiter = ' ') {
 		**`logchannel`**\n"d_reply"A channel in which "BOT_NAME" will log things!\n\
 		**`countchannel`**\n"d_reply"A channel where "BOT_NAME" will do a counting game!\n\
 		**`airportchannel`**\n"d_reply"A channel where "BOT_NAME" will log who joins and leaves this guild!\n\
+		**`verification`**\n"d_reply"Enable the "BOT_NAME" verification system in this guild! Use `true` as a value to enable it, and `false` to disable it. It is recommended not to turn this on unless you've set the `verificationchannel` up.\n\
+		**`verificationchannel`**\n"d_reply"A channel where "BOT_NAME" will verify people!\n\
 		", 
 		"","", col_embed, datetimelog, 
 		"","",""), GetMention(useridmention));
@@ -5530,7 +5658,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 		SetGuildLogChannel(guild, value);
 
-		SendChannelMessage(channel, ""d_reply" **CONFIGURATION UPDATED** • Value for option `%s` was successfully changed to `%s`.", option, value);
+		@discord() SendMsg(channel, ""d_reply" **CONFIGURATION UPDATED** • Value for option `%s` was successfully changed to `%s`.", option, value);
 		return 1;
 	}
 	if(!strcmp(option, "countchannel"))
@@ -5539,7 +5667,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 		SetGuildCountChannel(guild, value);
 
-		SendChannelMessage(channel, ""d_reply" **CONFIGURATION UPDATED** • Value for option `%s` was successfully changed to `%s`.", option, value);
+		@discord() SendMsg(channel, ""d_reply" **CONFIGURATION UPDATED** • Value for option `%s` was successfully changed to `%s`.", option, value);
 		return 1;
 	}
 	if(!strcmp(option, "airportchannel"))
@@ -5548,7 +5676,36 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 		SetGuildAirportChannel(guild, value);
 
-		SendChannelMessage(channel, ""d_reply" **CONFIGURATION UPDATED** • Value for option `%s` was successfully changed to `%s`.", option, value);
+		@discord() SendMsg(channel, ""d_reply" **CONFIGURATION UPDATED** • Value for option `%s` was successfully changed to `%s`.", option, value);
+		return 1;
+	}
+	if(!strcmp(option, "verification"))
+	{
+		if(!strcmp(value, "true"))
+		{
+			SetGuildVerification(guild, 1);
+
+			@discord() SendMsg(channel, ""d_reply" **CONFIGURATION UPDATED** • Value for option `%s` was successfully changed to `%s`.", option, value);
+			@discord() SendInfo(channel, "Make sure to setup the `verificationchannel` first in order to not create a huge mess!");
+			return 1;
+		}
+		if(!strcmp(value, "false"))
+		{
+			SetGuildVerification(guild, 0);
+
+			@discord() SendMsg(channel, ""d_reply" **CONFIGURATION UPDATED** • Value for option `%s` was successfully changed to `%s`.", option, value);
+			return 1;
+		}
+		@discord() SendMsg(channel, ""d_reply" **WRONG VALUE** • Wrong value for option `%s` was given!\nPlease try again with either `true` or `false`!\n\nGiven value: `%s`.", option, value);
+		return 1;
+	}
+	if(!strcmp(option, "verificationchannel"))
+	{
+		channelcheck(value);
+
+		SetGuildVerificationChannel(guild, value);
+
+		@discord() SendMsg(channel, ""d_reply" **CONFIGURATION UPDATED** • Value for option `%s` was successfully changed to `%s`.", option, value);
 		return 1;
 	}
 	return 1;
@@ -5567,7 +5724,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(DCC_HasGuildMemberPermission(guild, author, PERMISSION_BAN_MEMBERS) == false)
 	{
-		SendChannelMessage(channel, ""d_reply" **AUTHORIZATION ERROR** • You do not have a `BAN_MEMBERS` permission!");
+		@discord() SendMsg(channel, ""d_reply" **AUTHORIZATION ERROR** • You do not have a `BAN_MEMBERS` permission!");
 		return 1;
 	}
 
@@ -5577,7 +5734,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(sscanf(params, "s[50]", user))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"ban [user ID or user mention]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"ban [user ID or user mention]`");
 		return 1;
 	}
 
@@ -5594,7 +5751,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(!strcmp(user, "617419819108663296"))
 	{
-		SendChannelMessage(channel, ""d_reply" • This user can't be removed as the user is a bot owner!");
+		@discord() SendMsg(channel, ""d_reply" • This user can't be removed as the user is a bot owner!");
 		return 1;
 	}
 
@@ -5603,9 +5760,9 @@ stock strtok(const string[], &index, delimiter = ' ') {
 		DCC_FindUserById(user), 
 		""BOT_NAME" • Banned with a ban command.");
 
-	SendChannelMessage(channel, ""d_reply" **BANNED** • <@%s> was banned successfully.\n\n"delimiterlol" **TIP** • If the ban didn't work, simply try again! Due to some Discord's limitations, you are unable to ban two users in a short period of time.", user);
+	@discord() SendMsg(channel, ""d_reply" **BANNED** • <@%s> was banned successfully.\n\n"delimiterlol" **TIP** • If the ban didn't work, simply try again! Due to some Discord's limitations, you are unable to ban two users in a short period of time.", user);
 
-	//SendChannelMessage(bankicklog, "<@%s> was **banned** by <@%s>.\n\n"delimiterlol" **TIP** • If the ban didn't work, simply try again! Due to some Discord's limitations, you are unable to ban two users in a short period of time.", user, id);
+	//@discord() SendMsg(bankicklog, "<@%s> was **banned** by <@%s>.\n\n"delimiterlol" **TIP** • If the ban didn't work, simply try again! Due to some Discord's limitations, you are unable to ban two users in a short period of time.", user, id);
 
 	return 1;
 }
@@ -5623,7 +5780,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(DCC_HasGuildMemberPermission(guild, author, PERMISSION_BAN_MEMBERS) == false)
 	{
-		SendChannelMessage(channel, ""d_reply" **AUTHORIZATION ERROR** • You do not have a `BAN_MEMBERS` permission!");
+		@discord() SendMsg(channel, ""d_reply" **AUTHORIZATION ERROR** • You do not have a `BAN_MEMBERS` permission!");
 		return 1;
 	}
 
@@ -5631,7 +5788,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(sscanf(params, "s", user))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"unban [user ID or user mention]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"unban [user ID or user mention]`");
 		return 1;
 	}
 
@@ -5648,7 +5805,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	DCC_RemoveGuildMemberBan(guild, DCC_FindUserById(user));
 
-	SendChannelMessage(channel, ""d_reply" **UNBANNED** • <@%s> was unbanned successfully.", user);
+	@discord() SendMsg(channel, ""d_reply" **UNBANNED** • <@%s> was unbanned successfully.", user);
 
 	return 1;
 }
@@ -5666,7 +5823,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(DCC_HasGuildMemberPermission(guild, author, PERMISSION_MANAGE_ROLES) == false)
 	{
-		SendChannelMessage(channel, ""d_reply" **AUTHORIZATION ERROR** • You do not have a `MANAGE_ROLES` permission!");
+		@discord() SendMsg(channel, ""d_reply" **AUTHORIZATION ERROR** • You do not have a `MANAGE_ROLES` permission!");
 		return 1;
 	}
 
@@ -5674,7 +5831,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(sscanf(params, "s[50]", roleid))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"roleall [role ID or user mention]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"roleall [role ID or user mention]`");
 		return 1;
 	}
 
@@ -5693,7 +5850,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 	new membercount;
 	DCC_GetGuildMemberCount(guild, membercount);
 
-	SendChannelMessage(channel, ""d_reply" **PROCCESS STARTED** • %i users will be given a <@&%s> role in `%i` seconds!", membercount, roleid, membercount);
+	@discord() SendMsg(channel, ""d_reply" **PROCCESS STARTED** • %i users will be given a <@&%s> role in `%i` seconds!", membercount, roleid, membercount);
 
 	for (new i; i != membercount; i++)
 	{
@@ -5712,7 +5869,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 	   	DCC_AddGuildMemberRole(guild, user, DCC_FindRoleById(roleid));
 
 	}
-	SendChannelMessage(channel, ""d_reply" **USERS ROLED** • %i users were given a <@&%s> role.", membercount, roleid);	
+	@discord() SendMsg(channel, ""d_reply" **USERS ROLED** • %i users were given a <@&%s> role.", membercount, roleid);	
 	return 1;
 }
 
@@ -5729,7 +5886,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(DCC_HasGuildMemberPermission(guild, author, PERMISSION_MANAGE_ROLES) == false)
 	{
-		SendChannelMessage(channel, ""d_reply" **AUTHORIZATION ERROR** • You do not have a `MANAGE_ROLES` permission!");
+		@discord() SendMsg(channel, ""d_reply" **AUTHORIZATION ERROR** • You do not have a `MANAGE_ROLES` permission!");
 		return 1;
 	}
 
@@ -5737,7 +5894,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(sscanf(params, "s[50]", roleid))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"deroleall [role ID or user mention]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"deroleall [role ID or user mention]`");
 		return 1;
 	}
 
@@ -5756,7 +5913,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 	new membercount;
 	DCC_GetGuildMemberCount(guild, membercount);
 
-	SendChannelMessage(channel, ""d_reply" **PROCCESS STARTED** • %i users will be removed from a <@&%s> role in `%i` seconds!", membercount, roleid, membercount);
+	@discord() SendMsg(channel, ""d_reply" **PROCCESS STARTED** • %i users will be removed from a <@&%s> role in `%i` seconds!", membercount, roleid, membercount);
 
 	for (new i; i != membercount; i++)
 	{
@@ -5775,7 +5932,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 	   	DCC_RemoveGuildMemberRole(guild, user, DCC_FindRoleById(roleid));
 
 	}
-	SendChannelMessage(channel, ""d_reply" **USERS DEROLED** • %i users were removed from a <@&%s> role.", membercount, roleid);	
+	@discord() SendMsg(channel, ""d_reply" **USERS DEROLED** • %i users were removed from a <@&%s> role.", membercount, roleid);	
 	return 1;
 }
 
@@ -5792,7 +5949,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(DCC_HasGuildMemberPermission(guild, author, PERMISSION_KICK_MEMBERS) == false)
 	{
-		SendChannelMessage(channel, ""d_reply" **AUTHORIZATION ERROR** • You do not have a `KICK_MEMBERS` permission!");
+		@discord() SendMsg(channel, ""d_reply" **AUTHORIZATION ERROR** • You do not have a `KICK_MEMBERS` permission!");
 		return 1;
 	}
 
@@ -5802,7 +5959,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(sscanf(params, "s", user))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"kick [user ID or user mention]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"kick [user ID or user mention]`");
 		return 1;
 	}
 
@@ -5819,16 +5976,16 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(!strcmp(user, "617419819108663296"))
 	{
-		SendChannelMessage(channel, ""d_reply" • This user can't be removed as the user is a bot owner!");
+		@discord() SendMsg(channel, ""d_reply" • This user can't be removed as the user is a bot owner!");
 		return 1;
 	}
 
 
-	SendChannelMessage(channel,""d_reply" **KICKED** • <@%s> was kicked successfully.", user);
+	@discord() SendMsg(channel,""d_reply" **KICKED** • <@%s> was kicked successfully.", user);
 
 	DCC_RemoveGuildMember(guild, DCC_FindUserById(user));
 
-	//SendChannelMessage(bankicklog, "<@%s> was **kicked** by <@%s>.", user, id);
+	//@discord() SendMsg(bankicklog, "<@%s> was **kicked** by <@%s>.", user, id);
 	return 1;
 }
 
@@ -5848,7 +6005,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(sscanf(params, "s", user))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"mute [user ID or user mention]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"mute [user ID or user mention]`");
 		return 1;
 	}
 
@@ -5865,20 +6022,20 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(!strcmp(user, "617419819108663296"))
 	{
-		SendChannelMessage(channel, ""d_reply" • This user can't be removed as the user is a bot owner!");
+		@discord() SendMsg(channel, ""d_reply" • This user can't be removed as the user is a bot owner!");
 		return 1;
 	}
 
 
 	if(muted == DCC_INVALID_ROLE)
 	{
-		SendChannelMessage(channel,""d_reply" **ROLE ERROR** • There is no such role named `Muted`, make one first.");
+		@discord() SendMsg(channel,""d_reply" **ROLE ERROR** • There is no such role named `Muted`, make one first.");
 		return 1;
 	}
 
 	DCC_AddGuildMemberRole(RiseOfNations, DCC_FindUserById(user), muted);
 
-	SendChannelMessage(channel, ""d_reply" **MUTED** • <@%s> was muted successfully.", user);
+	@discord() SendMsg(channel, ""d_reply" **MUTED** • <@%s> was muted successfully.", user);
 
 	return 1;
 }
@@ -5897,7 +6054,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(sscanf(params, "s", user))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"unmute [user ID or user mention]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"unmute [user ID or user mention]`");
 		return 1;
 	}
 
@@ -5914,19 +6071,19 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(!strcmp(user, "617419819108663296"))
 	{
-		SendChannelMessage(channel, ""d_reply" • This member wasn't muted!");
+		@discord() SendMsg(channel, ""d_reply" • This member wasn't muted!");
 		return 1;
 	}
 
 	if(muted == DCC_INVALID_ROLE)
 	{
-		SendChannelMessage(channel,""d_reply" **ROLE ERROR** • There is no such role named `Muted`, make one first.");
+		@discord() SendMsg(channel,""d_reply" **ROLE ERROR** • There is no such role named `Muted`, make one first.");
 		return 1;
 	}
 
 	DCC_RemoveGuildMemberRole(RiseOfNations, DCC_FindUserById(user), muted);
 
-	SendChannelMessage(channel, ""d_reply" **UNMUTED** • <@%s> was unmuted successfully.", user);
+	@discord() SendMsg(channel, ""d_reply" **UNMUTED** • <@%s> was unmuted successfully.", user);
 
 	return 1;
 }
@@ -5939,14 +6096,14 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	servercheck(RiseOfNations);
 	
-	SendChannelMessage(channel, "**__GM Template__**\n\n\
+	@discord() SendMsg(channel, "**__GM Template__**\n\n\
 		**[`department label [pol/eco/mil]`]**\n\
 		**Message link:**\n\
 		**Provided WIWTK:**\n\
 		**GM Content:**\n\
 		**Tags:**");
 
-	SendChannelMessage(channel, ":information_source: • Using a valid template is really important, as if you don't, your GM will not be count in activity logs.\n\
+	@discord() SendMsg(channel, ":information_source: • Using a valid template is really important, as if you don't, your GM will not be count in activity logs.\n\
 		"delimiterlol" • Use "d_arrow"**`"BOT_PREFIX"gmexample`** to view the example of template usage.");
 
 	return 1;
@@ -5958,7 +6115,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	DCC_GetMessageChannel(message, channel);
 
-	SendChannelMessage(channel, ""d_reply" **__GM Example__**\n\
+	@discord() SendMsg(channel, ""d_reply" **__GM Example__**\n\
 		```\n\
 		[pol]\n\
 		https://discord.com/32452353252345/2352345234523\n\
@@ -5975,7 +6132,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	DCC_GetMessageChannel(message, channel);
 
-	/*SendChannelMessage(channel, "**__Bot settings__**\n\n\
+	/*@discord() SendMsg(channel, "**__Bot settings__**\n\n\
 		"d_arrow"**`"BOT_PREFIX"logs`**\n"d_reply"Enable or disable the log system.\n\
 		"d_arrow"**`"BOT_PREFIX"gmc`**\n"d_reply"Activate or deactivate GM counting.\n\
 		"d_arrow"**`"BOT_PREFIX"eco`**\n"d_reply"Toggle economy commands on or off.");*/
@@ -5991,7 +6148,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 		which scans the GM message and then estimates the level, regardless of the number of posts.", "","", col_embed, datetimelog, 
 		"","","");
 
-	//SendChannelMessage(channel, msg);
+	//@discord() SendMsg(channel, msg);
 
 	DCC_SendChannelEmbedMessage(channel, msg2, ""delimiterlol" **INFO** • For more info, ask a bot mod.");
 	return 1;
@@ -6010,7 +6167,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 	DCC_GetUserId(author, id);
 
 
-	SendChannelMessage(channel, "**<@%s>**\n\n**Pocket Money**\n"d_reply"`%i` "d_coin"\n\n**Money on your Bank Account**\n"d_reply"`%i` "d_coin"", id, GetData(id, "Balance"), GetData(id, "DepBalance"));
+	@discord() SendMsg(channel, "**<@%s>**\n\n**Pocket Money**\n"d_reply"`%i` "d_coin"\n\n**Money on your Bank Account**\n"d_reply"`%i` "d_coin"", id, GetData(id, "Balance"), GetData(id, "DepBalance"));
 
 	return 1;
 }
@@ -6031,20 +6188,20 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	if(GetEnergy(id) == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **YOU'RE TOO TIRED** • Your energy is at zero! Eat something or go hunting!");
+		@discord() SendMsg(channel, ""d_reply" **YOU'RE TOO TIRED** • Your energy is at zero! Eat something or go hunting!");
 		return 1;
 	}
 
 	if(GetData(id, "Balance") >= 3000 && GetWallet(id) == 0)
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • Your pocket is full of coins - there is no space left for more!\n\
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • Your pocket is full of coins - there is no space left for more!\n\
 			"delimiterlol" **TIP** • Buy a "d_wallet" | `Wallet` to get space for more coins.");
 		return 1;
 	}
 
 	if(GetData(id, "Balance") >= 25000)
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • Your wallet is full of coins - there is no space left for more!\n\
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • Your wallet is full of coins - there is no space left for more!\n\
 			"delimiterlol" **TIP** • Use `"BOT_PREFIX"dep` to deposit your coins and free up space.");
 		return 1;
 	}
@@ -6055,7 +6212,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 
 	SetEnergy(id, GetEnergy(id) - 1);
 
-	SendChannelMessage(channel, "**<@%s>**\n\n"d_reply" **WORK FINISHED** • You successfully finished your shift and your boss gave you "d_coin" `%i`!", id, wage);
+	@discord() SendMsg(channel, "**<@%s>**\n\n"d_reply" **WORK FINISHED** • You successfully finished your shift and your boss gave you "d_coin" `%i`!", id, wage);
 
 	return 1;
 }
@@ -6158,7 +6315,7 @@ SetCommandUsedMin(id, "cmd", m);
 
 	if(GetClaimedDaily(id) == 1)
 	{
-		SendChannelMessage(channel, "**<@%s>**\n\n"d_reply" **ALREADY CLAIMED** • You already collected your daily income!", id);
+		@discord() SendMsg(channel, "**<@%s>**\n\n"d_reply" **ALREADY CLAIMED** • You already collected your daily income!", id);
 		return 1;
 	}
 
@@ -6168,7 +6325,7 @@ SetCommandUsedMin(id, "cmd", m);
 
 	SetClaimedDay(id, d);
 
-	SendChannelMessage(channel, "**<@%s>**\n\n"d_reply" **DAILY INCOME CLAIMED** • You successfully claimed your daily "d_coin" `10000`! You'll be able to claim your next daily the next day!", id);
+	@discord() SendMsg(channel, "**<@%s>**\n\n"d_reply" **DAILY INCOME CLAIMED** • You successfully claimed your daily "d_coin" `10000`! You'll be able to claim your next daily the next day!", id);
 	return 1;
 }
 
@@ -6190,8 +6347,8 @@ SetCommandUsedMin(id, "cmd", m);
 	SaveCommonChest(id, GetCommonChest(id) + 5);
 	SaveRareChest(id, GetRareChest(id) + 3);
 
-	SendChannelMessage(channel, "**<@%s>**\n\n"d_reply" **DAILY PREMIUM INCOME CLAIMED** • You successfully claimed your daily "d_coin" `100000`! You'll be able to claim your next daily the next day!", id);
-	SendInfo(channel, "**<@%s>**\n\nYou also got a bonus of:\n\n5x "d_commonchest" | `Common Chest`\n3x "d_rarechest" | `Rare Chest`", id);
+	@discord() SendMsg(channel, "**<@%s>**\n\n"d_reply" **DAILY PREMIUM INCOME CLAIMED** • You successfully claimed your daily "d_coin" `100000`! You'll be able to claim your next daily the next day!", id);
+	@discord() SendInfo(channel, "**<@%s>**\n\nYou also got a bonus of:\n\n5x "d_commonchest" | `Common Chest`\n3x "d_rarechest" | `Rare Chest`", id);
 	return 1;
 }
 
@@ -6209,7 +6366,7 @@ SetCommandUsedMin(id, "cmd", m);
 
 	if(GetAchievement(id, "Beggar") == 0)
 	{
-		SendInfo(channel, "<@%s>\n\nYou successfully unlocked a **Beggar** achievement and got 1x "d_commonchest" | `Common Chest` as a reward.", id);
+		@discord() SendInfo(channel, "<@%s>\n\nYou successfully unlocked a **Beggar** achievement and got 1x "d_commonchest" | `Common Chest` as a reward.", id);
 		SaveCommonChest(id, GetCommonChest(id) + 1);
 		SetAchievement(id, "Beggar");
 	}
@@ -6224,7 +6381,7 @@ SetCommandUsedMin(id, "cmd", m);
 	SetData(id, "Rubies", GetData(id, "Rubies") + rubies);
 	SetData(id, "CookedMeat", GetData(id, "CookedMeat") + meat);
 
-	SendChannelMessage(channel, "**<@%s>**\n\n"d_reply" **BEGGING FINISHED** • You were begging for a while and got:\n\n%ix "d_coin" | `Coins`\n%ix "d_ruby" | `Rubies`\n%ix "d_cookedmeat" | `Cooked Meat`", id, money, rubies, meat);
+	@discord() SendMsg(channel, "**<@%s>**\n\n"d_reply" **BEGGING FINISHED** • You were begging for a while and got:\n\n%ix "d_coin" | `Coins`\n%ix "d_ruby" | `Rubies`\n%ix "d_cookedmeat" | `Cooked Meat`", id, money, rubies, meat);
 	return 1;
 }
 
@@ -6244,7 +6401,7 @@ SetCommandUsedMin(id, "cmd", m);
 
 	if(sscanf(params, "s[30]", money))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"dep [amount of coins to deposit]`\n\
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"dep [amount of coins to deposit]`\n\
 			> "delimiterlol" **TIP** • To deposit all of your coins, use `"BOT_PREFIX"dep all`.");
 		return 1;
 	}
@@ -6253,7 +6410,7 @@ SetCommandUsedMin(id, "cmd", m);
 	{
 		if(!HasBankAccount(id))
 		{
-			SendChannelMessage(channel, "> "d_reply" **ERROR** • You don't have a bank account.");
+			@discord() SendMsg(channel, "> "d_reply" **ERROR** • You don't have a bank account.");
 			return 1;
 		}
 
@@ -6261,25 +6418,25 @@ SetCommandUsedMin(id, "cmd", m);
 
 		SetData(id, "Balance", 0);
 
-		SendChannelMessage(channel, ""d_reply" **DEPOSITED** • <@%s>, you successfully deposited all of your coins to your bank!", id);
+		@discord() SendMsg(channel, ""d_reply" **DEPOSITED** • <@%s>, you successfully deposited all of your coins to your bank!", id);
 		return 1;
 	}
 
 	if(!HasBankAccount(id))
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • You don't have a bank account.");
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • You don't have a bank account.");
 		return 1;
 	}
 
 	if(strval(money) == 0)
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • You deposited absolutely nothing!");
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • You deposited absolutely nothing!");
 		return 1;
 	}
 
 	if(strval(money) > GetData(id, "Balance"))
 	{
-		SendChannelMessage(channel, ""d_reply" **WORK MORE** • You don't have that much coins!");
+		@discord() SendMsg(channel, ""d_reply" **WORK MORE** • You don't have that much coins!");
 		return 1;
 	}
 
@@ -6287,10 +6444,11 @@ SetCommandUsedMin(id, "cmd", m);
 
 	SetData(id, "DepBalance", GetData(id, "DepBalance") + strval(money));
 
-	SendChannelMessage(channel, ""d_reply" **DEPOSITED** • <@%s>, you successfully deposited `%i` "BOT_NAME" coins! "d_coin"", id, strval(money));
+	@discord() SendMsg(channel, ""d_reply" **DEPOSITED** • <@%s>, you successfully deposited `%i` "BOT_NAME" coins! "d_coin"", id, strval(money));
 
 	return 1;
 }
+
 /*
 @discord() command:depall(@discord() cmd_params)
 {
@@ -6306,7 +6464,7 @@ SetCommandUsedMin(id, "cmd", m);
 
 	if(!HasBankAccount(id))
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • You don't have a bank account.");
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • You don't have a bank account.");
 		return 1;
 	}
 
@@ -6314,7 +6472,7 @@ SetCommandUsedMin(id, "cmd", m);
 
 	SetData(id, "Balance", 0);
 
-	SendChannelMessage(channel, ""d_reply" **DEPOSITED** • <@%s>, you successfully deposited all of your coins to your bank!", id, money);
+	@discord() SendMsg(channel, ""d_reply" **DEPOSITED** • <@%s>, you successfully deposited all of your coins to your bank!", id, money);
 
 	return 1;
 }
@@ -6335,19 +6493,19 @@ SetCommandUsedMin(id, "cmd", m);
 
 	if(sscanf(params, "i", money))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"with [amount of coins to withdraw]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"with [amount of coins to withdraw]`");
 		return 1;
 	}
 
 	if(!HasBankAccount(id))
 	{
-		SendChannelMessage(channel, "> "d_reply" **ERROR** • You don't have a bank account.");
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • You don't have a bank account.");
 		return 1;
 	}
 
 	if(money > GetData(id, "DepBalance"))
 	{
-		SendChannelMessage(channel, ""d_reply" **NOT ENOUGH MONEY** • You don't have that much coins in your bank!");
+		@discord() SendMsg(channel, ""d_reply" **NOT ENOUGH MONEY** • You don't have that much coins in your bank!");
 		return 1;
 	}
 
@@ -6355,7 +6513,7 @@ SetCommandUsedMin(id, "cmd", m);
 
 	SetData(id, "DepBalance", GetData(id, "DepBalance") - money);
 
-	SendChannelMessage(channel, ""d_reply" **WITHDREW** • <@%s>, you successfully withdrew `%i`"d_coin" from bank!", id, money);
+	@discord() SendMsg(channel, ""d_reply" **WITHDREW** • <@%s>, you successfully withdrew `%i`"d_coin" from bank!", id, money);
 
 	return 1;
 }
@@ -6374,7 +6532,7 @@ SetCommandUsedMin(id, "cmd", m);
 
 	if(sscanf(params, "s", user))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"rob [user ID or user mention]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"rob [user ID or user mention]`");
 		return 1;
 	}
 
@@ -6393,41 +6551,41 @@ SetCommandUsedMin(id, "cmd", m);
 
 	if(!strcmp(user, id))
 	{
-		SendChannelMessage(channel, ""d_reply" **WHAT?** • You cannot rob yourself!");
+		@discord() SendMsg(channel, ""d_reply" **WHAT?** • You cannot rob yourself!");
 		return 1;
 	}
 
 	if(GetMask(id) == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **YOU GOT CAUGHT** • You got caught and could not rob any money!");
-		SendInfo(channel, "Buy a "d_mask" | `"BOT_NAME"-looking Mask` at the shop so you can hide yourself behind it!");
-		SendDM(DCC_FindUserById(user), "**ROB ATTEMPTED** • <@%s> attempted to rob you but did not succeed!", id);
+		@discord() SendMsg(channel, ""d_reply" **YOU GOT CAUGHT** • You got caught and could not rob any money!");
+		@discord() SendInfo(channel, "Buy a "d_mask" | `"BOT_NAME"-looking Mask` at the shop so you can hide yourself behind it!");
+		@discord() SendDM(DCC_FindUserById(user), "**ROB ATTEMPTED** • <@%s> attempted to rob you but did not succeed!", id);
 		return 1;
 	}
 
 	if(GetData(user, "Balance") == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **POCKETS ARE EMPTY** • This player has got no coins for you!");
-		SendDM(DCC_FindUserById(user), "**ROB FAIL** • <@%s> tried to rob you, but found out that you've got no money for him!", id);
+		@discord() SendMsg(channel, ""d_reply" **POCKETS ARE EMPTY** • This player has got no coins for you!");
+		@discord() SendDM(DCC_FindUserById(user), "**ROB FAIL** • <@%s> tried to rob you, but found out that you've got no money for him!", id);
 		return 1;
 	}
 
 	if(GetData(user, "Balance") < 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **FAILED** • This guy is in crippling debts - you \
+		@discord() SendMsg(channel, ""d_reply" **FAILED** • This guy is in crippling debts - you \
 			were fined with `1000`"d_coin" because you tried to rob him.");
 		SetData(id, "Balance", GetData(id, "Balance") - 1000);
-		SendDM(DCC_FindUserById(user), "**ROB FAIL** • <@%s> tried to rob you, but found out that you've got no money for him!", id);
+		@discord() SendDM(DCC_FindUserById(user), "**ROB FAIL** • <@%s> tried to rob you, but found out that you've got no money for him!", id);
 		return 1;
 	}
 
 	SetData(id, "Balance", GetData(id, "Balance") + GetData(user, "Balance"));
 
-	SendChannelMessage(channel, "<@%s>\n\n"d_reply" **ROB WAS SUCCESSFUL** • You successfully robbed <@%s> and took away all of his money (`%i`"d_coin").", id, user, GetData(user, "Balance"));
+	@discord() SendMsg(channel, "<@%s>\n\n"d_reply" **ROB WAS SUCCESSFUL** • You successfully robbed <@%s> and took away all of his money (`%i`"d_coin").", id, user, GetData(user, "Balance"));
 
 	SetData(user, "Balance", 0);
 
-	SendDM(DCC_FindUserById(user), "**YOU'RE ROBBED** • <@%s> robbed you and took all of your wallet money!", id);
+	@discord() SendDM(DCC_FindUserById(user), "**YOU'RE ROBBED** • <@%s> robbed you and took all of your wallet money!", id);
 
 	return 1;
 }
@@ -6446,7 +6604,7 @@ SetCommandUsedMin(id, "cmd", m);
 
 	if(sscanf(params, "s", user))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"heist [user ID or user mention]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"heist [user ID or user mention]`");
 		return 1;
 	}
 
@@ -6463,13 +6621,13 @@ SetCommandUsedMin(id, "cmd", m);
 
 	if(!strcmp(user, id))
 	{
-		SendChannelMessage(channel, ""d_reply" **WHAT?** • You cannot rob yourself!");
+		@discord() SendMsg(channel, ""d_reply" **WHAT?** • You cannot rob yourself!");
 		return 1;
 	}
 
 	if(GetLaptop(id) == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • You need a "d_laptop" | `Laptop` to do hacking stuff and perform a heist!");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_laptop" | `Laptop` to do hacking stuff and perform a heist!");
 		return 1;
 	}
 
@@ -6477,8 +6635,8 @@ SetCommandUsedMin(id, "cmd", m);
 
 	if(GetData(user, "DepBalance") == 0 || GetData(user, "DepBalance") < 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **BANK ACCOUNT IS EMPTY** • This player has got no coins for you!");
-		SendDM(DCC_FindUserById(user), "**HEIST FAIL** • <@%s> tried to rob you, but found out that you've got no money on your bank account!", id);
+		@discord() SendMsg(channel, ""d_reply" **BANK ACCOUNT IS EMPTY** • This player has got no coins for you!");
+		@discord() SendDM(DCC_FindUserById(user), "**HEIST FAIL** • <@%s> tried to rob you, but found out that you've got no money on your bank account!", id);
 		return 1;
 	}
 
@@ -6487,9 +6645,9 @@ SetCommandUsedMin(id, "cmd", m);
 	SetData(user, "DepBalance", GetData(user, "DepBalance") - money);
 	SetData(id, "DepBalance", GetData(id, "DepBalance") + money);
 
-	SendChannelMessage(channel, "<@%s>\n\n"d_reply" **HEIST WAS SUCCESSFUL** • You successfully stole "d_coin" %i from <@%s>'s bank account!", id, money, user);
+	@discord() SendMsg(channel, "<@%s>\n\n"d_reply" **HEIST WAS SUCCESSFUL** • You successfully stole "d_coin" %i from <@%s>'s bank account!", id, money, user);
 
-	SendDM(DCC_FindUserById(user), "**YOU'RE ROBBED** • <@%s>'s heist succeeded! He stole "d_coin" %i from your bank account!", id, money);
+	@discord() SendDM(DCC_FindUserById(user), "**YOU'RE ROBBED** • <@%s>'s heist succeeded! He stole "d_coin" %i from your bank account!", id, money);
 
 	return 1;
 }
@@ -6626,13 +6784,13 @@ stock SetPetEnergy(const id[],count)
 
 	if(GetPet(user) != 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **ONE IS ENOUGH** • You can't have more pets than one!");
+		@discord() SendMsg(channel, ""d_reply" **ONE IS ENOUGH** • You can't have more pets than one!");
 		return 1;
 	}
 
 	if(sscanf(params, "i", id))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"buypet [pet ID]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"buypet [pet ID]`");
 		return 1;
 	}
 
@@ -6641,19 +6799,19 @@ stock SetPetEnergy(const id[],count)
 	{
 		if(GetData(user, "Balance") < 15000)
 		{
-			SendChannelMessage(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
 		SetPet(user, 1);
 		SetPetName(user, "Unnamed Pet");
 		SetPetEnergy(user, d_max_bar_points);
 		SetData(user, "Balance", GetData(user, "Balance") - 15000);
-		SendChannelMessage(channel, ""d_reply" **PET BOUGHT** • You successfully bought a "d_parrot" | `Parrot` pet for "d_coin" `15000`!");
-		SendInfo(channel, "To view your pet's statistics, please use `"BOT_PREFIX"petstats`.");
+		@discord() SendMsg(channel, ""d_reply" **PET BOUGHT** • You successfully bought a "d_parrot" | `Parrot` pet for "d_coin" `15000`!");
+		@discord() SendInfo(channel, "To view your pet's statistics, please use `"BOT_PREFIX"petstats`.");
 		return 1;
 	}
 
-	SendChannelMessage(channel, ""d_reply" **ERROR** • Wrong pet ID was given, please recheck the shop!");
+	@discord() SendMsg(channel, ""d_reply" **ERROR** • Wrong pet ID was given, please recheck the shop!");
 
 	return 1;
 }
@@ -6672,7 +6830,7 @@ stock SetPetEnergy(const id[],count)
 
 	if(GetPet(id) == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **ERROR** • You do not own a pet!");
+		@discord() SendMsg(channel, ""d_reply" **ERROR** • You do not own a pet!");
 		return 1;
 	}
 
@@ -6720,7 +6878,7 @@ stock SetPetEnergy(const id[],count)
 
 	if(sscanf(params, "s[100]", name))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"namepet [pet name]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"namepet [pet name]`");
 		return 1;
 	}
 
@@ -6766,7 +6924,7 @@ stock SetPetEnergy(const id[],count)
 
 	if(quantity == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **WHY AND HOW** • You can't use zero as quantity, sir.");
+		@discord() SendMsg(channel, ""d_reply" **WHY AND HOW** • You can't use zero as quantity, sir.");
 		return 1;
 	}
 
@@ -6774,78 +6932,78 @@ stock SetPetEnergy(const id[],count)
 	{
 		if(GetData(id, "CookedMeat") < quantity)
 		{
-			SendChannelMessage(channel, ""d_reply" **QUANTITY ERROR** • You do not have that much "d_cookedmeat" | `Cooked Meat`.");
+			@discord() SendMsg(channel, ""d_reply" **QUANTITY ERROR** • You do not have that much "d_cookedmeat" | `Cooked Meat`.");
 			return 1;
 		}
 		if(GetPetEnergy(id) == d_max_bar_points)
 		{
-			SendChannelMessage(channel, ""d_reply" **STATISTICS ERROR** • Your pet is not hungry at all! Its energy bar is full.");
+			@discord() SendMsg(channel, ""d_reply" **STATISTICS ERROR** • Your pet is not hungry at all! Its energy bar is full.");
 			return 1;
 		}
 		if(quantity > (d_max_bar_points - GetPetEnergy(id)))
 		{
-			SendChannelMessage(channel, ""d_reply" **STATISTICS ERROR** • Your pet is not that hungry! You need to give him %ix "d_cookedmeat" | `Cooked Meat` to fill up its energy bar.", 5 - GetEnergy(id));
+			@discord() SendMsg(channel, ""d_reply" **STATISTICS ERROR** • Your pet is not that hungry! You need to give him %ix "d_cookedmeat" | `Cooked Meat` to fill up its energy bar.", 5 - GetEnergy(id));
 			return 1;
 		}
 		SetData(id, "CookedMeat", GetData(id, "CookedMeat") - quantity);
 		SetPetEnergy(id, GetPetEnergy(id) + quantity);
-		SendChannelMessage(channel, ""d_reply" **DONE** • Your pet ate %ix "d_cookedmeat" | `Cooked Meat`!", quantity);
+		@discord() SendMsg(channel, ""d_reply" **DONE** • Your pet ate %ix "d_cookedmeat" | `Cooked Meat`!", quantity);
 		
-		SendInfo(channel, "You incresed your pet's **energy** by the amount of food you gave him!");
+		@discord() SendInfo(channel, "You incresed your pet's **energy** by the amount of food you gave him!");
 		return 1;
 	}
 	if(!strcmp(item, "fruits"))
 	{
 		if(GetData(id, "CookedMeat") < quantity)
 		{
-			SendChannelMessage(channel, ""d_reply" **QUANTITY ERROR** • You do not have that much "d_fruits" | `Fruits`.");
+			@discord() SendMsg(channel, ""d_reply" **QUANTITY ERROR** • You do not have that much "d_fruits" | `Fruits`.");
 			return 1;
 		}
 		if(GetPetEnergy(id) == d_max_bar_points)
 		{
-			SendChannelMessage(channel, ""d_reply" **STATISTICS ERROR** • Your pet is not hungry at all! Its energy bar is full.");
+			@discord() SendMsg(channel, ""d_reply" **STATISTICS ERROR** • Your pet is not hungry at all! Its energy bar is full.");
 			return 1;
 		}
 		if(quantity > (d_max_bar_points - GetPetEnergy(id)))
 		{
-			SendChannelMessage(channel, ""d_reply" **STATISTICS ERROR** • Your pet is not that hungry! You need to give him %ix "d_fruits" | `Fruits` to fill up its energy bar.", 5 - GetEnergy(id));
+			@discord() SendMsg(channel, ""d_reply" **STATISTICS ERROR** • Your pet is not that hungry! You need to give him %ix "d_fruits" | `Fruits` to fill up its energy bar.", 5 - GetEnergy(id));
 			return 1;
 		}
 		SetData(id, "Fruits", GetData(id, "Fruits") - quantity);
 		SetPetEnergy(id, GetPetEnergy(id) + quantity);
-		SendChannelMessage(channel, ""d_reply" **DONE** • Your pet ate %ix "d_fruits" | `Fruits`!", quantity);
+		@discord() SendMsg(channel, ""d_reply" **DONE** • Your pet ate %ix "d_fruits" | `Fruits`!", quantity);
 		
-		SendInfo(channel, "You incresed your pet's **energy** by the amount of food you gave him!");
+		@discord() SendInfo(channel, "You incresed your pet's **energy** by the amount of food you gave him!");
 		return 1;
 	}
 	if(!strcmp(item, "fish"))
 	{
 		if(GetData(id, "CookedFish") < quantity)
 		{
-			SendChannelMessage(channel, ""d_reply" **QUANTITY ERROR** • You do not have that much "d_cookedfish" | `Cooked Fish`.");
+			@discord() SendMsg(channel, ""d_reply" **QUANTITY ERROR** • You do not have that much "d_cookedfish" | `Cooked Fish`.");
 			return 1;
 		}
 		if(GetPetEnergy(id) == d_max_bar_points)
 		{
-			SendChannelMessage(channel, ""d_reply" **STATISTICS ERROR** • Your pet is not hungry at all! Its energy bar is full.");
+			@discord() SendMsg(channel, ""d_reply" **STATISTICS ERROR** • Your pet is not hungry at all! Its energy bar is full.");
 			return 1;
 		}
 		if(quantity > (d_max_bar_points - GetPetEnergy(id)))
 		{
-			SendChannelMessage(channel, ""d_reply" **STATISTICS ERROR** • Your pet is not that hungry! You need to give him %ix "d_cookedfish" | `Cooked Fish` to fill up its energy bar.", 5 - GetEnergy(id));
+			@discord() SendMsg(channel, ""d_reply" **STATISTICS ERROR** • Your pet is not that hungry! You need to give him %ix "d_cookedfish" | `Cooked Fish` to fill up its energy bar.", 5 - GetEnergy(id));
 			return 1;
 		}
 		SetData(id, "CookedFish", GetData(id, "CookedFish") - quantity);
 		SetPetEnergy(id, GetPetEnergy(id) + quantity);
-		SendChannelMessage(channel, ""d_reply" **DONE** • Your pet ate %ix "d_cookedfish" | `Cooked Fish`!", quantity);
+		@discord() SendMsg(channel, ""d_reply" **DONE** • Your pet ate %ix "d_cookedfish" | `Cooked Fish`!", quantity);
 		
-		SendInfo(channel, "You incresed your pet's **energy** by the amount of food you gave him!");
+		@discord() SendInfo(channel, "You incresed your pet's **energy** by the amount of food you gave him!");
 		return 1;
 	}
 	else
 	{
-		SendChannelMessage(channel, ""d_reply" **HOW ABOUT NO?** • You can't give that to your pet!");
-		SendInfo(channel, "Use `"BOT_PREFIX"feedpet` to view a list of available items.");
+		@discord() SendMsg(channel, ""d_reply" **HOW ABOUT NO?** • You can't give that to your pet!");
+		@discord() SendInfo(channel, "Use `"BOT_PREFIX"feedpet` to view a list of available items.");
 	}
 	return 1;
 }
@@ -6864,7 +7022,7 @@ stock SetPetEnergy(const id[],count)
 	new page;
 	if(sscanf(params, "i", page))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"shop [shop page <1, 2>]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"shop [shop page <1, 2>]`");
 		return 1;
 	}
 
@@ -6915,7 +7073,7 @@ stock SetPetEnergy(const id[],count)
 		return 1;
 	}
 
-	SendInfo(channel, "I don't have that much items to sell! **Please try again with a valid shop page ID.**");
+	@discord() SendInfo(channel, "I don't have that much items to sell! **Please try again with a valid shop page ID.**");
 
 	return 1;
 }
@@ -7264,13 +7422,13 @@ stock SetLaptop(const user[])
 
 	if(sscanf(params, "i", id))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"buy [item ID]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"buy [item ID]`");
 		return 1;
 	}
 
 	/*if(GetData(user, "Balance") < 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **BALANCE ERROR** • You can't buy anything if your balance is a negative number! Please withdraw some money first.");
+		@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You can't buy anything if your balance is a negative number! Please withdraw some money first.");
 		return 1;
 	}*/
 
@@ -7278,34 +7436,34 @@ stock SetLaptop(const user[])
 	{
 		if(GetData(user, "Balance") < 12000)
 		{
-			SendChannelMessage(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
 		if(GetPhone(user) == 1)
 		{
-			SendChannelMessage(channel, ""d_reply" **ITEM OWNED** • You already own a "d_phone" | `Phone`!");
+			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_phone" | `Phone`!");
 			return 1;
 		}
 		SetPhone(user);
 		SetData(user, "Balance", GetData(user, "Balance") - 12000);
-		SendChannelMessage(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_phone" | `Phone` for "d_coin" `12000`!");
+		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_phone" | `Phone` for "d_coin" `12000`!");
 		return 1;
 	}
 	if(id == 2)
 	{
 		if(GetData(user, "Balance") < 20000)
 		{
-			SendChannelMessage(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
 		if(GetGamepad(user) == 1)
 		{
-			SendChannelMessage(channel, ""d_reply" **ITEM OWNED** • You already own a "d_gamepad" | `Gamepad`!");
+			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_gamepad" | `Gamepad`!");
 			return 1;
 		}
 		SetGamepad(user);
 		SetData(user, "Balance", GetData(user, "Balance") - 20000);
-		SendChannelMessage(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_gamepad" | `Gamepad` for "d_coin" `20000`!");
+		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_gamepad" | `Gamepad` for "d_coin" `20000`!");
 		return 1;
 	}
 
@@ -7313,17 +7471,17 @@ stock SetLaptop(const user[])
 	{
 		if(GetData(user, "Balance") < 3000)
 		{
-			SendChannelMessage(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
 		if(GetWallet(user) == 1)
 		{
-			SendChannelMessage(channel, ""d_reply" **ITEM OWNED** • You already own a "d_wallet" | `Wallet`!");
+			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_wallet" | `Wallet`!");
 			return 1;
 		}
 		SetWallet(user);
 		SetData(user, "Balance", GetData(user, "Balance") - 3000);
-		SendChannelMessage(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_wallet" | `Wallet` for "d_coin" `3000`!");
+		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_wallet" | `Wallet` for "d_coin" `3000`!");
 		return 1;
 	}
 
@@ -7331,140 +7489,140 @@ stock SetLaptop(const user[])
 	{
 		if(GetData(user, "Balance") < 20000)
 		{
-			SendChannelMessage(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
 		if(GetPickaxe(user) == 1)
 		{
-			SendChannelMessage(channel, ""d_reply" **ITEM OWNED** • You already own a "d_pickaxe" | `Pickaxe`!");
+			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_pickaxe" | `Pickaxe`!");
 			return 1;
 		}
 		SetPickaxe(user);
 		SetData(user, "Balance", GetData(user, "Balance") - 20000);
-		SendChannelMessage(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_pickaxe" | `Pickaxe` for "d_coin" `20000`!");
+		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_pickaxe" | `Pickaxe` for "d_coin" `20000`!");
 		return 1;
 	}
 	if(id == 5)
 	{
 		if(GetData(user, "Rubies") < 100)
 		{
-			SendChannelMessage(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
 		if(GetFurnace(user) == 1)
 		{
-			SendChannelMessage(channel, ""d_reply" **ITEM OWNED** • You already own a "d_furnace" | `Furnace`!");
+			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_furnace" | `Furnace`!");
 			return 1;
 		}
 		SetFurnace(user);
 		SetData(user, "Rubies", GetData(user, "Rubies") - 100);
-		SendChannelMessage(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_furnace" | `Furnace` for "d_ruby" `100`!");
+		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_furnace" | `Furnace` for "d_ruby" `100`!");
 		return 1;
 	}
 	if(id == 6)
 	{
 		if(GetData(user, "Rubies") < 15)
 		{
-			SendChannelMessage(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
 		if(GetSlingshot(user) == 1)
 		{
-			SendChannelMessage(channel, ""d_reply" **ITEM OWNED** • You already own a "d_slingshot" | `Slingshot`!");
+			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_slingshot" | `Slingshot`!");
 			return 1;
 		}
 		SetSlingshot(user);
 		SetData(user, "Rubies", GetData(user, "Rubies") - 15);
-		SendChannelMessage(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_slingshot" | `Slingshot` for "d_ruby" `15`!");
+		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_slingshot" | `Slingshot` for "d_ruby" `15`!");
 		return 1;
 	}
 	if(id == 7)
 	{
 		if(GetData(user, "Rubies") < 4)
 		{
-			SendChannelMessage(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
 		if(GetMask(user) == 1)
 		{
-			SendChannelMessage(channel, ""d_reply" **ITEM OWNED** • You already own a "d_mask" | `"BOT_NAME"-looking Mask`!");
+			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_mask" | `"BOT_NAME"-looking Mask`!");
 			return 1;
 		}
 		SetMask(user);
 		SetData(user, "Rubies", GetData(user, "Rubies") - 4);
-		SendChannelMessage(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_mask" | `"BOT_NAME"-looking Mask` for "d_ruby" `4`!");
+		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_mask" | `"BOT_NAME"-looking Mask` for "d_ruby" `4`!");
 		return 1;
 	}
 	if(id == 8)
 	{
 		if(GetData(user, "Balance") < 1000)
 		{
-			SendChannelMessage(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
 		if(GetFishingRod(user) == 1)
 		{
-			SendChannelMessage(channel, ""d_reply" **ITEM OWNED** • You already own a "d_fishingrod" | `Fishing Rod`!");
+			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_fishingrod" | `Fishing Rod`!");
 			return 1;
 		}
 		SetFishingRod(user);
 		SetData(user, "Balance", GetData(user, "Balance") - 1000);
-		SendChannelMessage(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_fishingrod" | `Fishing Rod` for "d_coin" `1000`!");
+		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_fishingrod" | `Fishing Rod` for "d_coin" `1000`!");
 		return 1;
 	}
 	if(id == 9)
 	{
 		if(GetData(user, "Rubies") < 10)
 		{
-			SendChannelMessage(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
 		if(GetDesk(user) == 1)
 		{
-			SendChannelMessage(channel, ""d_reply" **ITEM OWNED** • You already own a "d_desk" | `Desk`!");
+			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_desk" | `Desk`!");
 			return 1;
 		}
 		SetDesk(user);
 		SetData(user, "Rubies", GetData(user, "Rubies") - 10);
-		SendChannelMessage(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_desk" | `Desk` for "d_ruby" `10`!");
+		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_desk" | `Desk` for "d_ruby" `10`!");
 		return 1;
 	}
 	if(id == 10)
 	{
 		if(GetData(user, "Balance") < 8000)
 		{
-			SendChannelMessage(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
 		if(GetAxe(user) == 1)
 		{
-			SendChannelMessage(channel, ""d_reply" **ITEM OWNED** • You already own a "d_axe" | `Axe`!");
+			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_axe" | `Axe`!");
 			return 1;
 		}
 		SetAxe(user);
 		SetData(user, "Balance", GetData(user, "Balance") - 8000);
-		SendChannelMessage(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_axe" | `Axe` for "d_coin" `8000`!");
+		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_axe" | `Axe` for "d_coin" `8000`!");
 		return 1;
 	}
 	if(id == 11)
 	{
 		if(GetData(user, "Banknotes") < 25)
 		{
-			SendChannelMessage(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
 		if(GetLaptop(user) == 1)
 		{
-			SendChannelMessage(channel, ""d_reply" **ITEM OWNED** • You already own a "d_laptop" | `Laptop`!");
+			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_laptop" | `Laptop`!");
 			return 1;
 		}
 		SetLaptop(user);
 		SetData(user, "Banknotes", GetData(user, "Banknotes") - 25);
-		SendChannelMessage(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_laptop" | `Laptop` for "d_banknote" `25`!");
+		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_laptop" | `Laptop` for "d_banknote" `25`!");
 		return 1;
 	}
 
-	SendChannelMessage(channel, ""d_reply" **ERROR** • Wrong item ID was given, please recheck the shop!");
+	@discord() SendMsg(channel, ""d_reply" **ERROR** • Wrong item ID was given, please recheck the shop!");
 
 	return 1;
 }
@@ -7671,11 +7829,10 @@ stock GenerateChestString(const id[], type)
 		return 1;
 	}
 
-	SendInfo(channel, "Inventory with such name wasn't found! Use `"BOT_PREFIX"inv` to see available inventories!");
+	@discord() SendInfo(channel, "Inventory with such name wasn't found! Use `"BOT_PREFIX"inv` to see available inventories!");
 
 	return 1;
 }
-
 @discord() command:openchest(@discord() cmd_params)
 {
 	new DCC_Channel:channel;
@@ -7691,7 +7848,7 @@ stock GenerateChestString(const id[], type)
 	
 	if(sscanf(params, "i", chestid))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"openchest [chest ID]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"openchest [chest ID]`");
 		return 1;
 	}
 
@@ -7699,7 +7856,7 @@ stock GenerateChestString(const id[], type)
 	{
 		if(GetCommonChest(id) == 0)
 		{
-			SendChannelMessage(channel, ""d_reply" **NO CHESTS?** • You do not have any "d_commonchest" | `Common Chests`.");
+			@discord() SendMsg(channel, ""d_reply" **NO CHESTS?** • You do not have any "d_commonchest" | `Common Chests`.");
 			return 1;
 		}
 		SaveCommonChest(id, GetCommonChest(id) - 1);
@@ -7710,14 +7867,14 @@ stock GenerateChestString(const id[], type)
 		SetData(id, "Gold", GetData(id, "Gold") + gold);
 		SetData(id, "Rubies", GetData(id, "Rubies") + rubies);  
 
-		SendChannelMessage(channel, "<@%s>\n\n"d_reply" **CHEST OPENED** • You opened 1x "d_commonchest" | `Common Chest` and got the following:\n\n%ix "d_coin" | `Coins`\n%ix "d_gold" | `Gold`\n%ix "d_ruby" | `Rubies`", id, money, gold, rubies);
+		@discord() SendMsg(channel, "<@%s>\n\n"d_reply" **CHEST OPENED** • You opened 1x "d_commonchest" | `Common Chest` and got the following:\n\n%ix "d_coin" | `Coins`\n%ix "d_gold" | `Gold`\n%ix "d_ruby" | `Rubies`", id, money, gold, rubies);
 		return 1;
 	}
 	if(chestid == CHEST_RARE)
 	{
 		if(GetRareChest(id) == 0)
 		{
-			SendChannelMessage(channel, ""d_reply" **NO CHESTS?** • You do not have any "d_rarechest" | `Rare Chests`.");
+			@discord() SendMsg(channel, ""d_reply" **NO CHESTS?** • You do not have any "d_rarechest" | `Rare Chests`.");
 			return 1;
 		}
 		SaveRareChest(id, GetRareChest(id) - 1);
@@ -7728,10 +7885,10 @@ stock GenerateChestString(const id[], type)
 		SetData(id, "Gold", GetData(id, "Gold") + gold);
 		SetData(id, "Banknotes", GetData(id, "Banknotes") + banknotes);  
 
-		SendChannelMessage(channel, "<@%s>\n\n"d_reply" **CHEST OPENED** • You opened 1x "d_rarechest" | `Rare Chest` and got the following:\n\n%ix "d_coin" | `Coins`\n%ix "d_gold" | `Gold`\n%ix "d_banknote" | `Banknotes`", id, money, gold, banknotes);
+		@discord() SendMsg(channel, "<@%s>\n\n"d_reply" **CHEST OPENED** • You opened 1x "d_rarechest" | `Rare Chest` and got the following:\n\n%ix "d_coin" | `Coins`\n%ix "d_gold" | `Gold`\n%ix "d_banknote" | `Banknotes`", id, money, gold, banknotes);
 		return 1;
 	}
-	SendInfo(channel, "I do not know what chest is that! You possibly gave me the wrong ID.");
+	@discord() SendInfo(channel, "I do not know what chest is that! You possibly gave me the wrong ID.");
 	return 1;
 }
 
@@ -7751,19 +7908,19 @@ stock GenerateChestString(const id[], type)
 
 	if(GetPickaxe(id) == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • You need a "d_pickaxe" | `Pickaxe` to go mining!");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_pickaxe" | `Pickaxe` to go mining!");
 		return 1;
 	}
 
 	if(GetEnergy(id) == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **YOU'RE TOO TIRED** • Your energy is at zero! Eat something or go hunting!");
+		@discord() SendMsg(channel, ""d_reply" **YOU'RE TOO TIRED** • Your energy is at zero! Eat something or go hunting!");
 		return 1;
 	}
 
 	if(GetAchievement(id, "Miner") == 0)
 	{
-		SendInfo(channel, "<@%s>\n\nYou successfully unlocked a **Miner** achievement and got 1x "d_rarechest" | `Rare Chest` as a reward.", id);
+		@discord() SendInfo(channel, "<@%s>\n\nYou successfully unlocked a **Miner** achievement and got 1x "d_rarechest" | `Rare Chest` as a reward.", id);
 		SaveRareChest(id, GetRareChest(id) + 1);
 		SetAchievement(id, "Miner");
 	}
@@ -7774,26 +7931,26 @@ stock GenerateChestString(const id[], type)
 	if(rubies == 0 && gold == 0)
 	{
 		SetEnergy(id, GetEnergy(id) - 1);
-		SendChannelMessage(channel, "**<@%s>**\n\n"d_reply" **MINING FINISHED** • You've been mining for a while, but you could not find anything!", id);
+		@discord() SendMsg(channel, "**<@%s>**\n\n"d_reply" **MINING FINISHED** • You've been mining for a while, but you could not find anything!", id);
 		return 1;
 	}
 
 	SetData(id, "Rubies", GetData(id, "Rubies") + rubies);
 	SetData(id, "Gold", GetData(id, "Gold") + gold);
 
-	SendChannelMessage(channel, "**<@%s>**\n\n"d_reply" **MINING FINISHED** • You've been mining for a while, you found:\n\n%ix "d_ruby" | `Rubies`\n%ix "d_gold" | `Gold`", id, rubies, gold);
+	@discord() SendMsg(channel, "**<@%s>**\n\n"d_reply" **MINING FINISHED** • You've been mining for a while, you found:\n\n%ix "d_ruby" | `Rubies`\n%ix "d_gold" | `Gold`", id, rubies, gold);
 	SetEnergy(id, GetEnergy(id) - 1);
 
 	if(GetPet(id) != 0)
 	{
 		if(GetPetEnergy(id) == 0)
 		{
-			SendInfo(channel, "Your pet is too tired to work and could not help you this time! Use `"BOT_PREFIX"feedpet`!");
+			@discord() SendInfo(channel, "Your pet is too tired to work and could not help you this time! Use `"BOT_PREFIX"feedpet`!");
 			return 1;
 		}
 		rubies = random(5);
 	 	gold = random(10);
-		SendChannelMessage(channel, "**<@%s>**\n\n"d_reply" **PET BONUS** • Your pet somehow managed to help you, he mined this for you:\n\n%ix "d_ruby" | `Rubies`\n%ix "d_gold" | `Gold`", id, rubies, gold);
+		@discord() SendInfo(channel, "**<@%s>**\n\n"d_reply" **PET BONUS** • Your pet somehow managed to help you, he mined this for you:\n\n%ix "d_ruby" | `Rubies`\n%ix "d_gold" | `Gold`", id, rubies, gold);
 		SetData(id, "Rubies", GetData(id, "Rubies") + rubies);
 		SetData(id, "Gold", GetData(id, "Gold") + gold);
 		SetPetEnergy(id, GetPetEnergy(id) - 1);
@@ -7818,13 +7975,13 @@ stock GenerateChestString(const id[], type)
 
 	if(GetAxe(id) == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • You need a "d_axe" | `Axe` to go chopping trees!");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_axe" | `Axe` to go chopping trees!");
 		return 1;
 	}
 
 	if(GetEnergy(id) == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **YOU'RE TOO TIRED** • Your energy is at zero! Eat something or go hunting!");
+		@discord() SendMsg(channel, ""d_reply" **YOU'RE TOO TIRED** • Your energy is at zero! Eat something or go hunting!");
 		return 1;
 	}
 
@@ -7832,18 +7989,18 @@ stock GenerateChestString(const id[], type)
 
 	SetData(id, "Planks", GetData(id, "Planks") + planks);
 
-	SendChannelMessage(channel, "**<@%s>**\n\n"d_reply" **CHOPPING FINISHED** • You've been chopping in a forest for a while, you got:\n\n%ix "d_planks" | `Planks`", id, planks);
+	@discord() SendMsg(channel, "**<@%s>**\n\n"d_reply" **CHOPPING FINISHED** • You've been chopping in a forest for a while, you got:\n\n%ix "d_planks" | `Planks`", id, planks);
 	SetEnergy(id, GetEnergy(id) - 1);
 
 	if(GetPet(id) != 0)
 	{
 		if(GetPetEnergy(id) == 0)
 		{
-			SendInfo(channel, "Your pet is too tired to work and could not help you this time! Use `"BOT_PREFIX"feedpet`!");
+			@discord() SendInfo(channel, "Your pet is too tired to work and could not help you this time! Use `"BOT_PREFIX"feedpet`!");
 			return 1;
 		}
 		planks = random(5);
-		SendChannelMessage(channel, "**<@%s>**\n\n"d_reply" **PET BONUS** • Your pet somehow managed to help you, he got this for you:\n\n%ix "d_planks" | `Planks`", id, planks);
+		@discord() SendInfo(channel, "**<@%s>**\n\n"d_reply" **PET BONUS** • Your pet somehow managed to help you, he got this for you:\n\n%ix "d_planks" | `Planks`", id, planks);
 		SetData(id, "Planks", GetData(id, "Planks") + planks);
 		SetPetEnergy(id, GetPetEnergy(id) - 1);
 	}
@@ -7867,7 +8024,7 @@ stock GenerateChestString(const id[], type)
 
 	if(GetFishingRod(id) == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • You need a "d_fishingrod" | `Fishing Rod` to go fishing!");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_fishingrod" | `Fishing Rod` to go fishing!");
 		return 1;
 	}
 
@@ -7875,23 +8032,23 @@ stock GenerateChestString(const id[], type)
 
 	if(fish == 0)
 	{
-		SendChannelMessage(channel, "**<@%s>**\n\n"d_reply" **FISHING FINISHED** • You've been fishing for a while, but you could not get a bite from anything!", id);
+		@discord() SendMsg(channel, "**<@%s>**\n\n"d_reply" **FISHING FINISHED** • You've been fishing for a while, but you could not get a bite from anything!", id);
 		return 1;
 	}
 
 	SetData(id, "RawFish", GetData(id, "RawFish") + fish);
 
-	SendChannelMessage(channel, "**<@%s>**\n\n"d_reply" **FISHING FINISHED** • You've been fishing for a while, you found:\n\n%ix "d_rawfish" | `Raw Fish`", id, fish);
+	@discord() SendMsg(channel, "**<@%s>**\n\n"d_reply" **FISHING FINISHED** • You've been fishing for a while, you found:\n\n%ix "d_rawfish" | `Raw Fish`", id, fish);
 	
 	if(GetPet(id) != 0)
 	{
 		if(GetPetEnergy(id) == 0)
 		{
-			SendInfo(channel, "Your pet is too tired to work and could not help you this time! Use `"BOT_PREFIX"feedpet`!");
+			@discord() SendInfo(channel, "Your pet is too tired to work and could not help you this time! Use `"BOT_PREFIX"feedpet`!");
 			return 1;
 		}
 		fish = random(5);
-		SendChannelMessage(channel, "**<@%s>**\n\n"d_reply" **PET BONUS** • Your pet somehow managed to help you, he fished this for you:\n\n%ix "d_rawfish" | `Raw Fish`", id, fish);
+		@discord() SendInfo(channel, "**<@%s>**\n\n"d_reply" **PET BONUS** • Your pet somehow managed to help you, he fished this for you:\n\n%ix "d_rawfish" | `Raw Fish`", id, fish);
 		SetData(id, "RawFish", GetData(id, "RawFish") + fish);
 		SetPetEnergy(id, GetPetEnergy(id) - 1);
 	}
@@ -7915,7 +8072,7 @@ stock GenerateChestString(const id[], type)
 
 	if(GetSlingshot(id) == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • You need a "d_slingshot" | `Slingshot` to go hunting!");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_slingshot" | `Slingshot` to go hunting!");
 		return 1;
 	}
 
@@ -7924,25 +8081,25 @@ stock GenerateChestString(const id[], type)
 
 	if(rawmeat == 0 && fruits == 0)
 	{
-		SendChannelMessage(channel, "**<@%s>**\n\n"d_reply" **HUNTING FINISHED** • You've been hunting for a while, but you could not find anything!", id);
+		@discord() SendMsg(channel, "**<@%s>**\n\n"d_reply" **HUNTING FINISHED** • You've been hunting for a while, but you could not find anything!", id);
 		return 1;
 	}
 
 	SetData(id, "RawMeat", GetData(id, "RawMeat") + rawmeat);
 	SetData(id, "Fruits", GetData(id, "Fruits") + fruits);
 
-	SendChannelMessage(channel, "**<@%s>**\n\n"d_reply" **HUNTING FINISHED** • You've been hunting and exploring for a while, you brought back:\n\n%ix "d_rawmeat" | `Raw Meat`\n%ix "d_fruits" | `Fruits`", id, rawmeat, fruits);
+	@discord() SendMsg(channel, "**<@%s>**\n\n"d_reply" **HUNTING FINISHED** • You've been hunting and exploring for a while, you brought back:\n\n%ix "d_rawmeat" | `Raw Meat`\n%ix "d_fruits" | `Fruits`", id, rawmeat, fruits);
 
 	if(GetPet(id) != 0)
 	{
 		if(GetPetEnergy(id) == 0)
 		{
-			SendInfo(channel, "Your pet is too tired to work and could not help you this time! Use `"BOT_PREFIX"feedpet`!");
+			@discord() SendInfo(channel, "Your pet is too tired to work and could not help you this time! Use `"BOT_PREFIX"feedpet`!");
 			return 1;
 		}
 		rawmeat = random(5);
 	 	fruits = random(10);
-		SendChannelMessage(channel, "**<@%s>**\n\n"d_reply" **PET BONUS** • Your pet somehow managed to help you, you got a bonus of:\n\n%ix "d_rawmeat" | `Raw Meat`\n%ix "d_fruits" | `Fruits`", id, rawmeat, fruits);
+		@discord() SendInfo(channel, "**<@%s>**\n\n"d_reply" **PET BONUS** • Your pet somehow managed to help you, you got a bonus of:\n\n%ix "d_rawmeat" | `Raw Meat`\n%ix "d_fruits" | `Fruits`", id, rawmeat, fruits);
 		SetData(id, "RawMeat", GetData(id, "RawMeat") + rawmeat);
 		SetData(id, "Fruits", GetData(id, "Fruits") + fruits);
 		SetPetEnergy(id, GetPetEnergy(id) - 1);
@@ -7964,7 +8121,7 @@ stock GenerateChestString(const id[], type)
 
 	if(GetFurnace(id) == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • You need a "d_furnace" | `Furnace` to melt stuff!");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_furnace" | `Furnace` to melt stuff!");
 		return 1;
 	}
 	new item[30],quantity;
@@ -7987,7 +8144,7 @@ stock GenerateChestString(const id[], type)
 
 	if(quantity == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **WHY AND HOW** • You can't use zero as quantity, sir.");
+		@discord() SendMsg(channel, ""d_reply" **WHY AND HOW** • You can't use zero as quantity, sir.");
 		return 1;
 	}
 
@@ -7995,54 +8152,54 @@ stock GenerateChestString(const id[], type)
 	{
 		if(GetData(id, "Gold") < quantity)
 		{
-			SendChannelMessage(channel, ""d_reply" **BALANCE ERROR** • You do not have that much "d_gold" | `Gold`.");
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have that much "d_gold" | `Gold`.");
 			return 1;
 		}
 		SetData(id, "Balance", GetData(id, "Balance") + (quantity*5));
 		SetData(id, "Gold", GetData(id, "Gold") - quantity);
-		SendChannelMessage(channel, ""d_reply" **ITEM MELTED** • You successfully melted %ix "d_gold" | `Gold` and got %ix "d_coin" | `Coins`!", quantity, quantity*5);
+		@discord() SendMsg(channel, ""d_reply" **ITEM MELTED** • You successfully melted %ix "d_gold" | `Gold` and got %ix "d_coin" | `Coins`!", quantity, quantity*5);
 		return 1;
 	}
 	if(!strcmp(item, "meat"))
 	{
 		if(GetData(id, "RawMeat") < quantity)
 		{
-			SendChannelMessage(channel, ""d_reply" **BALANCE ERROR** • You do not have that much "d_rawmeat" | `Raw Meat`.");
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have that much "d_rawmeat" | `Raw Meat`.");
 			return 1;
 		}
 		SetData(id, "CookedMeat", GetData(id, "CookedMeat") + quantity);
 		SetData(id, "RawMeat", GetData(id, "RawMeat") - quantity);
-		SendChannelMessage(channel, ""d_reply" **ITEM COOKED** • You could not melt meat, but you could cook %ix "d_rawmeat" | `Raw Meat` and get %ix "d_cookedmeat" | `Cooked Meat`.", quantity, quantity);
+		@discord() SendMsg(channel, ""d_reply" **ITEM COOKED** • You could not melt meat, but you could cook %ix "d_rawmeat" | `Raw Meat` and get %ix "d_cookedmeat" | `Cooked Meat`.", quantity, quantity);
 		return 1;
 	}
 	if(!strcmp(item, "fruits"))
 	{
 		if(GetData(id, "Fruits") < quantity)
 		{
-			SendChannelMessage(channel, ""d_reply" **BALANCE ERROR** • You do not have that much "d_fruits" | `Fruits`.");
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have that much "d_fruits" | `Fruits`.");
 			return 1;
 		}
 		SetData(id, "Medicine", GetData(id, "Medicine") + quantity);
 		SetData(id, "Fruits", GetData(id, "Fruits") - quantity);
-		SendChannelMessage(channel, ""d_reply" **ITEM MELTED** • You melted %ix "d_fruits" | `Fruits` and got %ix "d_medicine" | `Medicine`.", quantity, quantity);
+		@discord() SendMsg(channel, ""d_reply" **ITEM MELTED** • You melted %ix "d_fruits" | `Fruits` and got %ix "d_medicine" | `Medicine`.", quantity, quantity);
 		return 1;
 	}
 	if(!strcmp(item, "fish"))
 	{
 		if(GetData(id, "RawFish") < quantity)
 		{
-			SendChannelMessage(channel, ""d_reply" **BALANCE ERROR** • You do not have that much "d_rawfish" | `Raw Fish`.");
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have that much "d_rawfish" | `Raw Fish`.");
 			return 1;
 		}
 		SetData(id, "CookedFish", GetData(id, "CookedFish") + quantity);
 		SetData(id, "RawFish", GetData(id, "RawFish") - quantity);
-		SendChannelMessage(channel, ""d_reply" **ITEM COOKED** • You could not melt fish, but you could cook %ix "d_rawfish" | `Raw Fish` and get %ix "d_cookedfish" | `Cooked Fish`.", quantity, quantity);
+		@discord() SendMsg(channel, ""d_reply" **ITEM COOKED** • You could not melt fish, but you could cook %ix "d_rawfish" | `Raw Fish` and get %ix "d_cookedfish" | `Cooked Fish`.", quantity, quantity);
 		return 1;
 	}
 	else
 	{
-		SendChannelMessage(channel, ""d_reply" **WHAT** • You can't put that into furnace!");
-		SendInfo(channel, "Use `"BOT_PREFIX"melt` to view a list of available items.");
+		@discord() SendMsg(channel, ""d_reply" **WHAT** • You can't put that into furnace!");
+		@discord() SendInfo(channel, "Use `"BOT_PREFIX"melt` to view a list of available items.");
 	}
 	return 1;
 }
@@ -8203,13 +8360,13 @@ stock GenerateBar(points = d_max_bar_points)
 
 	if(quantity == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **WHY AND HOW** • You can't use zero as quantity, sir.");
+		@discord() SendMsg(channel, ""d_reply" **WHY AND HOW** • You can't use zero as quantity, sir.");
 		return 1;
 	}
 
 	if(GetAchievement(id, "Consumer") == 0)
 	{
-		SendInfo(channel, "<@%s>\n\nYou successfully unlocked a **Consumer** achievement and got 1x "d_commonchest" | `Common Chest` as a reward.", id);
+		@discord() SendInfo(channel, "<@%s>\n\nYou successfully unlocked a **Consumer** achievement and got 1x "d_commonchest" | `Common Chest` as a reward.", id);
 		SaveCommonChest(id, GetCommonChest(id) + 1);
 		SetAchievement(id, "Consumer");
 	}
@@ -8218,102 +8375,102 @@ stock GenerateBar(points = d_max_bar_points)
 	{
 		if(GetData(id, "CookedMeat") < quantity)
 		{
-			SendChannelMessage(channel, ""d_reply" **QUANTITY ERROR** • You do not have that much "d_cookedmeat" | `Cooked Meat`.");
+			@discord() SendMsg(channel, ""d_reply" **QUANTITY ERROR** • You do not have that much "d_cookedmeat" | `Cooked Meat`.");
 			return 1;
 		}
 		if(GetEnergy(id) == d_max_bar_points)
 		{
-			SendChannelMessage(channel, ""d_reply" **STATISTICS ERROR** • You aren't hungry at all! Your energy bar is full.");
+			@discord() SendMsg(channel, ""d_reply" **STATISTICS ERROR** • You aren't hungry at all! Your energy bar is full.");
 			return 1;
 		}
 		if(quantity > (d_max_bar_points - GetEnergy(id)))
 		{
-			SendChannelMessage(channel, ""d_reply" **STATISTICS ERROR** • You aren't that hungry! You need to eat %ix "d_cookedmeat" | `Cooked Meat` to fill up your energy bar.", 5 - GetEnergy(id));
+			@discord() SendMsg(channel, ""d_reply" **STATISTICS ERROR** • You aren't that hungry! You need to eat %ix "d_cookedmeat" | `Cooked Meat` to fill up your energy bar.", 5 - GetEnergy(id));
 			return 1;
 		}
 		SetData(id, "CookedMeat", GetData(id, "CookedMeat") - quantity);
 		SetEnergy(id, GetEnergy(id) + quantity);
-		SendChannelMessage(channel, ""d_reply" **LUNCH IS OVER** • You ate %ix "d_cookedmeat" | `Cooked Meat`!", quantity);
+		@discord() SendMsg(channel, ""d_reply" **LUNCH IS OVER** • You ate %ix "d_cookedmeat" | `Cooked Meat`!", quantity);
 		
-		SendInfo(channel, "You incresed your **energy** by the amount of food you just ate!");
+		@discord() SendInfo(channel, "You incresed your **energy** by the amount of food you just ate!");
 		return 1;
 	}
 	if(!strcmp(item, "fruits"))
 	{
 		if(GetData(id, "Fruits") < quantity)
 		{
-			SendChannelMessage(channel, ""d_reply" **QUANTITY ERROR** • You do not have that much "d_fruits" | `Fruits`.");
+			@discord() SendMsg(channel, ""d_reply" **QUANTITY ERROR** • You do not have that much "d_fruits" | `Fruits`.");
 			return 1;
 		}
 		if(GetEnergy(id) == d_max_bar_points)
 		{
-			SendChannelMessage(channel, ""d_reply" **STATISTICS ERROR** • You aren't hungry at all! Your energy bar is full.");
+			@discord() SendMsg(channel, ""d_reply" **STATISTICS ERROR** • You aren't hungry at all! Your energy bar is full.");
 			return 1;
 		}
 		if(quantity > (d_max_bar_points - GetEnergy(id)))
 		{
-			SendChannelMessage(channel, ""d_reply" **STATISTICS ERROR** • You aren't that hungry! You need to eat %ix "d_fruits" | `Fruits` to fill up your energy bar.", 5 - GetEnergy(id));
+			@discord() SendMsg(channel, ""d_reply" **STATISTICS ERROR** • You aren't that hungry! You need to eat %ix "d_fruits" | `Fruits` to fill up your energy bar.", 5 - GetEnergy(id));
 			return 1;
 		}
 		SetData(id, "Fruits", GetData(id, "Fruits") - quantity);
 		SetEnergy(id, GetEnergy(id) + quantity);
-		SendChannelMessage(channel, ""d_reply" **LUNCH IS OVER** • You ate %ix "d_fruits" | `Fruits`!", quantity);
+		@discord() SendMsg(channel, ""d_reply" **LUNCH IS OVER** • You ate %ix "d_fruits" | `Fruits`!", quantity);
 		
-		SendInfo(channel, "You incresed your **energy** by the amount of food you just ate!");
+		@discord() SendInfo(channel, "You incresed your **energy** by the amount of food you just ate!");
 		return 1;
 	}
 	if(!strcmp(item, "medicine"))
 	{
 		if(GetData(id, "Medicine") < quantity)
 		{
-			SendChannelMessage(channel, ""d_reply" **QUANTITY ERROR** • You do not have that much "d_medicine" | `Medicine`.");
+			@discord() SendMsg(channel, ""d_reply" **QUANTITY ERROR** • You do not have that much "d_medicine" | `Medicine`.");
 			return 1;
 		}
 		if(GetHealth(id) == d_max_bar_points)
 		{
-			SendChannelMessage(channel, ""d_reply" **STATISTICS ERROR** • You aren't ill at all! Your health bar is full.");
+			@discord() SendMsg(channel, ""d_reply" **STATISTICS ERROR** • You aren't ill at all! Your health bar is full.");
 			return 1;
 		}
 		if(quantity > (d_max_bar_points - GetHealth(id)))
 		{
-			SendChannelMessage(channel, ""d_reply" **STATISTICS ERROR** • You aren't that ill! You need to eat %ix "d_medicine" | `Medicine` to fill up your health bar.", 5 - GetHealth(id));
+			@discord() SendMsg(channel, ""d_reply" **STATISTICS ERROR** • You aren't that ill! You need to eat %ix "d_medicine" | `Medicine` to fill up your health bar.", 5 - GetHealth(id));
 			return 1;
 		}
 		SetData(id, "Medicine", GetData(id, "Medicine") - quantity);
 		SetHealth(id, GetHealth(id) + quantity);
-		SendChannelMessage(channel, ""d_reply" **YOU HEALED** • You ate %ix "d_medicine" | `Medicine`!", quantity);
+		@discord() SendMsg(channel, ""d_reply" **YOU HEALED** • You ate %ix "d_medicine" | `Medicine`!", quantity);
 		
-		SendInfo(channel, "You incresed your **health** by the amount of food you just ate!");
+		@discord() SendInfo(channel, "You incresed your **health** by the amount of food you just ate!");
 		return 1;
 	}
 	if(!strcmp(item, "fish"))
 	{
 		if(GetData(id, "CookedFish") < quantity)
 		{
-			SendChannelMessage(channel, ""d_reply" **QUANTITY ERROR** • You do not have that much "d_cookedfish" | `Cooked Fish`.");
+			@discord() SendMsg(channel, ""d_reply" **QUANTITY ERROR** • You do not have that much "d_cookedfish" | `Cooked Fish`.");
 			return 1;
 		}
 		if(GetEnergy(id) == d_max_bar_points)
 		{
-			SendChannelMessage(channel, ""d_reply" **STATISTICS ERROR** • You aren't hungry at all! Your energy bar is full.");
+			@discord() SendMsg(channel, ""d_reply" **STATISTICS ERROR** • You aren't hungry at all! Your energy bar is full.");
 			return 1;
 		}
 		if(quantity > (d_max_bar_points - GetEnergy(id)))
 		{
-			SendChannelMessage(channel, ""d_reply" **STATISTICS ERROR** • You aren't that hungry! You need to eat %ix "d_cookedfish" | `Cooked Fish` to fill up your energy bar.", 5 - GetEnergy(id));
+			@discord() SendMsg(channel, ""d_reply" **STATISTICS ERROR** • You aren't that hungry! You need to eat %ix "d_cookedfish" | `Cooked Fish` to fill up your energy bar.", 5 - GetEnergy(id));
 			return 1;
 		}
 		SetData(id, "CookedFish", GetData(id, "CookedFish") - quantity);
 		SetEnergy(id, GetEnergy(id) + quantity);
-		SendChannelMessage(channel, ""d_reply" **LUNCH IS OVER** • You ate %ix "d_cookedfish" | `Cooked Fish`!", quantity);
+		@discord() SendMsg(channel, ""d_reply" **LUNCH IS OVER** • You ate %ix "d_cookedfish" | `Cooked Fish`!", quantity);
 		
-		SendInfo(channel, "You incresed your **energy** by the amount of food you just ate!");
+		@discord() SendInfo(channel, "You incresed your **energy** by the amount of food you just ate!");
 		return 1;
 	}
 	else
 	{
-		SendChannelMessage(channel, ""d_reply" **HOW ABOUT NO?** • You can't eat that!");
-		SendInfo(channel, "Use `"BOT_PREFIX"eat` to view a list of available items.");
+		@discord() SendMsg(channel, ""d_reply" **HOW ABOUT NO?** • You can't eat that!");
+		@discord() SendInfo(channel, "Use `"BOT_PREFIX"eat` to view a list of available items.");
 	}
 	return 1;
 }
@@ -8329,7 +8486,7 @@ stock GenerateBar(points = d_max_bar_points)
 
 	if(GetDesk(id) == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • You need a "d_desk" | `Desk` to make stuff!");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_desk" | `Desk` to make stuff!");
 		return 1;
 	}
 
@@ -8353,7 +8510,7 @@ stock GenerateBar(points = d_max_bar_points)
 
 	if(quantity == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **WHY AND HOW** • What's the point of this command if you will use `0` as quantity?");
+		@discord() SendMsg(channel, ""d_reply" **WHY AND HOW** • What's the point of this command if you will use `0` as quantity?");
 		return 1;
 	}
 
@@ -8361,34 +8518,34 @@ stock GenerateBar(points = d_max_bar_points)
 	{
 		if(GetData(id, "Planks") < (1)*quantity)
 		{
-			SendChannelMessage(channel, ""d_reply" **NO ITEMS** • You do not have enough resources to make this item or this amount of items!");
-			SendInfo(channel, "Use `"BOT_PREFIX"make` to view required resources for each item.");
+			@discord() SendMsg(channel, ""d_reply" **NO ITEMS** • You do not have enough resources to make this item or this amount of items!");
+			@discord() SendInfo(channel, "Use `"BOT_PREFIX"make` to view required resources for each item.");
 			return 1;
 		}
 		SetData(id, "Planks", GetData(id, "Planks") - (1*quantity));
 		SetData(id, "Paper", GetData(id, "Paper") + (1*quantity));
-		SendChannelMessage(channel, ""d_reply" **ITEM MADE** • You successfully used %ix "d_planks" | `Planks` and made %ix "d_paper" | `Paper`!", (1*quantity), (1*quantity));
+		@discord() SendMsg(channel, ""d_reply" **ITEM MADE** • You successfully used %ix "d_planks" | `Planks` and made %ix "d_paper" | `Paper`!", (1*quantity), (1*quantity));
 		return 1;
 	}
 	if(!strcmp(item, "banknotes"))
 	{
 		if(GetData(id, "Paper") < (1)*quantity || GetData(id, "Balance") < (100)*quantity)
 		{
-			SendChannelMessage(channel, ""d_reply" **NO ITEMS** • You do not have enough resources to make this item or this amount of items!");
-			SendInfo(channel, "Use `"BOT_PREFIX"make` to view required resources for each item.");
+			@discord() SendMsg(channel, ""d_reply" **NO ITEMS** • You do not have enough resources to make this item or this amount of items!");
+			@discord() SendInfo(channel, "Use `"BOT_PREFIX"make` to view required resources for each item.");
 			return 1;
 		}
 		SetData(id, "Paper", GetData(id, "Paper") - (1*quantity));
 		SetData(id, "Balance", GetData(id, "Balance") - (100*quantity));
 		SetData(id, "Banknotes", GetData(id, "Banknotes") + (1*quantity));
-		SendChannelMessage(channel, ""d_reply" **ITEM MADE** • You successfully used %ix "d_paper" | `Paper`, %ix "d_coin" | `Coins` and made %ix "d_banknote" | `Banknotes`!", (1*quantity), (100*quantity), (1*quantity));
+		@discord() SendMsg(channel, ""d_reply" **ITEM MADE** • You successfully used %ix "d_paper" | `Paper`, %ix "d_coin" | `Coins` and made %ix "d_banknote" | `Banknotes`!", (1*quantity), (100*quantity), (1*quantity));
 		return 1;
 	}
 
 	else
 	{
-		SendChannelMessage(channel, ""d_reply" **UNKNOWN ITEM** • That item does not even exist!");
-		SendInfo(channel, "Use `"BOT_PREFIX"make` to view a list of available items.");
+		@discord() SendMsg(channel, ""d_reply" **UNKNOWN ITEM** • That item does not even exist!");
+		@discord() SendInfo(channel, "Use `"BOT_PREFIX"make` to view a list of available items.");
 	}
 	return 1;
 }
@@ -8468,7 +8625,7 @@ stock GenerateBar(points = d_max_bar_points)
 
 	if(sscanf(params, "s[31]", user))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"sprofile [user ID or user mention]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"sprofile [user ID or user mention]`");
 		return 1;
 	}
 
@@ -8501,7 +8658,7 @@ stock GenerateBar(points = d_max_bar_points)
 		"",
 		"","");
 
-	//SendChannelMessage(channel, msg);
+	//@discord() SendMsg(channel, msg);
 
 	DCC_SendChannelEmbedMessage(channel, msg2, GetMention(useridmention));
 	return 1;
@@ -8521,7 +8678,7 @@ stock GenerateBar(points = d_max_bar_points)
 
 	if(sscanf(params, "s[31]", user))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"profile [user ID or user mention]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"profile [user ID or user mention]`");
 		return 1;
 	}
 
@@ -8574,7 +8731,7 @@ stock GenerateBar(points = d_max_bar_points)
 		"",
 		"","");
 
-	//SendChannelMessage(channel, msg);
+	//@discord() SendMsg(channel, msg);
 
 	DCC_SendChannelEmbedMessage(channel, msg2, GetMention(useridmention));
 	return 1;
@@ -8594,7 +8751,7 @@ stock GenerateBar(points = d_max_bar_points)
 
 	if(sscanf(params, "s[31]i", user, type))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"resetprofile [user ID or user mention] [type of a reset]`\n\nIf you want to reset GM profile of an user, use `0` as the type ID - if you want to reset a supporter profile, use `1` as the type ID.");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"resetprofile [user ID or user mention] [type of a reset]`\n\nIf you want to reset GM profile of an user, use `0` as the type ID - if you want to reset a supporter profile, use `1` as the type ID.");
 		return 1;
 	}
 
@@ -8625,18 +8782,18 @@ stock GenerateBar(points = d_max_bar_points)
 		SaveMediumGMCount(user,0);
 		SaveHardGMCount(user,0);
 
-		SendChannelMessage(channel, "<@%s>'s GM profile has been cleared.", user);
+		@discord() SendMsg(channel, "<@%s>'s GM profile has been cleared.", user);
 	}
 	if(type == 1)
 	{
 		SaveApprovalCount(user,0); 
 		SaveSupportPoints(user,0);
 
-		SendChannelMessage(channel, "<@%s>'s support profile has been cleared.", user);
+		@discord() SendMsg(channel, "<@%s>'s support profile has been cleared.", user);
 	}
 	if(type != 0 && type != 1)
 	{
-		SendChannelMessage(channel, ""d_reply" **ERROR** • Invalid reset type ID provided, it can be either `0` or `1`.");
+		@discord() SendMsg(channel, ""d_reply" **ERROR** • Invalid reset type ID provided, it can be either `0` or `1`.");
 	}
 	return 1;
 }
@@ -9474,7 +9631,7 @@ stock GenerateBar(points = d_max_bar_points)
 
 	if(dept != 1 && dept != 3 && dept != 8 && dept != 4 && dept != 11 && dept != 9 && dept != 12)
 	{
-		SendChannelMessage(channel, ""d_reply" **GM COUNT LEADERBOARD** • Sorry, invalid department label(s) provided. You can use: `[pol]`, `[eco]`, `[mil]`, `[pol][eco]`, `[eco][mil]`, `[mil][pol]`, `[war]`\n\n"delimiterlol" • Make sure you don't have spaces between `]`s and `[`s!");
+		@discord() SendMsg(channel, ""d_reply" **GM COUNT LEADERBOARD** • Sorry, invalid department label(s) provided. You can use: `[pol]`, `[eco]`, `[mil]`, `[pol][eco]`, `[eco][mil]`, `[mil][pol]`, `[war]`\n\n"delimiterlol" • Make sure you don't have spaces between `]`s and `[`s!");
 		return 1;
 	}
     return 1;
@@ -9492,7 +9649,7 @@ stock GenerateBar(points = d_max_bar_points)
 
 	if(sscanf(params, "s", user))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"blacklist [user ID or user mention]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"blacklist [user ID or user mention]`");
 		return 1;
 	}
 
@@ -9509,7 +9666,7 @@ stock GenerateBar(points = d_max_bar_points)
 
 	if(!strcmp(user, "617419819108663296"))
 	{
-		SendChannelMessage(channel, ""d_reply" • This user can't be blacklisted as the user is a bot owner!");
+		@discord() SendMsg(channel, ""d_reply" • This user can't be blacklisted as the user is a bot owner!");
 		return 1;
 	}
 
@@ -9517,14 +9674,14 @@ stock GenerateBar(points = d_max_bar_points)
 	if(IsBlacklisted(user))
 	{
 		Unblacklist(user);
-		SendChannelMessage(channel, ""d_reply" **UNBLACKLISTED** • <@%s> was unblacklisted successfully.", user);
+		@discord() SendMsg(channel, ""d_reply" **UNBLACKLISTED** • <@%s> was unblacklisted successfully.", user);
 		return 1;
 	}
 
 	if(!IsBlacklisted(user))
 	{
 		Blacklist(user);
-		SendChannelMessage(channel, ""d_reply" **BLACKLISTED** • <@%s> was blacklisted successfully.", user);
+		@discord() SendMsg(channel, ""d_reply" **BLACKLISTED** • <@%s> was blacklisted successfully.", user);
 		return 1;
 	}
 
@@ -10280,69 +10437,69 @@ stock GetUserAnswer(const id[], ansid)
 
 	if(channel != submissionchannel)
 	{
-		SendChannelMessage(channel, ""d_reply" **ERROR** • You can't start a submission application in this channel!");
+		@discord() SendMsg(channel, ""d_reply" **ERROR** • You can't start a submission application in this channel!");
 		return 1;
 	}
 
 	//options
 	if(!strcmp(option, "nation"))
 	{
-		SendChannelMessage(channel, ""d_reply" **APPLICATION STARTED** • <@%s> successfully started the *`Nation`* position application!", id);
+		@discord() SendMsg(channel, ""d_reply" **APPLICATION STARTED** • <@%s> successfully started the *`Nation`* position application!", id);
 
 		SetAppType(id, "1");
 		SetUserQuestion(id, "1");
 
-		SendChannelMessage(channel, "**Question 1** • Nation • <@%s>\n\n*`What is the nation name you are applying for?`*\n\nPlease reply here.", id);
+		@discord() SendMsg(channel, "**Question 1** • Nation • <@%s>\n\n*`What is the nation name you are applying for?`*\n\nPlease reply here.", id);
 
 		return 1;
 	}
 	if(!strcmp(option, "rebelorg"))
 	{
-		SendChannelMessage(channel, ""d_reply" **APPLICATION STARTED** • <@%s> successfully started the *`Rebellion Organization`* position application!", id);
+		@discord() SendMsg(channel, ""d_reply" **APPLICATION STARTED** • <@%s> successfully started the *`Rebellion Organization`* position application!", id);
 
 		SetAppType(id, "2");
 		SetUserQuestion(id, "1");
 
-		SendChannelMessage(channel, "**Question 1** • Rebellion Organization • <@%s>\n\n*`In whose countries is your rebellion based in?`*\n\nPlease reply here.", id);
+		@discord() SendMsg(channel, "**Question 1** • Rebellion Organization • <@%s>\n\n*`In whose countries is your rebellion based in?`*\n\nPlease reply here.", id);
 
 		return 1;
 	}
 	if(!strcmp(option, "politicalorg"))
 	{
-		SendChannelMessage(channel, ""d_reply" **APPLICATION STARTED** • <@%s> successfully started the *`Political Organization`* position application!", id);
+		@discord() SendMsg(channel, ""d_reply" **APPLICATION STARTED** • <@%s> successfully started the *`Political Organization`* position application!", id);
 
 		SetAppType(id, "3");
 		SetUserQuestion(id, "1");
 
-		SendChannelMessage(channel, "**Question 1** • Political Organization • <@%s>\n\n*`In whose countries is your rebellion based in?`*\n\nPlease reply here.", id);
+		@discord() SendMsg(channel, "**Question 1** • Political Organization • <@%s>\n\n*`In whose countries is your rebellion based in?`*\n\nPlease reply here.", id);
 
 		return 1;
 	}
 	if(!strcmp(option, "corporation"))
 	{
-		SendChannelMessage(channel, ""d_reply" **APPLICATION STARTED** • <@%s> successfully started the *`Political Organization`* position application!", id);
+		@discord() SendMsg(channel, ""d_reply" **APPLICATION STARTED** • <@%s> successfully started the *`Political Organization`* position application!", id);
 
 		SetAppType(id, "4");
 		SetUserQuestion(id, "1");
 
-		SendChannelMessage(channel, "**Question 1** • Corporation • <@%s>\n\n*`What is the name of your corporation?`*\n\nPlease reply here.", id);
+		@discord() SendMsg(channel, "**Question 1** • Corporation • <@%s>\n\n*`What is the name of your corporation?`*\n\nPlease reply here.", id);
 
 		return 1;
 	}
 	if(!strcmp(option, "acoop"))
 	{
-		SendChannelMessage(channel, ""d_reply" **APPLICATION STARTED** • <@%s> successfully started the *`Political Organization`* position application!", id);
+		@discord() SendMsg(channel, ""d_reply" **APPLICATION STARTED** • <@%s> successfully started the *`Political Organization`* position application!", id);
 
 		SetAppType(id, "4");
 		SetUserQuestion(id, "1");
 
-		SendChannelMessage(channel, "**Question 1** • Administrative Cooperator • <@%s>\n\n*`What is the name of the nation you want to cooperate as?`*\n\nPlease reply here.", id);
+		@discord() SendMsg(channel, "**Question 1** • Administrative Cooperator • <@%s>\n\n*`What is the name of the nation you want to cooperate as?`*\n\nPlease reply here.", id);
 
 		return 1;
 	}
 	else
 	{
-		SendChannelMessage(channel, ""d_reply" **UNKNOWN APPLICATION** • Invalid application name provided, use `"BOT_PREFIX"nrpapply` to view a list of available applications!");
+		@discord() SendMsg(channel, ""d_reply" **UNKNOWN APPLICATION** • Invalid application name provided, use `"BOT_PREFIX"nrpapply` to view a list of available applications!");
 	}
 	return 1;
 }
@@ -10363,13 +10520,13 @@ stock GetUserAnswer(const id[], ansid)
 
 	if(sscanf(params, "s[30]i", country, page))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"nrpstats [country name] [page <1, 2>]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"nrpstats [country name] [page <1, 2>]`");
 		return 1;
 	}
 
 	if(!IsValidCountry(country))
 	{
-		SendChannelMessage(channel, ""d_reply" **UNKNOWN COUNTRY** • This country hasn't been registered in the database.");
+		@discord() SendMsg(channel, ""d_reply" **UNKNOWN COUNTRY** • This country hasn't been registered in the database.");
 		return 1;
 	}
 
@@ -10431,7 +10588,7 @@ stock GetUserAnswer(const id[], ansid)
 	}
 	else if(page != 1 && page != 2)
 	{
-		SendChannelMessage(channel, ""d_reply" **ERROR** • Wrong page ID.");
+		@discord() SendMsg(channel, ""d_reply" **ERROR** • Wrong page ID.");
 	}
 	
 	
@@ -10461,7 +10618,7 @@ stock GetUserAnswer(const id[], ansid)
 
 	if(sscanf(params, "s[30]s[31]", country, user))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"setplayer [country] [user ID or user mention]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"setplayer [country] [user ID or user mention]`");
 		return 1;
 	}
 
@@ -10478,9 +10635,9 @@ stock GetUserAnswer(const id[], ansid)
 
 	SetPlayer(country, user);
 
-	SendChannelMessage(rpnotices, "Main player updated for a country `%s` by **<@%s>**. New `%s` player is *<@%s>*.", country, id, country, user);
+	@discord() SendMsg(rpnotices, "Main player updated for a country `%s` by **<@%s>**. New `%s` player is *<@%s>*.", country, id, country, user);
 
-	SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+	@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 	return 1;
 }
@@ -10503,19 +10660,19 @@ stock GetUserAnswer(const id[], ansid)
 
 	if(sscanf(params, "s[30]", country))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"regrp [country name]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"regrp [country name]`");
 		return 1;
 	}
 
 	if(IsValidCountry(country))
 	{
-		SendChannelMessage(channel, ""d_reply" **ALREADY REGISTERED** • This country has been registered in the database before.");
+		@discord() SendMsg(channel, ""d_reply" **ALREADY REGISTERED** • This country has been registered in the database before.");
 		return 1;
 	}
 
 	RegisterCountry(country);
 
-	SendChannelMessage(channel, "> "d_reply" **SUCCESS** • Country `%s` successfully registered.", country);
+	@discord() SendMsg(channel, "> "d_reply" **SUCCESS** • Country `%s` successfully registered.", country);
 	return 1;
 }
 
@@ -10567,7 +10724,7 @@ stock GetUserAnswer(const id[], ansid)
 
 	if(!IsValidCountry(country))
 	{
-		SendChannelMessage(channel, ""d_reply" **UNKNOWN COUNTRY** • This country hasn't been registered in the database.");
+		@discord() SendMsg(channel, ""d_reply" **UNKNOWN COUNTRY** • This country hasn't been registered in the database.");
 		return 1;
 	}
 
@@ -10576,9 +10733,9 @@ stock GetUserAnswer(const id[], ansid)
 	{
 		SetFullname(country, value);
 
-		SendChannelMessage(rpnotices, "`Full Name` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
+		@discord() SendMsg(rpnotices, "`Full Name` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
 
-		SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+		@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 		return 1;
 	}
@@ -10586,9 +10743,9 @@ stock GetUserAnswer(const id[], ansid)
 	{
 		SetStateHead(country, value);
 
-		SendChannelMessage(rpnotices, "`Head of State` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
+		@discord() SendMsg(rpnotices, "`Head of State` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
 
-		SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+		@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 		return 1;
 	}
@@ -10596,9 +10753,9 @@ stock GetUserAnswer(const id[], ansid)
 	{
 		SetGovHead(country, value);
 
-		SendChannelMessage(rpnotices, "`Head of Government` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
+		@discord() SendMsg(rpnotices, "`Head of Government` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
 
-		SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+		@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 		return 1;
 	}
@@ -10606,9 +10763,9 @@ stock GetUserAnswer(const id[], ansid)
 	{
 		SetGovType(country, value);
 
-		SendChannelMessage(rpnotices, "`Government Type` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
+		@discord() SendMsg(rpnotices, "`Government Type` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
 
-		SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+		@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 		return 1;
 	}
@@ -10616,9 +10773,9 @@ stock GetUserAnswer(const id[], ansid)
 	{
 		SetNationality(country, value);
 
-		SendChannelMessage(rpnotices, "`Nationality` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
+		@discord() SendMsg(rpnotices, "`Nationality` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
 
-		SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+		@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 		return 1;
 	}
@@ -10626,9 +10783,9 @@ stock GetUserAnswer(const id[], ansid)
 	{
 		SetReligion(country, value);
 
-		SendChannelMessage(rpnotices, "`Religion(s)` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
+		@discord() SendMsg(rpnotices, "`Religion(s)` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
 
-		SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+		@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 		return 1;
 	}
@@ -10636,9 +10793,9 @@ stock GetUserAnswer(const id[], ansid)
 	{
 		SetInhabitants(country, value);
 
-		SendChannelMessage(rpnotices, "`Number of Inhabitants` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
+		@discord() SendMsg(rpnotices, "`Number of Inhabitants` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
 
-		SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+		@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 		return 1;
 	}
@@ -10646,9 +10803,9 @@ stock GetUserAnswer(const id[], ansid)
 	{
 		SetGdp(country, value);
 
-		SendChannelMessage(rpnotices, "`GDP` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
+		@discord() SendMsg(rpnotices, "`GDP` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
 
-		SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+		@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 		return 1;
 	}
@@ -10656,9 +10813,9 @@ stock GetUserAnswer(const id[], ansid)
 	{
 		SetGdpPerCapita(country, value);
 
-		SendChannelMessage(rpnotices, "`GDP per Capita` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
+		@discord() SendMsg(rpnotices, "`GDP per Capita` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
 
-		SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+		@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 		return 1;
 	}
@@ -10666,9 +10823,9 @@ stock GetUserAnswer(const id[], ansid)
 	{
 		SetPublicDebt(country, value);
 
-		SendChannelMessage(rpnotices, "`Public Debt` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
+		@discord() SendMsg(rpnotices, "`Public Debt` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
 
-		SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+		@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 		return 1;
 	}
@@ -10676,9 +10833,9 @@ stock GetUserAnswer(const id[], ansid)
 	{
 		SetActivePersonnel(country, value);
 
-		SendChannelMessage(rpnotices, "`Active Personnel` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
+		@discord() SendMsg(rpnotices, "`Active Personnel` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
 
-		SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+		@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 		return 1;
 	}
@@ -10686,9 +10843,9 @@ stock GetUserAnswer(const id[], ansid)
 	{
 		SetReservePersonnel(country, value);
 
-		SendChannelMessage(rpnotices, "`Reserve Personnel` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
+		@discord() SendMsg(rpnotices, "`Reserve Personnel` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
 
-		SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+		@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 		return 1;
 	}
@@ -10696,9 +10853,9 @@ stock GetUserAnswer(const id[], ansid)
 	{
 		SetMilitaryBudget(country, value);
 
-		SendChannelMessage(rpnotices, "`Military Budget` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
+		@discord() SendMsg(rpnotices, "`Military Budget` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
 
-		SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+		@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 		return 1;
 	}
@@ -10706,9 +10863,9 @@ stock GetUserAnswer(const id[], ansid)
 	{
 		SetNAP(country, value);
 
-		SendChannelMessage(rpnotices, "`Non-Agression Pact(s)` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
+		@discord() SendMsg(rpnotices, "`Non-Agression Pact(s)` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
 
-		SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+		@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 		return 1;
 	}
@@ -10716,9 +10873,9 @@ stock GetUserAnswer(const id[], ansid)
 	{
 		SetIOM(country, value);
 
-		SendChannelMessage(rpnotices, "`International Organization Membership(s)` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
+		@discord() SendMsg(rpnotices, "`International Organization Membership(s)` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
 
-		SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+		@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 		return 1;
 	}
@@ -10726,9 +10883,9 @@ stock GetUserAnswer(const id[], ansid)
 	{
 		SetIPW(country, value);
 
-		SendChannelMessage(rpnotices, "`Pact Status` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
+		@discord() SendMsg(rpnotices, "`Pact Status` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
 
-		SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+		@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 		return 1;
 	}
@@ -10736,9 +10893,9 @@ stock GetUserAnswer(const id[], ansid)
 	{
 		SetCCY(country, value);
 
-		SendChannelMessage(rpnotices, "`Capital City` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
+		@discord() SendMsg(rpnotices, "`Capital City` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
 
-		SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+		@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 		return 1;
 	}
@@ -10746,15 +10903,15 @@ stock GetUserAnswer(const id[], ansid)
 	{
 		SetBCY(country, value);
 
-		SendChannelMessage(rpnotices, "`Biggest City` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
+		@discord() SendMsg(rpnotices, "`Biggest City` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
 
-		SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+		@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 		return 1;
 	}
 	else
 	{
-		SendChannelMessage(channel, ""d_reply" **UNKNOWN OPTION** • Invalid option provided, use `"BOT_PREFIX"setrpstat` to view a list of available options.");
+		@discord() SendMsg(channel, ""d_reply" **UNKNOWN OPTION** • Invalid option provided, use `"BOT_PREFIX"setrpstat` to view a list of available options.");
 	}
 	return 1;
 }
@@ -10932,7 +11089,7 @@ stock SetATE(const country[], const value[])
 
 	if(!IsValidCountry(country))
 	{
-		SendChannelMessage(channel, ""d_reply" **UNKNOWN COUNTRY** • This country hasn't been registered in the database.");
+		@discord() SendMsg(channel, ""d_reply" **UNKNOWN COUNTRY** • This country hasn't been registered in the database.");
 		return 1;
 	}
 
@@ -10941,9 +11098,9 @@ stock SetATE(const country[], const value[])
 	{
 		SetAAE(country, value);
 
-		SendChannelMessage(rpnotices, "Military item count `AA Equipment` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
+		@discord() SendMsg(rpnotices, "Military item count `AA Equipment` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
 
-		SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+		@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 		return 1;
 	}
@@ -10951,9 +11108,9 @@ stock SetATE(const country[], const value[])
 	{
 		SetAPC(country, value);
 
-		SendChannelMessage(rpnotices, "Military item count `Armoed Personnel Carriers` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
+		@discord() SendMsg(rpnotices, "Military item count `Armoed Personnel Carriers` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
 
-		SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+		@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 		return 1;
 	}
@@ -10961,9 +11118,9 @@ stock SetATE(const country[], const value[])
 	{
 		SetASW(country, value);
 
-		SendChannelMessage(rpnotices, "Military item count `Anti-Submarine Warfare Helicopter` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
+		@discord() SendMsg(rpnotices, "Military item count `Anti-Submarine Warfare Helicopter` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
 
-		SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+		@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 		return 1;
 	}
@@ -10971,15 +11128,15 @@ stock SetATE(const country[], const value[])
 	{
 		SetATE(country, value);
 
-		SendChannelMessage(rpnotices, "Military item count `Anti-Tank Equipment` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
+		@discord() SendMsg(rpnotices, "Military item count `Anti-Tank Equipment` updated for a country `%s` by **<@%s>** into *%s*.", country, id, value);
 
-		SendChannelMessage(channel, "Updated! Change has been announced in <#970015377289535538>.");
+		@discord() SendMsg(channel, "Updated! Change has been announced in <#970015377289535538>.");
 
 		return 1;
 	}
 	else
 	{
-		SendChannelMessage(channel, ""d_reply" **UNKNOWN OPTION** • Invalid option provided, use `"BOT_PREFIX"setmilstat` to view a list of available options.");
+		@discord() SendMsg(channel, ""d_reply" **UNKNOWN OPTION** • Invalid option provided, use `"BOT_PREFIX"setmilstat` to view a list of available options.");
 	}
 	return 1;
 }
@@ -11000,13 +11157,13 @@ stock SetATE(const country[], const value[])
 
 	if(sscanf(params, "s[30]", country))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"milstats [country name]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"milstats [country name]`");
 		return 1;
 	}
 
 	if(!IsValidCountry(country))
 	{
-		SendChannelMessage(channel, ""d_reply" **UNKNOWN COUNTRY** • This country hasn't been registered in the database.");
+		@discord() SendMsg(channel, ""d_reply" **UNKNOWN COUNTRY** • This country hasn't been registered in the database.");
 		return 1;
 	}
 
@@ -11024,7 +11181,7 @@ stock SetATE(const country[], const value[])
 		GetATE(country));
 
 
-	//SendChannelMessage(channel, msg);
+	//@discord() SendMsg(channel, msg);
 
 	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Country Military Equipment Statistics__**", msg, 
@@ -11199,13 +11356,13 @@ static GetPfp(const id[])
 
 	if(GetPhone(id) == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • You do not have a "d_phone" | `Phone`.");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You do not have a "d_phone" | `Phone`.");
 		return 1;
 	}
 
 	if(sscanf(params, "s[30]", nickname))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"smregister [account nickname]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"smregister [account nickname]`");
 		return 1;
 	}
 
@@ -11213,14 +11370,14 @@ static GetPfp(const id[])
 	{
 		if(nickname[i] == ' ')
 		{
-			SendChannelMessage(channel, ""d_reply" **ERROR** • Nickname cannot contain spaces!");
+			@discord() SendMsg(channel, ""d_reply" **ERROR** • Nickname cannot contain spaces!");
 			return 1;
 		}
 	}
 
 	SetAccount(id, nickname);
 
-	SendChannelMessage(channel, "> "d_reply" **SUCCESS** • Great, <@%s> - your new social media account nickname is __*@*%s__!", id, nickname);
+	@discord() SendMsg(channel, "> "d_reply" **SUCCESS** • Great, <@%s> - your new social media account nickname is __*@*%s__!", id, nickname);
 	return 1;
 }
 
@@ -11277,7 +11434,7 @@ static GetPfp(const id[])
 			fwrite(file2, "verified.data(null->verified);");
 			fclose(file2);
 
-			SendChannelMessage(channel, "<@%s>'s account was successfully verified.", user);
+			@discord() SendMsg(channel, "<@%s>'s account was successfully verified.", user);
 		}
 		else if(!strcmp(value, "false"))
 		{
@@ -11285,11 +11442,11 @@ static GetPfp(const id[])
 			format(file_name, sizeof file_name,"socialmedia/verify_%s.ini",user);
 			fremove(file_name);
 
-			SendChannelMessage(channel, "<@%s>'s verified status was removed successfully.", user);
+			@discord() SendMsg(channel, "<@%s>'s verified status was removed successfully.", user);
 		}
 		else
 		{
-			SendChannelMessage(channel, ""d_reply" **UNKNOWN VALUE** • Invalid option value provided, use `"BOT_PREFIX"setaccdata` to view a list of available options and values.");
+			@discord() SendMsg(channel, ""d_reply" **UNKNOWN VALUE** • Invalid option value provided, use `"BOT_PREFIX"setaccdata` to view a list of available options and values.");
 		}
 		return 1;
 	}
@@ -11297,7 +11454,7 @@ static GetPfp(const id[])
 	{
 		SetAccount(user, value);
 
-		SendChannelMessage(channel, "You successfully updated `Account Nickname` for <@%s>'s account to `%s`.", user, value);
+		@discord() SendMsg(channel, "You successfully updated `Account Nickname` for <@%s>'s account to `%s`.", user, value);
 
 		return 1;
 	}
@@ -11305,7 +11462,7 @@ static GetPfp(const id[])
 	{
 		SetName(user, value);
 
-		SendChannelMessage(channel, "You successfully updated `Account Name` for <@%s>'s account to `%s`.", user, value);
+		@discord() SendMsg(channel, "You successfully updated `Account Name` for <@%s>'s account to `%s`.", user, value);
 		
 		return 1;
 	}
@@ -11313,7 +11470,7 @@ static GetPfp(const id[])
 	{
 		SetBio(user, value);
 
-		SendChannelMessage(channel, "You successfully updated `Account Bio` for <@%s>'s account to `%s`.", user, value);
+		@discord() SendMsg(channel, "You successfully updated `Account Bio` for <@%s>'s account to `%s`.", user, value);
 
 		return 1;
 	}
@@ -11321,13 +11478,13 @@ static GetPfp(const id[])
 	{
 		SetPfp(user, value);
 
-		SendChannelMessage(channel, "You successfully updated `Account Profile Picture` for <@%s>'s account to `%s`.", user, value);
+		@discord() SendMsg(channel, "You successfully updated `Account Profile Picture` for <@%s>'s account to `%s`.", user, value);
 
 		return 1;
 	}
 	else
 	{
-		SendChannelMessage(channel, ""d_reply" **UNKNOWN OPTION** • Invalid option provided, use `"BOT_PREFIX"setaccdata` to view a list of available options.");
+		@discord() SendMsg(channel, ""d_reply" **UNKNOWN OPTION** • Invalid option provided, use `"BOT_PREFIX"setaccdata` to view a list of available options.");
 	}
 	return 1;
 }
@@ -11346,13 +11503,13 @@ static GetPfp(const id[])
 
 	if(GetPhone(id) == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • You do not have a "d_phone" | `Phone`.");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You do not have a "d_phone" | `Phone`.");
 		return 1;
 	}
 
 	if(sscanf(params, "s[30]", user))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"smprofile [user ID or user mention]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"smprofile [user ID or user mention]`");
 		return 1;
 	}
 
@@ -11386,7 +11543,7 @@ static GetPfp(const id[])
 		User ID: `%s`", 
 		GetName(user),
 		GetNickname(user),
-		fexist(file_name) ? ":ballot_box_with_check:" : " ",
+		fexist(file_name) ? ""d_yes"" : " ",
 		GetBio(user),
 		GetData(user, "Balance"), 
 		GetData(user, "DepBalance"),
@@ -11396,7 +11553,7 @@ static GetPfp(const id[])
 		user);
 
 
-	//SendChannelMessage(channel, msg);
+	//@discord() SendMsg(channel, msg);
 
 	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__"BRACE_TEAM" Account__**", msg, 
@@ -11422,19 +11579,19 @@ static GetPfp(const id[])
 
 	if(GetPhone(id) == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • You do not have a "d_phone" | `Phone`.");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You do not have a "d_phone" | `Phone`.");
 		return 1;
 	}
 
 	if(sscanf(params, "s[30]", nickname))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"smaccname [account name]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"smaccname [account name]`");
 		return 1;
 	}
 
 	SetName(id, nickname);
 
-	SendChannelMessage(channel, "> "d_reply" **SUCCESS** • Okay, <@%s> - your new social media account name is __*%s*__!", id, nickname);
+	@discord() SendMsg(channel, "> "d_reply" **SUCCESS** • Okay, <@%s> - your new social media account name is __*%s*__!", id, nickname);
 	return 1;
 }
 
@@ -11452,19 +11609,19 @@ static GetPfp(const id[])
 
 	if(GetPhone(id) == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • You do not have a "d_phone" | `Phone`.");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You do not have a "d_phone" | `Phone`.");
 		return 1;
 	}
 
 	if(sscanf(params, "s[100]", nickname))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"smbio [bio]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"smbio [bio]`");
 		return 1;
 	}
 
 	SetBio(id, nickname);
 
-	SendChannelMessage(channel, "> "d_reply" **SUCCESS** • Your bio has been updated to `%s`, <@%s>!", nickname, id);
+	@discord() SendMsg(channel, "> "d_reply" **SUCCESS** • Your bio has been updated to `%s`, <@%s>!", nickname, id);
 	return 1;
 }
 
@@ -11482,19 +11639,19 @@ static GetPfp(const id[])
 
 	if(GetPhone(id) == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • You do not have a "d_phone" | `Phone`.");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You do not have a "d_phone" | `Phone`.");
 		return 1;
 	}
 
 	if(sscanf(params, "s[512]", nickname))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"smpfp [picture link - link can have up to 512 characters]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"smpfp [picture link - link can have up to 512 characters]`");
 		return 1;
 	}
 
 	SetPfp(id, nickname);
 
-	SendChannelMessage(channel, "> "d_reply" **SUCCESS** • Your profile picture has been updated to `%s`, <@%s>!", nickname, id);
+	@discord() SendMsg(channel, "> "d_reply" **SUCCESS** • Your profile picture has been updated to `%s`, <@%s>!", nickname, id);
 	return 1;
 }
 
@@ -11511,7 +11668,7 @@ stock MakePost(const userid[], const name[], const nickname[], const text[])
 		userid, 
 		name, 
 		nickname, 
-		fexist(file_name2) ? ":ballot_box_with_check:" : "", 
+		fexist(file_name2) ? ""d_yes"" : "", 
 		text,
 		GetFeed());
 	fwrite(file2, feed);
@@ -11547,7 +11704,7 @@ static GetFeed()
 
 	if(GetPhone(id) == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • You do not have a "d_phone" | `Phone`.");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You do not have a "d_phone" | `Phone`.");
 		return 1;
 	}
 
@@ -11555,13 +11712,13 @@ static GetFeed()
 
 	if(sscanf(params, "s[150]", text))
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"post [text]`");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"post [text]`");
 		return 1;
 	}
 
 	MakePost(id, GetName(id), GetNickname(id), text);
 
-	SendChannelMessage(channel, ""d_reply" **POSTED** • Your text was posted on "BOT_NAME" network! View it using `"BOT_PREFIX"feed`.\n\n> "d_reply" **NOTE** • If your text wasn't posted, it may be because of the high volume of the interactions right now, please retry.");
+	@discord() SendMsg(channel, ""d_reply" **POSTED** • Your text was posted on "BOT_NAME" network! View it using `"BOT_PREFIX"feed`.\n\n> "d_reply" **NOTE** • If your text wasn't posted, it may be because of the high volume of the interactions right now, please retry.");
 	return 1;
 }
 
@@ -11577,7 +11734,7 @@ static GetFeed()
 
 	if(GetPhone(id) == 0)
 	{
-		SendChannelMessage(channel, ""d_reply" **COMMAND ERROR** • You do not have a "d_phone" | `Phone`.");
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You do not have a "d_phone" | `Phone`.");
 		return 1;
 	}
 

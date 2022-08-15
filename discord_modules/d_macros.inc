@@ -2,6 +2,8 @@
 
 #define SERVER_RISE_OF_NATIONS "RoN • Rise of Nations"
 
+new datetimelog[256];
+
 #define CMD_PREFIX '^'
 #define MAX_LIST_ELEMENTS 50
 
@@ -14,28 +16,76 @@ new BOT_BETA_PHASE = 1;
 #define BOT_NAME "Damn Larper"
 #define BRACE_TEAM "® 𝐁 𝐑 𝐀 𝐂 𝐄™"
 
+#define @DISCORD_DECORATOR@SendMsg(%1,%2) \
+	format(formatted, sizeof formatted,%2); \
+	DCC_SendChannelEmbedMessage(%1, DCC_CreateEmbed( \
+			""botpfp"| **__"BOT_NAME"__**", formatted, "","", col_embed, datetimelog, \
+			"","",""), "")
+
+new info[2048];
+
+#define @DISCORD_DECORATOR@SendInfo(%1,%2) format(info, sizeof info, ""d_reply" • "%2);DCC_SendChannelMessage(%1, info)
+
+/*
+
+		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
+			"**__"SERVER_RISE_OF_NATIONS"__**", response, "","", col_embed, datetimelog, 
+			"","",""), GetMention(useridmention));*/
+
+#pragma warning disable 217
+
+#define CommandCooldownMin(%0,%1,%2,%3) \
+new h,m,s;gettime(h,m,s); \
+if((m>GetCommandUsedMin(%1,%2))||(m<GetCommandUsedMin(%1,%2)))SetCommandUsed(%1,%2,"0"); \
+if(GetPremium(%1) == 0 && GetCommandUsed(%1,%2)==1){\
+@discord() SendMsg(%0, "**<@%s>**\n\n"d_reply" **COOLDOWN** • "%3" **You can use this command once every 60 seconds.**", %1); \
+return 1;}SetCommandUsed(%1,%2, "1");SetCommandUsedMin(%1,%2, m)
+
+#define CommandCooldownHr(%0,%1,%2,%3) \
+new h,m,s;gettime(h,m,s); \
+if((h>GetCommandUsedHr(%1,%2))||(h<GetCommandUsedHr(%1,%2)))SetCommandUsed(%1,%2,"0"); \
+if(GetPremium(%1) == 0 && GetCommandUsed(%1,%2)==1){\
+@discord() SendMsg(%0, "**<@%s>**\n\n"d_reply" **COOLDOWN** • "%3" **You can use this command once every 1 hour.**", %1); \
+return 1;}SetCommandUsed(%1,%2, "1");SetCommandUsedHr(%1,%2, h)
+
+#define CommandCooldownDay(%0,%1,%2,%3) \
+new y,m,d;getdate(y,m,d); \
+if((d>GetCommandUsedDay(%1,%2))||(d<GetCommandUsedDay(%1,%2)))SetCommandUsed(%1,%2,"0"); \
+if(GetCommandUsed(%1,%2)==1){\
+@discord() SendMsg(%0, "**<@%s>**\n\n"d_reply" **COOLDOWN** • "%3" **You can use this command once every 1 day.**", %1); \
+return 1;}SetCommandUsed(%1,%2, "1");SetCommandUsedDay(%1,%2, d)
+
+
+new dmstring[2048];
+
+#define @DISCORD_DECORATOR@SendDM(%1,%2) \
+	format(dmstring, sizeof dmstring,%2);DCC_CreatePrivateChannel(%1, "senddm", "s", dmstring)
+
+
+new formatted[2048];
+
 #define modcheck; if(IsUserMod(author)==0) { \
-SendChannelMessage(channel,"> "d_reply" **AUTHORIZATION ERROR** • Only the "BRACE_TEAM" team can use this command!");return 1;}
+@discord() SendMsg(channel,"> "d_reply" **AUTHORIZATION ERROR** • Only the "BRACE_TEAM" team can use this command!");return 1;}
 
 #define premiumcheck(%1); if(GetPremium(%1)==0) { \
-SendChannelMessage(channel,"> "d_reply" **NO PREMIUM?** • Only the "BOT_NAME" premium users can use or do this!");return 1;}
+@discord() SendMsg(channel,"> "d_reply" **NO PREMIUM?** • Only the "BOT_NAME" premium users can use or do this!");return 1;}
 
 #define SettingsCheck(%1); if(settings[%1] == 0) { \
- SendChannelMessage(channel, "> "d_reply" **ERROR** • This command module has been disabled by a bot moderator."); return 1;}
+ @discord() SendMsg(channel, "> "d_reply" **ERROR** • This command module has been disabled by a bot moderator."); return 1;}
 
 #define servercheck(%1); new DCC_Guild:guild;DCC_GetChannelGuild(channel, guild);if(guild != %1) {\
- SendChannelMessage(channel, "> "d_reply" **ERROR** • I can't do that thing here because this is a custom feature made exclusively for another server!");return 1;}
+ @discord() SendMsg(channel, "> "d_reply" **ERROR** • I can't do that thing here because this is a custom feature made exclusively for another server!");return 1;}
 
 #define usercheck(%0); if(DCC_FindUserById(%0) == DCC_INVALID_USER){ \
- SendChannelMessage(channel, "> "d_reply" **ERROR** • I can't find an user with such ID or name - please, recheck the user ID, and submit again.\n\nUser: <@%s>", %0); \
+ @discord() SendMsg(channel, "> "d_reply" **ERROR** • I can't find an user with such ID or name - please, recheck the user ID, and submit again.\n\nUser: <@%s>", %0); \
  return 1;}
 
 #define channelcheck(%0); if(DCC_FindChannelById(%0) == DCC_INVALID_CHANNEL){ \
- SendChannelMessage(channel, "> "d_reply" **ERROR** • I can't find a channel with such ID or name - please, recheck the channel ID, and submit again.\n\nChannel: <@%s>", %0); \
+ @discord() SendMsg(channel, "> "d_reply" **ERROR** • I can't find a channel with such ID or name - please, recheck the channel ID, and submit again.\n\nChannel: <@%s>", %0); \
  return 1;}
 
 #define rolecheck(%0); if(DCC_FindRoleById(%0) == DCC_INVALID_ROLE){ \
- SendChannelMessage(channel, "> "d_reply" **ERROR** • I can't find a role with such ID or name - please, recheck the role ID, and submit again.\n\nRole: <@&%s>", %0); \
+ @discord() SendMsg(channel, "> "d_reply" **ERROR** • I can't find a role with such ID or name - please, recheck the role ID, and submit again.\n\nRole: <@&%s>", %0); \
  return 1;}
 
 #define @DISCORD_DECORATOR@command:%0(%1) DISCORD:%0(%1)
@@ -58,7 +108,7 @@ SendChannelMessage(channel,"> "d_reply" **NO PREMIUM?** • Only the "BOT_NAME" 
 #define logs 				DCC_FindChannelById("1006560017845067876") //d
 #define announcements 		DCC_FindChannelById("994393713461706832") //d
 #define countchannel 		DCC_FindChannelById("994393752351285338") //d
-#define reports 			DCC_FindChannelById("1006120959356452864") //d
+#define reports 			DCC_FindChannelById("1007376405220311070") //d
 #define appreview 			DCC_FindChannelById("1006140665819824208") //d
 #define verifychannel   	DCC_FindChannelById("1006227267048968212") //d
 
@@ -111,7 +161,7 @@ SendChannelMessage(channel,"> "d_reply" **NO PREMIUM?** • Only the "BOT_NAME" 
 #define IST_PAPER 10
 #define IST_BANKNOTE 11
 
-#define antiraid(%0,%1,%2); SendChannelMessage(channel, ":shield: **ANTI-RAID** • Hi, <@%s>! The bot's anti-raid system has been activated for `%s`! The moderators will be notified.\n\n",%1,%2);
+#define antiraid(%0,%1,%2); @discord() SendChannelMessage(channel, ":shield: **ANTI-RAID** • Hi, <@%s>! The bot's anti-raid system has been activated for `%s`! The moderators will be notified.\n\n",%1,%2);
 
 #define d_reply "<:d_reply:1007926037511946243>"
 #define botpfp "<:damn_larper:1007667783699538061>"//"<:diplomy:1006605884706791494>"
@@ -161,3 +211,13 @@ SendChannelMessage(channel,"> "d_reply" **NO PREMIUM?** • Only the "BOT_NAME" 
 #define d_max_bar_points 5
 
 #define BOT_PREFIX "damn "
+
+forward senddm(message[]);
+public senddm(message[])
+{
+	new DCC_Channel:channel = DCC_GetCreatedPrivateChannel();
+	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed( 
+			""botpfp"| **__"BOT_NAME"__**", message, "","", col_embed, datetimelog, 
+			"","",""), "");
+	return 1;
+}

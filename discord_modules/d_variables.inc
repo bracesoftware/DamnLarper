@@ -1,8 +1,5 @@
 // Module written by DEntisT, © & ® BRACE™.
 
-new datetimelog[256];
-
-
 new DiplomyReplies[][256] = {
 	"Did someone call my name?",
 	"I heard my name!",
