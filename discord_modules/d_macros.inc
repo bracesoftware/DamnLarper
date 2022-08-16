@@ -11,6 +11,36 @@ new datetimelog[256];
 
 #define MAX_STAFF_MEMBERS 100
 
+#if !defined isnull
+	#define isnull(%1) ((!(%1[0])) || (((%1[0]) == '\1') && (!(%1[1]))))
+#endif
+
+// Config
+
+#define MAX_CMD_LEN         32
+#define MAX_CMD_NAME        20
+
+// Prefix
+
+#if !defined CMD_PREFIX
+	#define CMD_PREFIX      '!'
+#endif
+
+// Macros
+
+#define DISCORD:%1(%2)      \
+	forward discord_%1(%2); \
+	public discord_%1(%2)
+
+#define DC:%1(%2)           \
+	DISCORD:%1(%2)
+
+// Command result
+
+#define DISCORD_SUCCESS     (1)
+#define DISCORD_FAILURE     (0)
+
+
 new BOT_BETA_PHASE = 1;
 #define BOT_VERSION "Beta @ 1.0"
 #define BOT_NAME "Damn Larper"
@@ -199,6 +229,9 @@ new formatted[2048];
 #define d_commonchest "<:d_commonchest:1008080211939708948>"
 #define d_rarechest "<:d_rarechest:1008460112853213314>"
 #define d_premium "<:d_premium:1008729855493406780>"
+#define d_safe "<:d_safe:1008815134229151805>"
+#define d_dog "<:d_dog:1008841252650889286>"
+#define d_cat "<:d_cat:1008844391043039262>"
 
 #define d_emptybar1 "<:d_emptybar1:1007987935049683036>"
 #define d_emptybar2 "<:d_emptybar2:1007987961733840956>"
