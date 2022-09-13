@@ -1,11 +1,62 @@
 // Module written by DEntisT, © & ® BRACE™.
 
+#if SLASH_COMMANDS == 1
+stock CreateCommands(DCC_Guild:guild)
+{
+	new DCC_Command:cmd = DCC_CreateCommand("help", "Help command", "SlashCommandTest", true, guild);
+}
+#endif
+
+stock strtok(const string[], &index, delimiter = ' ') {
+	new length = strlen(string);
+	while ((index < length) && (string[index] <= delimiter)) {
+		index++;
+	}
+	new offset = index;
+	new result[128];
+	while ((index < length) && (string[index] > delimiter) && ((index - offset) < (sizeof(result) - 1))) {
+		result[index - offset] = string[index];
+		index++;
+	}
+	result[index - offset] = EOS;
+	return result;
+}
+
 stock bool:IsUserGuildOwner(DCC_Guild:guild, const user[])
 {
 	new id[DCC_ID_SIZE];
 	DCC_GetGuildOwnerId(guild, id);
 	if(!strcmp(id, user)) return true;
 	return false;
+}
+
+stock GetServers()
+{
+	new count;
+	new strFromFile2[128];
+	if(!fexist("bot/servers.ini")) return 0;
+	new File: file = fopen("bot/servers.ini", io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+		
+		count = strval(strFromFile2);
+
+		fclose(file);
+
+		return count;
+	}
+	return 0;
+}
+
+stock SetServers(count)
+{
+	new string[10];
+	format(string, sizeof(string), "%i", count);
+	new File: file2 = fopen("bot/servers.ini", io_write);
+	fwrite(file2, string);
+	fclose(file2);
+	return 1;
 }
 
 //Achievements
@@ -472,6 +523,23 @@ stock OpenBankAccount(const id[])
 stock GetData(const id[], const data[])
 {
 	new count,file_name[150],strFromFile2[128];
+	if(!strcmp(data, "Level"))
+	{
+		format(file_name, sizeof file_name,
+			"data/lvl_%s.ini", id);
+		if(!fexist(file_name)) return 0;
+		new File: file = fopen(file_name, io_read);
+		if (file)
+		{
+			fread(file, strFromFile2);
+			
+			count = strval(strFromFile2);
+
+			fclose(file);
+
+			return count;
+		}
+	}
 	if(!strcmp(data, "Balance"))
 	{
 		format(file_name, sizeof file_name,
@@ -699,6 +767,14 @@ stock GetData(const id[], const data[])
 stock SetData(const id[], const data[], count)
 {
 	new string[10], file_name[150];
+	if(!strcmp(data, "Level"))
+	{
+		format(file_name, sizeof file_name,"data/lvl_%s.ini",id);
+		format(string, sizeof(string), "%i", count);
+		new File: file2 = fopen(file_name, io_write);
+		fwrite(file2, string);
+		fclose(file2);
+	}
 	if(!strcmp(data, "Balance"))
 	{
 		format(file_name, sizeof file_name,"data/eco_%s.ini",id);
@@ -2162,6 +2238,41 @@ stock SetGuildAirportChannel(DCC_Guild:guild, const value[])
 	return 1;
 }
 
+
+stock GetGuildLevelChannel(DCC_Guild:guild)
+{
+	new id[DCC_ID_SIZE];
+	DCC_GetGuildId(guild, id);
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"serverdata/lvc_%s.ini", id);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock SetGuildLevelChannel(DCC_Guild:guild, const value[])
+{
+	new id[DCC_ID_SIZE];
+	DCC_GetGuildId(guild, id);
+	new file_name[150];
+	format(file_name, sizeof file_name,"serverdata/lvc_%s.ini",id);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
 stock GetGuildLogChannel(DCC_Guild:guild)
 {
 	new id[DCC_ID_SIZE];
@@ -2412,4 +2523,1010 @@ stock DeleteAFK(const id[])
 	format(file_name, sizeof file_name,
 		"data/afk_%s.ini", id);
 	return fremove(file_name);
+}
+
+
+/*
+=============================================
+Roleplay functions
+=============================================
+*/
+
+stock bool:IsValidCountry(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/country_%s.ini", country);
+	return fexist(file_name) ? true : false;
+}
+
+stock RegisterCountry(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/country_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, "value.1;");
+	fclose(file2);
+	return 1;
+}
+
+stock GetPlayer(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/player_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Noone");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock SetPlayer(const country[], const id[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/player_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, id);
+	fclose(file2);
+	return 1;
+}
+
+stock GetFullname(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/fullname_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock GetStateHead(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/statehead_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock GetGovHead(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/govhead_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock GetGovType(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/govtype_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock GetGdp(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/gdp_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock GetGdpPerCapita(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/gdppc_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock GetPublicDebt(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/debt_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock GetNationality(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/nationality_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock GetReligion(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/religion_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock GetInhabitants(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/inhabitants_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock GetActivePersonnel(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/activep_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock GetReservePersonnel(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/reservep_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock GetMilitaryBudget(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/milbudget_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock GetNAP(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/nap_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock GetIOM(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/iom_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock GetIPW(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/ipw_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock GetCCY(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/ccy_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock GetBCY(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/bcy_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock SetFullname(const country[], const value[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/fullname_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+stock SetStateHead(const country[], const value[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/statehead_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+stock SetGovHead(const country[], const value[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/govhead_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+stock SetGovType(const country[], const value[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/govtype_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+stock SetNationality(const country[], const value[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/nationality_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+stock SetReligion(const country[], const value[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/religion_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+stock SetInhabitants(const country[], const value[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/inhabitants_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+stock SetGdp(const country[], const value[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/gdp_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+stock SetGdpPerCapita(const country[], const value[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/gdppc_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+stock SetPublicDebt(const country[], const value[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/debt_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+stock SetReservePersonnel(const country[], const value[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/reservep_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+stock SetActivePersonnel(const country[], const value[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/activep_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+stock SetMilitaryBudget(const country[], const value[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/milbudget_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+stock SetNAP(const country[], const value[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/nap_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+stock SetIOM(const country[], const value[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/iom_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+stock SetIPW(const country[], const value[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/ipw_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+stock SetCCY(const country[], const value[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/ccy_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+stock SetBCY(const country[], const value[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/bcy_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+
+stock GetAAE(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/aae_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock SetAAE(const country[], const value[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/aae_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+stock GetAPC(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/apc_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock SetAPC(const country[], const value[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/apc_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+stock GetASW(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/asw_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock SetASW(const country[], const value[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/asw_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+stock GetATE(const country[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"ron/ate_%s.ini", country);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock SetATE(const country[], const value[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"ron/ate_%s.ini",country);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
+
+
+stock GetInvData(const user[], const data[])
+{
+	new file_name[150];
+	new strFromFile2[128];
+	if(!strcmp(data, "Phone"))
+	{
+		format(file_name, sizeof file_name,
+			"inv/phone_%s.ini", user);
+		//format(strFromFile2, sizeof strFromFile2, "Unknown");
+		if(!fexist(file_name)) return 0;
+		new File: file = fopen(file_name, io_read);
+		if (file)
+		{
+			fread(file, strFromFile2);
+
+			fclose(file);
+
+			return strval(strFromFile2);
+		}
+	}
+	if(!strcmp(data, "Gamepad"))
+	{
+		format(file_name, sizeof file_name,
+			"inv/gamepad_%s.ini", user);
+		//format(strFromFile2, sizeof strFromFile2, "Unknown");
+		if(!fexist(file_name)) return 0;
+		new File: file = fopen(file_name, io_read);
+		if (file)
+		{
+			fread(file, strFromFile2);
+
+			fclose(file);
+
+			return strval(strFromFile2);
+		}
+	}
+	if(!strcmp(data, "Wallet"))
+	{
+		format(file_name, sizeof file_name,
+			"inv/wallet_%s.ini", user);
+		//format(strFromFile2, sizeof strFromFile2, "Unknown");
+		if(!fexist(file_name)) return 0;
+		new File: file = fopen(file_name, io_read);
+		if (file)
+		{
+			fread(file, strFromFile2);
+
+			fclose(file);
+
+			return strval(strFromFile2);
+		}
+	}
+	if(!strcmp(data, "Pickaxe"))
+	{
+		format(file_name, sizeof file_name,
+			"inv/pickaxe_%s.ini", user);
+		//format(strFromFile2, sizeof strFromFile2, "Unknown");
+		if(!fexist(file_name)) return 0;
+		new File: file = fopen(file_name, io_read);
+		if (file)
+		{
+			fread(file, strFromFile2);
+
+			fclose(file);
+
+			return strval(strFromFile2);
+		}
+	}
+	if(!strcmp(data, "Furnace"))
+	{
+		format(file_name, sizeof file_name,
+			"inv/furnace_%s.ini", user);
+		//format(strFromFile2, sizeof strFromFile2, "Unknown");
+		if(!fexist(file_name)) return 0;
+		new File: file = fopen(file_name, io_read);
+		if (file)
+		{
+			fread(file, strFromFile2);
+
+			fclose(file);
+
+			return strval(strFromFile2);
+		}
+	}
+	if(!strcmp(data, "Slingshot"))
+	{
+		format(file_name, sizeof file_name,
+			"inv/slingshot_%s.ini", user);
+		//format(strFromFile2, sizeof strFromFile2, "Unknown");
+		if(!fexist(file_name)) return 0;
+		new File: file = fopen(file_name, io_read);
+		if (file)
+		{
+			fread(file, strFromFile2);
+
+			fclose(file);
+
+			return strval(strFromFile2);
+		}
+	}
+	if(!strcmp(data, "Mask"))
+	{
+		format(file_name, sizeof file_name,
+			"inv/mask_%s.ini", user);
+		//format(strFromFile2, sizeof strFromFile2, "Unknown");
+		if(!fexist(file_name)) return 0;
+		new File: file = fopen(file_name, io_read);
+		if (file)
+		{
+			fread(file, strFromFile2);
+
+			fclose(file);
+
+			return strval(strFromFile2);
+		}
+	}
+	if(!strcmp(data, "FishingRod"))
+	{
+		format(file_name, sizeof file_name,
+			"inv/frod_%s.ini", user);
+		//format(strFromFile2, sizeof strFromFile2, "Unknown");
+		if(!fexist(file_name)) return 0;
+		new File: file = fopen(file_name, io_read);
+		if (file)
+		{
+			fread(file, strFromFile2);
+
+			fclose(file);
+
+			return strval(strFromFile2);
+		}
+	}
+	if(!strcmp(data, "Desk"))
+	{
+		format(file_name, sizeof file_name,
+			"inv/desk_%s.ini", user);
+		//format(strFromFile2, sizeof strFromFile2, "Unknown");
+		if(!fexist(file_name)) return 0;
+		new File: file = fopen(file_name, io_read);
+		if (file)
+		{
+			fread(file, strFromFile2);
+
+			fclose(file);
+
+			return strval(strFromFile2);
+		}
+	}
+	if(!strcmp(data, "Axe"))
+	{
+		format(file_name, sizeof file_name,
+			"inv/axe_%s.ini", user);
+		//format(strFromFile2, sizeof strFromFile2, "Unknown");
+		if(!fexist(file_name)) return 0;
+		new File: file = fopen(file_name, io_read);
+		if (file)
+		{
+			fread(file, strFromFile2);
+
+			fclose(file);
+
+			return strval(strFromFile2);
+		}
+	}
+	if(!strcmp(data, "Laptop"))
+	{
+		format(file_name, sizeof file_name,
+			"inv/laptop_%s.ini", user);
+		//format(strFromFile2, sizeof strFromFile2, "Unknown");
+		if(!fexist(file_name)) return 0;
+		new File: file = fopen(file_name, io_read);
+		if (file)
+		{
+			fread(file, strFromFile2);
+
+			fclose(file);
+
+			return strval(strFromFile2);
+		}
+	}
+	if(!strcmp(data, "Safe"))
+	{
+		format(file_name, sizeof file_name,
+			"inv/safe_%s.ini", user);
+		//format(strFromFile2, sizeof strFromFile2, "Unknown");
+		if(!fexist(file_name)) return 0;
+		new File: file = fopen(file_name, io_read);
+		if (file)
+		{
+			fread(file, strFromFile2);
+
+			fclose(file);
+
+			return strval(strFromFile2);
+		}
+	}
+	return 0;
+}
+
+stock SetInvData(const user[], const data[])
+{
+	new file_name[150];
+	if(!strcmp(data, "Phone"))
+	{
+		format(file_name, sizeof file_name,"inv/phone_%s.ini",user);
+		new File: file2 = fopen(file_name, io_write);
+		fwrite(file2, "1");
+		fclose(file2);
+	}
+	if(!strcmp(data, "Gamepad"))
+	{
+		format(file_name, sizeof file_name,"inv/gamepad_%s.ini",user);
+		new File: file2 = fopen(file_name, io_write);
+		fwrite(file2, "1");
+		fclose(file2);
+	}
+	if(!strcmp(data, "Wallet"))
+	{
+		format(file_name, sizeof file_name,"inv/wallet_%s.ini",user);
+		new File: file2 = fopen(file_name, io_write);
+		fwrite(file2, "1");
+		fclose(file2);
+	}
+	if(!strcmp(data, "Pickaxe"))
+	{
+		format(file_name, sizeof file_name,"inv/pickaxe_%s.ini",user);
+		new File: file2 = fopen(file_name, io_write);
+		fwrite(file2, "1");
+		fclose(file2);
+	}
+	if(!strcmp(data, "Furnace"))
+	{
+		format(file_name, sizeof file_name,"inv/furnace_%s.ini",user);
+		new File: file2 = fopen(file_name, io_write);
+		fwrite(file2, "1");
+		fclose(file2);
+	}
+	if(!strcmp(data, "Slingshot"))
+	{
+		format(file_name, sizeof file_name,"inv/slingshot_%s.ini",user);
+		new File: file2 = fopen(file_name, io_write);
+		fwrite(file2, "1");
+		fclose(file2);
+	}
+	if(!strcmp(data, "Mask"))
+	{
+		format(file_name, sizeof file_name,"inv/mask_%s.ini",user);
+		new File: file2 = fopen(file_name, io_write);
+		fwrite(file2, "1");
+		fclose(file2);
+	}
+	if(!strcmp(data, "FishingRod"))
+	{
+		format(file_name, sizeof file_name,"inv/frod_%s.ini",user);
+		new File: file2 = fopen(file_name, io_write);
+		fwrite(file2, "1");
+		fclose(file2);
+	}
+	if(!strcmp(data, "Desk"))
+	{
+		format(file_name, sizeof file_name,"inv/desk_%s.ini",user);
+		new File: file2 = fopen(file_name, io_write);
+		fwrite(file2, "1");
+		fclose(file2);
+	}
+	if(!strcmp(data, "Axe"))
+	{
+		format(file_name, sizeof file_name,"inv/axe_%s.ini",user);
+		new File: file2 = fopen(file_name, io_write);
+		fwrite(file2, "1");
+		fclose(file2);
+	}
+	if(!strcmp(data, "Laptop"))
+	{
+		format(file_name, sizeof file_name,"inv/laptop_%s.ini",user);
+		new File: file2 = fopen(file_name, io_write);
+		fwrite(file2, "1");
+		fclose(file2);
+	}
+	if(!strcmp(data, "Safe"))
+	{
+		format(file_name, sizeof file_name,"inv/safe_%s.ini",user);
+		new File: file2 = fopen(file_name, io_write);
+		fwrite(file2, "1");
+		fclose(file2);
+	}
+	return 1;
 }

@@ -54,3 +54,5 @@ new settings[esettings];
 new listpreview[4000];
 
 new RISE_OF_NATIONS_GLOBALSTRING[1024];
+
+new activity[100];

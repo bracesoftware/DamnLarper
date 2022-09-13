@@ -9,6 +9,8 @@
 
 #define @discord%0(%1) @DISCORD_DECORATOR@
 
+#define SLASH_COMMANDS 1
+
 #include "../discord_api/d_setup.inc"
 #include "../discord_api/d_channels.inc"
 #include "../discord_api/d_messages.inc"
@@ -19,6 +21,10 @@
 #include "../discord_api/d_misc.inc"
 #include "../discord_api/d_emoji.inc"
 #include "../discord_api/d_reactions.inc"
+#if SLASH_COMMANDS == 1
+#include "../discord_api/d_commands.inc"
+#include "../discord_api/d_interactions.inc"
+#endif
 
 #include "../discord_modules/d_macros.inc"
 #include "../discord_modules/d_variables.inc"
@@ -26,7 +32,6 @@
 #include "../discord_modules/d_publics.inc"
 
 #pragma dynamic 215750000
-
 
 // Hooking and functions
 
@@ -396,7 +401,7 @@ main()
 		"d_arrow"**`"BOT_PREFIX"tos`**\n"d_reply"Read our application's Terms of Service.\n\
 		"d_arrow"**`"BOT_PREFIX"pp`**\n"d_reply"Read our Privacy Policy.\n\n\
 		"delimiterlol" • __List of Main Commands__\n\
-		"d_arrow"**`"BOT_PREFIX"help verification`**\n"d_reply"Help about verification system.\n\
+		"d_arrow"**`"BOT_PREFIX"help verification`** "d_beta"\n"d_reply"Help about verification system.\n\
 		"d_arrow"**`"BOT_PREFIX"help moderation`**\n"d_reply"Help about moderation commands.\n\
 		"d_arrow"**`"BOT_PREFIX"help economy`**\n"d_reply"Help about economy commands.\n\
 		"d_arrow"**`"BOT_PREFIX"help afk`**\n"d_reply"Help about AFK system.\n\
@@ -988,7 +993,7 @@ main()
 
 	new lvl[256];
 
-	format(lvl, sizeof lvl, ":speaking_head: User: <@%s>\n:crown: Level: %i\n"delimiterlol" Total message count: %i", id, GetMessageCount(id) / 100 + 1, GetMessageCount(id));
+	format(lvl, sizeof lvl, "<@%s>\n\n**Level**\n"d_reply" `%i`\n\n**Total messages**\n"d_reply" `%i`", id, GetMessageCount(id) / 100 + 1, GetMessageCount(id));
 
 	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Level Statistics__**", lvl, 
@@ -1145,7 +1150,7 @@ main()
 
 	new query[256];
 
-	new id[DCC_ID_SIZE]; DCC_GetUserId(author,id);if(GetGamepad(id) == 0)
+	new id[DCC_ID_SIZE]; DCC_GetUserId(author,id);if(GetInvData(id, "Gamepad") == 0)
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_gamepad" | `Gamepad` to use miscellaneous commands!");
 		return 1;
@@ -1174,7 +1179,7 @@ main()
 
 	new t[256];
 
-	new id[DCC_ID_SIZE]; DCC_GetUserId(author,id);if(GetGamepad(id) == 0)
+	new id[DCC_ID_SIZE]; DCC_GetUserId(author,id);if(GetInvData(id, "Gamepad") == 0)
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_gamepad" | `Gamepad` to use miscellaneous commands!");
 		return 1;
@@ -1199,7 +1204,7 @@ main()
 	DCC_GetMessageChannel(message, channel);
 
 
-	new id[DCC_ID_SIZE]; DCC_GetUserId(author,id);if(GetGamepad(id) == 0)
+	new id[DCC_ID_SIZE]; DCC_GetUserId(author,id);if(GetInvData(id, "Gamepad") == 0)
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_gamepad" | `Gamepad` to use miscellaneous commands!");
 		return 1;
@@ -1528,21 +1533,6 @@ main()
 	format(msg, sizeof msg, ""d_reply" • User <@%s> was warned successfully.\n**REASON** • `%s`", user, reason);
 	@discord() SendMsg(channel, msg);
 	return 1;
-}
-
-stock strtok(const string[], &index, delimiter = ' ') {
-	new length = strlen(string);
-	while ((index < length) && (string[index] <= delimiter)) {
-		index++;
-	}
-	new offset = index;
-	new result[128];
-	while ((index < length) && (string[index] > delimiter) && ((index - offset) < (sizeof(result) - 1))) {
-		result[index - offset] = string[index];
-		index++;
-	}
-	result[index - offset] = EOS;
-	return result;
 }
 
 @discord() command:warns(@discord() cmd_params)
@@ -2208,7 +2198,8 @@ stock strtok(const string[], &index, delimiter = ' ') {
 		**`airportchannel`**\n"d_reply"A channel where "BOT_NAME" will log who joins and leaves this guild!\n\
 		**`verification`**\n"d_reply"Enable the "BOT_NAME" verification system in this guild! Use `true` as a value to enable it, and `false` to disable it. It is recommended not to turn this on unless you've set the `verificationchannel` up.\n\
 		**`verificationchannel`**\n"d_reply"A channel where "BOT_NAME" will verify people!\n\
-		**`botannouncements`**\n"d_reply"A channel where "BOT_NAME" will send announcements from the developer team!\n\
+		**`levelchannel`**\n"d_reply"A channel where "BOT_NAME" will log member level-ups!\n\
+		**`botannouncements`** "d_beta"\n"d_reply"A channel where "BOT_NAME" will send announcements from the developer team!\n\
 		", 
 		"","", col_embed, datetimelog, 
 		"","",""), GetMention(useridmention));
@@ -2287,6 +2278,15 @@ stock strtok(const string[], &index, delimiter = ' ') {
 		channelcheck(value);
 
 		SetGuildAnnouncementChannel(guild, value);
+
+		@discord() SendMsg(channel, ""d_reply" **CONFIGURATION UPDATED** • Value for option `%s` was successfully changed to `%s`.", option, value);
+		return 1;
+	}
+	if(!strcmp(option, "levelchannel"))
+	{
+		channelcheck(value);
+
+		SetGuildLevelChannel(guild, value);
 
 		@discord() SendMsg(channel, ""d_reply" **CONFIGURATION UPDATED** • Value for option `%s` was successfully changed to `%s`.", option, value);
 		return 1;
@@ -2775,7 +2775,7 @@ stock strtok(const string[], &index, delimiter = ' ') {
 		return 1;
 	}
 
-	if(GetData(id, "Balance") >= 3000 && GetWallet(id) == 0)
+	if(GetData(id, "Balance") >= 3000 && GetInvData(id, "Wallet") == 0)
 	{
 		@discord() SendMsg(channel, "> "d_reply" **ERROR** • Your pocket is full of coins - there is no space left for more!\n\
 			"delimiterlol" **TIP** • Buy a "d_wallet" | `Wallet` to get space for more coins.");
@@ -2989,7 +2989,7 @@ SetCommandUsedMin(id, "cmd", m);
 		return 1;
 	}
 
-	if(!HasBankAccount(id) && GetSafe(id) == 0)
+	if(!HasBankAccount(id) && GetInvData(id, "Safe") == 0)
 	{
 		@discord() SendMsg(channel, "> "d_reply" **ERROR** • You don't have a bank account or a safe to deposite your coins to.");
 		return 1;
@@ -3132,7 +3132,7 @@ SetCommandUsedMin(id, "cmd", m);
 		return 1;
 	}
 
-	if(GetMask(id) == 0)
+	if(GetInvData(id, "Mask") == 0)
 	{
 		@discord() SendMsg(channel, ""d_reply" **YOU GOT CAUGHT** • You got caught and could not rob any money!");
 		@discord() SendInfo(channel, "Buy a "d_mask" | `"BOT_NAME"-looking Mask` at the shop so you can hide yourself behind it!");
@@ -3202,7 +3202,7 @@ SetCommandUsedMin(id, "cmd", m);
 		return 1;
 	}
 
-	if(GetLaptop(id) == 0)
+	if(GetInvData(id, "Laptop") == 0)
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_laptop" | `Laptop` to do hacking stuff and perform a heist!");
 		return 1;
@@ -3210,7 +3210,7 @@ SetCommandUsedMin(id, "cmd", m);
 
 	CommandCooldownHr(channel, id, "heist", "You forgot your laptop's password, you will probably find where did you write it down later.");
 
-	if(GetSafe(user) == 1)
+	if(GetInvData(user, "Safe") == 1)
 	{
 		@discord() SendInfo(channel, "This guy got a safe with a passcode on it! No money for you today, I guess!");
 		return 1;
@@ -3740,366 +3740,6 @@ stock SetPetEnergy(const id[],count)
 	return 1;
 }
 
-stock GetPhone(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"inv/phone_%s.ini", user);
-	new strFromFile2[128];
-	//format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return 0;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strval(strFromFile2);
-	}
-	return 0;
-}
-
-stock SetPhone(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"inv/phone_%s.ini",user);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, "1");
-	fclose(file2);
-	return 1;
-}
-
-stock GetGamepad(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"inv/gamepad_%s.ini", user);
-	new strFromFile2[128];
-	//format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return 0;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strval(strFromFile2);
-	}
-	return 0;
-}
-
-stock SetGamepad(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"inv/gamepad_%s.ini",user);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, "1");
-	fclose(file2);
-	return 1;
-}
-
-stock GetWallet(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"inv/wallet_%s.ini", user);
-	new strFromFile2[128];
-	//format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return 0;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strval(strFromFile2);
-	}
-	return 0;
-}
-
-stock SetWallet(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"inv/wallet_%s.ini",user);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, "1");
-	fclose(file2);
-	return 1;
-}
-
-stock GetPickaxe(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"inv/pickaxe_%s.ini", user);
-	new strFromFile2[128];
-	//format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return 0;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strval(strFromFile2);
-	}
-	return 0;
-}
-
-stock SetPickaxe(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"inv/pickaxe_%s.ini",user);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, "1");
-	fclose(file2);
-	return 1;
-}
-
-stock GetFurnace(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"inv/furnace_%s.ini", user);
-	new strFromFile2[128];
-	//format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return 0;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strval(strFromFile2);
-	}
-	return 0;
-}
-
-stock SetFurnace(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"inv/furnace_%s.ini",user);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, "1");
-	fclose(file2);
-	return 1;
-}
-
-stock GetSlingshot(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"inv/slingshot_%s.ini", user);
-	new strFromFile2[128];
-	//format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return 0;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strval(strFromFile2);
-	}
-	return 0;
-}
-
-stock SetSlingshot(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"inv/slingshot_%s.ini",user);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, "1");
-	fclose(file2);
-	return 1;
-}
-
-stock GetMask(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"inv/mask_%s.ini", user);
-	new strFromFile2[128];
-	//format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return 0;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strval(strFromFile2);
-	}
-	return 0;
-}
-
-stock SetMask(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"inv/mask_%s.ini",user);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, "1");
-	fclose(file2);
-	return 1;
-}
-
-stock GetFishingRod(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"inv/frod_%s.ini", user);
-	new strFromFile2[128];
-	//format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return 0;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strval(strFromFile2);
-	}
-	return 0;
-}
-
-stock SetFishingRod(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"inv/frod_%s.ini",user);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, "1");
-	fclose(file2);
-	return 1;
-}
-
-stock GetDesk(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"inv/desk_%s.ini", user);
-	new strFromFile2[128];
-	//format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return 0;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strval(strFromFile2);
-	}
-	return 0;
-}
-
-stock SetDesk(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"inv/desk_%s.ini",user);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, "1");
-	fclose(file2);
-	return 1;
-}
-
-stock GetAxe(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"inv/axe_%s.ini", user);
-	new strFromFile2[128];
-	//format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return 0;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strval(strFromFile2);
-	}
-	return 0;
-}
-
-stock SetAxe(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"inv/axe_%s.ini",user);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, "1");
-	fclose(file2);
-	return 1;
-}
-
-stock GetLaptop(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"inv/laptop_%s.ini", user);
-	new strFromFile2[128];
-	//format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return 0;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strval(strFromFile2);
-	}
-	return 0;
-}
-
-stock SetLaptop(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"inv/laptop_%s.ini",user);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, "1");
-	fclose(file2);
-	return 1;
-}
-
-stock GetSafe(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"inv/safe_%s.ini", user);
-	new strFromFile2[128];
-	//format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return 0;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strval(strFromFile2);
-	}
-	return 0;
-}
-
-stock SetSafe(const user[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"inv/safe_%s.ini",user);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, "1");
-	fclose(file2);
-	return 1;
-}
-
 @discord() command:buy(@discord() cmd_params)
 {
 	new DCC_Channel:channel;
@@ -4131,12 +3771,12 @@ stock SetSafe(const user[])
 			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
-		if(GetPhone(user) == 1)
+		if(GetInvData(user, "Phone") == 1)
 		{
 			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_phone" | `Phone`!");
 			return 1;
 		}
-		SetPhone(user);
+		SetInvData(user, "Phone");
 		SetData(user, "Balance", GetData(user, "Balance") - 12000);
 		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_phone" | `Phone` for "d_coin" `12000`!");
 		return 1;
@@ -4148,12 +3788,12 @@ stock SetSafe(const user[])
 			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
-		if(GetGamepad(user) == 1)
+		if(GetInvData(user, "Gamepad") == 1)
 		{
 			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_gamepad" | `Gamepad`!");
 			return 1;
 		}
-		SetGamepad(user);
+		SetInvData(user, "Gamepad");
 		SetData(user, "Balance", GetData(user, "Balance") - 20000);
 		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_gamepad" | `Gamepad` for "d_coin" `20000`!");
 		return 1;
@@ -4166,12 +3806,12 @@ stock SetSafe(const user[])
 			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
-		if(GetWallet(user) == 1)
+		if(GetInvData(user, "Wallet") == 1)
 		{
 			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_wallet" | `Wallet`!");
 			return 1;
 		}
-		SetWallet(user);
+		SetInvData(user, "Wallet");
 		SetData(user, "Balance", GetData(user, "Balance") - 3000);
 		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_wallet" | `Wallet` for "d_coin" `3000`!");
 		return 1;
@@ -4184,12 +3824,12 @@ stock SetSafe(const user[])
 			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
-		if(GetPickaxe(user) == 1)
+		if(GetInvData(user, "Pickaxe") == 1)
 		{
 			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_pickaxe" | `Pickaxe`!");
 			return 1;
 		}
-		SetPickaxe(user);
+		SetInvData(user, "Pickaxe");
 		SetData(user, "Balance", GetData(user, "Balance") - 20000);
 		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_pickaxe" | `Pickaxe` for "d_coin" `20000`!");
 		return 1;
@@ -4201,12 +3841,12 @@ stock SetSafe(const user[])
 			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
-		if(GetFurnace(user) == 1)
+		if(GetInvData(user, "Furnace") == 1)
 		{
 			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_furnace" | `Furnace`!");
 			return 1;
 		}
-		SetFurnace(user);
+		SetInvData(user, "Furnace");
 		SetData(user, "Rubies", GetData(user, "Rubies") - 20);
 		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_furnace" | `Furnace` for "d_ruby" `20`!");
 		return 1;
@@ -4218,12 +3858,12 @@ stock SetSafe(const user[])
 			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
-		if(GetSlingshot(user) == 1)
+		if(GetInvData(user, "Slingshot") == 1)
 		{
 			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_slingshot" | `Slingshot`!");
 			return 1;
 		}
-		SetSlingshot(user);
+		SetInvData(user, "Slingshot");
 		SetData(user, "Rubies", GetData(user, "Rubies") - 15);
 		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_slingshot" | `Slingshot` for "d_ruby" `15`!");
 		return 1;
@@ -4235,12 +3875,12 @@ stock SetSafe(const user[])
 			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
-		if(GetMask(user) == 1)
+		if(GetInvData(user, "Mask") == 1)
 		{
 			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_mask" | `"BOT_NAME"-looking Mask`!");
 			return 1;
 		}
-		SetMask(user);
+		SetInvData(user, "Mask");
 		SetData(user, "Rubies", GetData(user, "Rubies") - 4);
 		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_mask" | `"BOT_NAME"-looking Mask` for "d_ruby" `4`!");
 		return 1;
@@ -4252,12 +3892,12 @@ stock SetSafe(const user[])
 			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
-		if(GetFishingRod(user) == 1)
+		if(GetInvData(user, "FishingRod") == 1)
 		{
 			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_fishingrod" | `Fishing Rod`!");
 			return 1;
 		}
-		SetFishingRod(user);
+		SetInvData(user, "FishingRod");
 		SetData(user, "Balance", GetData(user, "Balance") - 1000);
 		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_fishingrod" | `Fishing Rod` for "d_coin" `1000`!");
 		return 1;
@@ -4269,12 +3909,12 @@ stock SetSafe(const user[])
 			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
-		if(GetDesk(user) == 1)
+		if(GetInvData(user, "Desk") == 1)
 		{
 			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_desk" | `Desk`!");
 			return 1;
 		}
-		SetDesk(user);
+		SetInvData(user, "Desk");
 		SetData(user, "Rubies", GetData(user, "Rubies") - 10);
 		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_desk" | `Desk` for "d_ruby" `10`!");
 		return 1;
@@ -4286,12 +3926,12 @@ stock SetSafe(const user[])
 			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
-		if(GetAxe(user) == 1)
+		if(GetInvData(user, "Axe") == 1)
 		{
 			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_axe" | `Axe`!");
 			return 1;
 		}
-		SetAxe(user);
+		SetInvData(user, "Axe");
 		SetData(user, "Balance", GetData(user, "Balance") - 8000);
 		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_axe" | `Axe` for "d_coin" `8000`!");
 		return 1;
@@ -4303,12 +3943,12 @@ stock SetSafe(const user[])
 			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
-		if(GetLaptop(user) == 1)
+		if(GetInvData(user, "Laptop") == 1)
 		{
 			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_laptop" | `Laptop`!");
 			return 1;
 		}
-		SetLaptop(user);
+		SetInvData(user, "Laptop");
 		SetData(user, "Banknotes", GetData(user, "Banknotes") - 25);
 		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_laptop" | `Laptop` for "d_banknote" `25`!");
 		return 1;
@@ -4320,12 +3960,12 @@ stock SetSafe(const user[])
 			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
 		}
-		if(GetSafe(user) == 1)
+		if(GetInvData(user, "Safe") == 1)
 		{
 			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_safe" | `Safe`!");
 			return 1;
 		}
-		SetSafe(user);
+		SetInvData(user, "Safe");
 		SetData(user, "Banknotes", GetData(user, "Banknotes") - 50);
 		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_safe" | `Safe` for "d_banknote" `50`!");
 		@discord() SendInfo(channel, "Your coins will be now deposited to your safe instead of a bank! Now noone knows your safe passcode and won't be able to steal your deposited money!");
@@ -4335,13 +3975,6 @@ stock SetSafe(const user[])
 	@discord() SendMsg(channel, ""d_reply" **ERROR** • Wrong item ID was given, please recheck the shop!");
 
 	return 1;
-}
-
-stock d_inv_valstr(val)
-{
-	new string[100];
-	format(string, sizeof string, "%s\n", val);
-	return string;
 }
 
 stock GenerateInvString(const id[], type)
@@ -4456,18 +4089,18 @@ stock GenerateChestString(const id[], type)
 		%s\
 		%s\
 		",
-		GetPhone(id) ? ""d_reply" "d_phone" • **Phone** (*ID: `1`*)\n" : "",
-		GetGamepad(id) ? ""d_reply" "d_gamepad" • **Gamepad** (*ID: `2`*)\n" : "",
-		GetWallet(id) ? ""d_reply" "d_wallet" • **Wallet** (*ID: `3`*)\n" : "",
-		GetPickaxe(id) ? ""d_reply" "d_pickaxe" • **Pickaxe** (*ID: `4`*)\n" : "",
-		GetFurnace(id) ? ""d_reply" "d_furnace" • **Furnace** (*ID: `5`*)\n" : "",
-		GetSlingshot(id) ? ""d_reply" "d_slingshot" • **Slingshot** (*ID: `6`*)\n" : "",
-		GetMask(id) ? ""d_reply" "d_mask" • **"BOT_NAME"-looking Mask** (*ID: `7`*)\n" : "",
-		GetFishingRod(id) ? ""d_reply" "d_fishingrod" • **Fishing Rod** (*ID: `8`*)\n" : "",
-		GetDesk(id) ? ""d_reply" "d_desk" • **Desk** (*ID: `9`*)\n" : "",
-		GetAxe(id) ? ""d_reply" "d_axe" • **Axe** (*ID: `10`*)\n" : "",
-		GetLaptop(id) ? ""d_reply" "d_laptop" • **Laptop** (*ID: `11`*)\n" : "",
-		GetSafe(id) ? ""d_reply" "d_safe" • **Safe** (*ID: `12`*)\n" : "");
+		GetInvData(id, "Phone") ? ""d_reply" "d_phone" • **Phone** (*ID: `1`*)\n" : "",
+		GetInvData(id, "Gamepad") ? ""d_reply" "d_gamepad" • **Gamepad** (*ID: `2`*)\n" : "",
+		GetInvData(id, "Wallet") ? ""d_reply" "d_wallet" • **Wallet** (*ID: `3`*)\n" : "",
+		GetInvData(id, "Pickaxe") ? ""d_reply" "d_pickaxe" • **Pickaxe** (*ID: `4`*)\n" : "",
+		GetInvData(id, "Furnace") ? ""d_reply" "d_furnace" • **Furnace** (*ID: `5`*)\n" : "",
+		GetInvData(id, "Slingshot") ? ""d_reply" "d_slingshot" • **Slingshot** (*ID: `6`*)\n" : "",
+		GetInvData(id, "Mask") ? ""d_reply" "d_mask" • **"BOT_NAME"-looking Mask** (*ID: `7`*)\n" : "",
+		GetInvData(id, "FishingRod") ? ""d_reply" "d_fishingrod" • **Fishing Rod** (*ID: `8`*)\n" : "",
+		GetInvData(id, "Desk") ? ""d_reply" "d_desk" • **Desk** (*ID: `9`*)\n" : "",
+		GetInvData(id, "Axe") ? ""d_reply" "d_axe" • **Axe** (*ID: `10`*)\n" : "",
+		GetInvData(id, "Laptop") ? ""d_reply" "d_laptop" • **Laptop** (*ID: `11`*)\n" : "",
+		GetInvData(id, "Safe") ? ""d_reply" "d_safe" • **Safe** (*ID: `12`*)\n" : "");
 
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Your Shop Items Inventory__**", inv, 
@@ -4618,7 +4251,7 @@ stock GenerateChestString(const id[], type)
 
 	CommandCooldownMin(channel, id, "mine", "Slow down your demands miner!");
 
-	if(GetPickaxe(id) == 0)
+	if(GetInvData(id, "Pickaxe") == 0)
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_pickaxe" | `Pickaxe` to go mining!");
 		return 1;
@@ -4685,7 +4318,7 @@ stock GenerateChestString(const id[], type)
 
 	CommandCooldownMin(channel, id, "chop", "Chopping trees repeatedly is not cool.");
 
-	if(GetAxe(id) == 0)
+	if(GetInvData(id, "Axe") == 0)
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_axe" | `Axe` to go chopping trees!");
 		return 1;
@@ -4734,7 +4367,7 @@ stock GenerateChestString(const id[], type)
 
 	CommandCooldownMin(channel, id, "fish", "Fish in the lake are scared now, please wait some time until you fish again!");
 
-	if(GetFishingRod(id) == 0)
+	if(GetInvData(id, "FishingRod") == 0)
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_fishingrod" | `Fishing Rod` to go fishing!");
 		return 1;
@@ -4782,7 +4415,7 @@ stock GenerateChestString(const id[], type)
 
 	CommandCooldownMin(channel, id, "hunt", "Chill hunter! All of the animals in the forest are scared to go out of their homes, wait some time to hunt again...");
 
-	if(GetSlingshot(id) == 0)
+	if(GetInvData(id, "Slingshot") == 0)
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_slingshot" | `Slingshot` to go hunting!");
 		return 1;
@@ -4831,7 +4464,7 @@ stock GenerateChestString(const id[], type)
 
 	new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
 
-	if(GetFurnace(id) == 0)
+	if(GetInvData(id, "Furnace") == 0)
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_furnace" | `Furnace` to melt stuff!");
 		return 1;
@@ -5196,7 +4829,7 @@ stock GenerateBar(points = d_max_bar_points)
 	new id[DCC_ID_SIZE];
 	DCC_GetUserId(author, id);
 
-	if(GetDesk(id) == 0)
+	if(GetInvData(id, "Desk") == 0)
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_desk" | `Desk` to make stuff!");
 		return 1;
@@ -6404,599 +6037,6 @@ stock GenerateBar(points = d_max_bar_points)
 	return 1;
 }
 
-/*
-=============================================
-Roleplay functions
-=============================================
-*/
-
-stock bool:IsValidCountry(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/country_%s.ini", country);
-	return fexist(file_name) ? true : false;
-}
-
-static RegisterCountry(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/country_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, "value.1;");
-	fclose(file2);
-	return 1;
-}
-
-static GetPlayer(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/player_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Noone");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-stock SetPlayer(const country[], const id[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/player_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, id);
-	fclose(file2);
-	return 1;
-}
-
-static GetFullname(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/fullname_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-static GetStateHead(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/statehead_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-static GetGovHead(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/govhead_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-static GetGovType(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/govtype_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-static GetGdp(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/gdp_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-static GetGdpPerCapita(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/gdppc_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-static GetPublicDebt(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/debt_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-static GetNationality(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/nationality_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-static GetReligion(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/religion_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-static GetInhabitants(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/inhabitants_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-static GetActivePersonnel(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/activep_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-static GetReservePersonnel(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/reservep_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-stock GetMilitaryBudget(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/milbudget_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-stock GetNAP(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/nap_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-stock GetIOM(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/iom_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-stock GetIPW(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/ipw_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-stock GetCCY(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/ccy_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-stock GetBCY(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/bcy_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-stock SetFullname(const country[], const value[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/fullname_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, value);
-	fclose(file2);
-	return 1;
-}
-
-stock SetStateHead(const country[], const value[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/statehead_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, value);
-	fclose(file2);
-	return 1;
-}
-
-stock SetGovHead(const country[], const value[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/govhead_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, value);
-	fclose(file2);
-	return 1;
-}
-
-stock SetGovType(const country[], const value[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/govtype_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, value);
-	fclose(file2);
-	return 1;
-}
-
-stock SetNationality(const country[], const value[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/nationality_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, value);
-	fclose(file2);
-	return 1;
-}
-
-stock SetReligion(const country[], const value[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/religion_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, value);
-	fclose(file2);
-	return 1;
-}
-
-stock SetInhabitants(const country[], const value[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/inhabitants_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, value);
-	fclose(file2);
-	return 1;
-}
-
-stock SetGdp(const country[], const value[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/gdp_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, value);
-	fclose(file2);
-	return 1;
-}
-
-stock SetGdpPerCapita(const country[], const value[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/gdppc_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, value);
-	fclose(file2);
-	return 1;
-}
-
-stock SetPublicDebt(const country[], const value[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/debt_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, value);
-	fclose(file2);
-	return 1;
-}
-
-stock SetReservePersonnel(const country[], const value[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/reservep_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, value);
-	fclose(file2);
-	return 1;
-}
-
-stock SetActivePersonnel(const country[], const value[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/activep_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, value);
-	fclose(file2);
-	return 1;
-}
-
-stock SetMilitaryBudget(const country[], const value[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/milbudget_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, value);
-	fclose(file2);
-	return 1;
-}
-
-stock SetNAP(const country[], const value[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/nap_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, value);
-	fclose(file2);
-	return 1;
-}
-
-stock SetIOM(const country[], const value[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/iom_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, value);
-	fclose(file2);
-	return 1;
-}
-
-stock SetIPW(const country[], const value[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/ipw_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, value);
-	fclose(file2);
-	return 1;
-}
-
-stock SetCCY(const country[], const value[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/ccy_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, value);
-	fclose(file2);
-	return 1;
-}
-
-stock SetBCY(const country[], const value[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/bcy_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, value);
-	fclose(file2);
-	return 1;
-}
 
 @discord() command:nrphelp(@discord() cmd_params)
 {
@@ -7633,126 +6673,6 @@ stock GetUserAnswer(const id[], ansid)
 }
 
 
-stock GetAAE(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/aae_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-stock SetAAE(const country[], const value[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/aae_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, value);
-	fclose(file2);
-	return 1;
-}
-
-stock GetAPC(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/apc_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-stock SetAPC(const country[], const value[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/apc_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, value);
-	fclose(file2);
-	return 1;
-}
-
-stock GetASW(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/asw_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-stock SetASW(const country[], const value[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/asw_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, value);
-	fclose(file2);
-	return 1;
-}
-
-stock GetATE(const country[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"ron/ate_%s.ini", country);
-	new strFromFile2[128];
-	format(strFromFile2, sizeof strFromFile2, "Unknown");
-	if(!fexist(file_name)) return strFromFile2;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-
-		fclose(file);
-
-		return strFromFile2;
-	}
-	return strFromFile2;
-}
-
-stock SetATE(const country[], const value[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"ron/ate_%s.ini",country);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, value);
-	fclose(file2);
-	return 1;
-}
-
 @discord() command:setmilstat(@discord() cmd_params)
 {
 	new DCC_Channel:channel;
@@ -8070,7 +6990,7 @@ static GetPfp(const id[])
 
 	new nickname[30];
 
-	if(GetPhone(id) == 0)
+	if(GetInvData(id, "Phone") == 0)
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You do not have a "d_phone" | `Phone`.");
 		return 1;
@@ -8217,7 +7137,7 @@ static GetPfp(const id[])
 
 	new user[30];
 
-	if(GetPhone(id) == 0)
+	if(GetInvData(id, "Phone") == 0)
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You do not have a "d_phone" | `Phone`.");
 		return 1;
@@ -8293,7 +7213,7 @@ static GetPfp(const id[])
 
 	new nickname[30];
 
-	if(GetPhone(id) == 0)
+	if(GetInvData(id, "Phone") == 0)
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You do not have a "d_phone" | `Phone`.");
 		return 1;
@@ -8323,7 +7243,7 @@ static GetPfp(const id[])
 
 	new nickname[100];
 
-	if(GetPhone(id) == 0)
+	if(GetInvData(id, "Phone") == 0)
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You do not have a "d_phone" | `Phone`.");
 		return 1;
@@ -8353,7 +7273,7 @@ static GetPfp(const id[])
 
 	new nickname[512];
 
-	if(GetPhone(id) == 0)
+	if(GetInvData(id, "Phone") == 0)
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You do not have a "d_phone" | `Phone`.");
 		return 1;
@@ -8418,7 +7338,7 @@ static GetFeed()
 
 	DCC_GetUserId(author, id);
 
-	if(GetPhone(id) == 0)
+	if(GetInvData(id, "Phone") == 0)
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You do not have a "d_phone" | `Phone`.");
 		return 1;
@@ -8448,7 +7368,7 @@ static GetFeed()
 	new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
 	DCC_GetUserId(author, id);
 
-	if(GetPhone(id) == 0)
+	if(GetInvData(id, "Phone") == 0)
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You do not have a "d_phone" | `Phone`.");
 		return 1;

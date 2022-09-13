@@ -125,6 +125,8 @@ new formatted[2048];
 
 #define RiseOfNations 	DCC_FindGuildById("965261756341559338")
 
+#define d_beta "<:d_beta:1009087077725519974>"
+
 #define bankicklog 			DCC_FindChannelById("1006119258851385404") //d
 #define rpnotices 			DCC_FindChannelById("994393758940541100") //d
 #define war_gm_output 		DCC_FindChannelById("994393810383675513") //d
@@ -154,7 +156,7 @@ new formatted[2048];
 #define syschannelstring \
 ""d_reply" **SYSTEM CHANNEL** • This channel was successfully loaded as a system channel. *It is recommended to not delete it or modify it!*"
 
-#define bot 				DCC_FindUserById(""BOT_USER_ID"")
+#define bot 				DCC_FindUserById(BOT_USER_ID)
 #define muted				DCC_FindRoleByName(RiseOfNations, "Muted Member")
 #define RiseOfNationsrole 			DCC_FindRoleByName(RiseOfNations, ""SERVER_RISE_OF_NATIONS"")
 #define gm					DCC_FindRoleById("994393513766699051")
@@ -243,7 +245,7 @@ new formatted[2048];
 
 #define d_max_bar_points 5
 
-#define BOT_PREFIX "damn "
+#define BOT_PREFIX "<@"BOT_USER_ID"> "
 
 forward senddm(message[]);
 public senddm(message[])

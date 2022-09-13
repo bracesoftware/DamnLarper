@@ -1,4 +1,28 @@
 
+public DCC_OnMessageReaction(DCC_Message:message, DCC_User:reaction_user, DCC_Emoji:emoji, DCC_MessageReactionType:reaction_type)
+{
+	if(reaction_type == REACTION_ADD)
+	{
+		
+	}
+	if(reaction_type == REACTION_REMOVE)
+	{
+		
+	}
+	return 1;
+}
+
+#if SLASH_COMMANDS == 1
+forward SlashCommandTest(DCC_Interaction:interaction);
+public SlashCommandTest(DCC_Interaction:interaction)
+{
+	new DCC_Channel:channel;
+	DCC_GetInteractionChannel(interaction, channel);
+	DCC_SendInteractionMessage(interaction, "This worked ig");
+	return 1;
+}
+#endif
+
 public DCC_OnMessageCreate(DCC_Message: message) 
 {
 	new
@@ -20,6 +44,10 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 	new DCC_Guild:guild;
 	DCC_GetChannelGuild(channel, guild);
+
+	#if SLASH_COMMANDS == 1
+	CreateCommands(guild);
+	#endif
 
 	DCC_IsUserBot(author, is_bot);
 
@@ -95,6 +123,8 @@ public DCC_OnMessageCreate(DCC_Message: message)
 			SetReportQuestion(id, "2");
 			SetReportAnswer(id, 1, msg);
 
+			AddReaction(message, DCC_CreateEmoji(d_yes));
+
 			@discord() SendMsg(channel, "**__REPORT PANEL__**\n**Question 2** • <@%s>\n\n"d_arrow"*`Please describe your reported subject in short words!`*\n\n", id);
 			@discord() SendInfo(channel, "Please reply to the question above with the proper answer.");
 			return 1;
@@ -104,6 +134,8 @@ public DCC_OnMessageCreate(DCC_Message: message)
 			SetReportQuestion(id, "3");
 			SetReportAnswer(id, 2, msg);
 
+			AddReaction(message, DCC_CreateEmoji(d_yes));
+
 			@discord() SendMsg(channel, "**__REPORT PANEL__**\n**Question 3** • <@%s>\n\n"d_arrow"*`Please write a description of a problem in details!`*\n\n", id);
 			@discord() SendInfo(channel, "Please reply to the question above with the proper answer.");
 			return 1;
@@ -112,6 +144,8 @@ public DCC_OnMessageCreate(DCC_Message: message)
 		{
 			SetReportQuestion(id, "0");
 			SetReportAnswer(id, 3, msg);
+
+			AddReaction(message, DCC_CreateEmoji(d_yes));
 
 			new reportstring[1024];
 	
@@ -624,6 +658,13 @@ public DCC_OnMessageCreate(DCC_Message: message)
 	// Other features
 
 	SaveMessageCount(id, GetMessageCount(id) + 1);
+
+	if(is_bot == false && (GetMessageCount(id) / 100 + 1) > GetData(id, "Level"))
+	{
+		@discord() SendMsg(DCC_FindChannelById(GetGuildLevelChannel(guild)), ""d_reply" **LEVEL-UP** • Congratulations <@%s>, you've advanced to level `%i`!", id, GetMessageCount(id) / 100 + 1);
+	}
+
+	SetData(id, "Level", GetMessageCount(id) / 100 + 1);
 
 	if(!strfind(msg, "<@!"BOT_USER_ID">") || !strfind(msg, "<@"BOT_USER_ID">")) //if bot is tagged
 	{
@@ -1280,6 +1321,32 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 	DCC_GetMessageContent(message, content);
 
+	//<@954 063 234 938 306 640>
+
+	
+	/*if(content[0] == '<' && content[1] == '@' && content[2] == '9' &&
+		content[3] == '5' &&
+		content[4] == '4' &&
+		content[5] == '0' &&
+		content[6] == '6' &&
+		content[7] == '3' &&
+		content[8] == '2' &&
+		content[9] == '3' &&
+		content[10] == '4' &&
+		content[11] == '9' &&
+		content[12] == '3' &&
+		content[13] == '8' &&
+		content[14] == '3' &&
+		content[15] == '0' &&
+		content[16] == '6' &&
+		content[17] == '6' &&
+		content[18] == '4' &&
+		content[19] == '0' && content[20] == '>' && content[21] == ' ')
+	{
+		content[0] = CMD_PREFIX;
+		strdel(content, 1, 22);
+	}*/
+
 	if((content[0] == 'd' || content[0] == 'D') && 
 		(content[1] == 'a' || content[1] == 'A') && 
 		(content[2] == 'm' || content[2] == 'M') &&
@@ -1453,6 +1520,11 @@ public DCC_OnGuildMemberAdd(DCC_Guild:guild, DCC_User:user)
 
 	DCC_GetUserId(user, id);
 
+	if(!strcmp(id, BOT_USER_ID)) 
+	{
+		SetServers(GetServers() + 1);
+	}
+
 	@discord() SendMsg(DCC_FindChannelById(GetGuildAirportChannel(guild)), ""d_reply"**JOIN** • <@%s> joined the guild!", id);
 
 	if(GetGuildVerification(guild) == 1)
@@ -1495,21 +1567,15 @@ public DCC_OnGuildMemberAdd(DCC_Guild:guild, DCC_User:user)
 
 public DCC_OnGuildMemberRemove(DCC_Guild:guild, DCC_User:user)
 {
-	if(guild == RiseOfNations)
+	new id[DCC_ID_SIZE];
+
+	DCC_GetUserId(user, id);
+
+	@discord() SendMsg(DCC_FindChannelById(GetGuildAirportChannel(guild)), ""d_reply"**LEAVE** • <@%s> left the guild!", id);
+
+	if(!strcmp(id, BOT_USER_ID)) 
 	{
-		new id[DCC_ID_SIZE];
-
-		DCC_GetUserId(user, id);
-
-		@discord() SendMsg(lounge, ""botpfp" • Unfortunately, <@%s> left our community. Farewell!",id);
-	}
-	else
-	{
-		new id[DCC_ID_SIZE];
-
-		DCC_GetUserId(user, id);
-
-		@discord() SendMsg(DCC_FindChannelById(GetGuildAirportChannel(guild)), ""d_reply"**LEAVE** • <@%s> left the guild!", id);
+		SetServers(GetServers() - 1);
 	}
 	return 1;
 }
@@ -1517,12 +1583,8 @@ public DCC_OnGuildMemberRemove(DCC_Guild:guild, DCC_User:user)
 forward ActivityChange();
 public ActivityChange()
 {
-	new r = random(5);
-	if(r==0) DCC_SetBotActivity("I am nice! ┊ damn help");
-	if(r==1) DCC_SetBotActivity("Mention me! ┊ damn help");
-	if(r==2) DCC_SetBotActivity(""BOT_NAME" ┊ damn help");
-	if(r==3) DCC_SetBotActivity("Enjoy! ┊ damn help");
-	if(r==4) DCC_SetBotActivity("Have fun! ┊ damn help");
+	format(activity, sizeof activity, "on %i servers! • damn help", GetServers());
+	DCC_SetBotActivity(activity);
 	return 1;
 }
 
@@ -1630,7 +1692,7 @@ public OnDiscordCommandPerformed(DCC_Message: message, DCC_User: author, bool: s
 	DCC_GetChannelGuild(channel, guild);
 	if (!success) 
 	{
-		@discord() SendMsg(channel, "> "d_reply" **ERROR** • The command entered doesn't exist.");
+		@discord() SendMsg(channel, "> "d_reply" **ERROR** • I don't know what that command is, try using `"BOT_PREFIX"help` to see a list of available commands.");
 		return 1;
 	}
 	else if(success)
@@ -1661,7 +1723,7 @@ public OnDiscordCommandPerformed(DCC_Message: message, DCC_User: author, bool: s
 	}
 	if(BOT_BETA_PHASE == 1)
 	{
-		@discord() SendInfo(channel, ""BOT_NAME" achieved the **Beta Test** phase of development, help us in the development process by reporting all the bugs and issues using the `"BOT_PREFIX"report` command!");
+		@discord() SendInfo(channel, ""d_beta" "BOT_NAME" achieved the **Beta Test** phase of development, help us in the development process by reporting all the bugs and issues using the `"BOT_PREFIX"report` command!");
 	}
 	return 1;
 }
