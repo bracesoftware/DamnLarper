@@ -1,4 +1,8 @@
+// Module written by DEntisT, © & ® BRACE™.
 
+forward OnDiscordCommandPerformed(DCC_Message: message, DCC_User: author, bool: success);
+
+/*
 public DCC_OnMessageReaction(DCC_Message:message, DCC_User:reaction_user, DCC_Emoji:emoji, DCC_MessageReactionType:reaction_type)
 {
 	if(reaction_type == REACTION_ADD)
@@ -22,7 +26,7 @@ public SlashCommandTest(DCC_Interaction:interaction)
 	return 1;
 }
 #endif
-
+*/
 public DCC_OnMessageCreate(DCC_Message: message) 
 {
 	new
@@ -45,9 +49,9 @@ public DCC_OnMessageCreate(DCC_Message: message)
 	new DCC_Guild:guild;
 	DCC_GetChannelGuild(channel, guild);
 
-	#if SLASH_COMMANDS == 1
+	/*#if SLASH_COMMANDS == 1
 	CreateCommands(guild);
-	#endif
+	#endif*/
 
 	DCC_IsUserBot(author, is_bot);
 

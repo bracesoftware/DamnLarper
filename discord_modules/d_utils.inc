@@ -1,12 +1,12 @@
 // Module written by DEntisT, © & ® BRACE™.
-
+/*
 #if SLASH_COMMANDS == 1
 stock CreateCommands(DCC_Guild:guild)
 {
 	new DCC_Command:cmd = DCC_CreateCommand("help", "Help command", "SlashCommandTest", true, guild);
 }
 #endif
-
+*/
 stock strtok(const string[], &index, delimiter = ' ') {
 	new length = strlen(string);
 	while ((index < length) && (string[index] <= delimiter)) {

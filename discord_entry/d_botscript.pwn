@@ -9,7 +9,7 @@
 
 #define @discord%0(%1) @DISCORD_DECORATOR@
 
-#define SLASH_COMMANDS 1
+//#define SLASH_COMMANDS 1
 
 #include "../discord_api/d_setup.inc"
 #include "../discord_api/d_channels.inc"
@@ -21,34 +21,17 @@
 #include "../discord_api/d_misc.inc"
 #include "../discord_api/d_emoji.inc"
 #include "../discord_api/d_reactions.inc"
-#if SLASH_COMMANDS == 1
+/*#if SLASH_COMMANDS == 1
 #include "../discord_api/d_commands.inc"
 #include "../discord_api/d_interactions.inc"
 #endif
-
+*/
 #include "../discord_modules/d_macros.inc"
 #include "../discord_modules/d_variables.inc"
 #include "../discord_modules/d_utils.inc"
 #include "../discord_modules/d_publics.inc"
 
 #pragma dynamic 215750000
-
-// Hooking and functions
-
-#if defined _ALS_DCC_OnMessageCreate
-	#undef DCC_OnMessageCreate
-#else
-	#define _ALS_DCC_OnMessageCreate
-#endif
-
-#define DCC_OnMessageCreate discdcmd_DCC_OnMessageCreate
-#if defined discdcmd_DCC_OnMessageCreate
-	forward discdcmd_DCC_OnMessageCreate(DCC_Message: message);
-#endif
-
-#if defined OnDiscordCommandPerformed
-	forward OnDiscordCommandPerformed(DCC_Message: message, DCC_User: author, bool: success);
-#endif  
 
 main()
 {

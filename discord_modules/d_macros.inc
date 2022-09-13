@@ -245,7 +245,8 @@ new formatted[2048];
 
 #define d_max_bar_points 5
 
-#define BOT_PREFIX "<@"BOT_USER_ID"> "
+#define BOT_PREFIX "damn "
+//"<@"BOT_USER_ID"> "
 
 forward senddm(message[]);
 public senddm(message[])
