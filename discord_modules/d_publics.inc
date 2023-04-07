@@ -1737,7 +1737,7 @@ public OnGameModeInit()
 	new y,m,d,h,n,s;
 	getdate(y,m,d);
 	gettime(h,n,s);
-	format(datetimelog, sizeof datetimelog, ""BOT_NAME" • %i/%i/%i • %i:%i:%i",y,m,d,h,n,s);
+	format(datetimelog, sizeof datetimelog, ""BOT_NAME" • %i/%i/%i • %i:%i:%i",d,m,y,h,n,s);
 
 	LoadSettings();
 	DCC_SetBotPresenceStatus(IDLE);
@@ -1747,6 +1747,9 @@ public OnGameModeInit()
 	SetTimer("DateTimeLog", 1000, true);
 
 	LoadChannels();
+	#if SLASH_COMMANDS == 1
+	LoadCommands();
+	#endif
 	dateupdated = 20;
 	return 1;
 }
@@ -1757,7 +1760,7 @@ public DateTimeLog()
 	new y,m,d,h,n,s;
 	getdate(y,m,d);
 	gettime(h,n,s);
-	format(datetimelog, sizeof datetimelog, ""BOT_NAME" • %i/%i/%i • %i:%i:%i",y,m,d,h,n,s);
+	format(datetimelog, sizeof datetimelog, ""BOT_NAME" • %i/%i/%i • %i:%i:%i",d,m,y,h,n,s);
 	return 1;
 }
 
