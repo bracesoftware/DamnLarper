@@ -26,11 +26,11 @@ by © & ® BRACE™
 6. Run your script with your open.mp/SA:MP server.
 
 ### Sublime Text
-
+If you are using ST3, use `pawn.sublime-build`:
 ```json
 {
 	"cmd": ["pawncc.exe", "-i includes", "$file"],
-	"path": "path"
+	"path": "Location in which pawncc.exe is located."
 }
 ```
 
