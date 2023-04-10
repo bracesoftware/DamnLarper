@@ -154,7 +154,7 @@ Default `config.json` should look like this:
     "pawn": {
         "legacy_plugins": [],
         "main_scripts": [
-            "test 1"
+            "../discord_entry/d_botscript 1"
         ],
         "side_scripts": []
     },
@@ -178,7 +178,21 @@ You should add this part to the `.json` file and save it:
 }
 ```
 
-Also, modify the RCON password from `changeme` to something you prefer. After that - you can proceed to running your **open.mp** server.
+Also, modify the RCON password from `changeme` to something you prefer. You also need to change the `main_script` path.
+
+```json
+...
+    "pawn": {
+        "legacy_plugins": [],
+        "main_scripts": [
+            "test 1"
+        ],
+        "side_scripts": []
+    },
+...
+```
+
+After that - you can proceed to running your **open.mp** server.
 
 ## Source code structure
 | Directory      | Description                                                                                |
