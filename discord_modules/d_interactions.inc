@@ -18,7 +18,8 @@ public SlashCommands(DCC_Interaction:interaction, DCC_User:DAMN_LARPER_USER)
 	message = DCC_Message:DCC_SendInteractionMessage(interaction, "Your command/text is being processed!");
 	CallLocalFunction("OnUserUseSlashCommand", "iisi", 
 		_:DAMN_LARPER_CHANNEL, _:DAMN_LARPER_USER, DAMN_LARPER_CONTENT, _:message);*/
-	DCC_SendInteractionMessage(interaction, "I am not smart enough for slash commands yet! Try `damn help`.");
+	DCC_SendInteractionMessage(interaction, 
+		""d_reply""damn_larper_text" **OOPS** • I am not smart enough for slash commands yet! Try `damn help`.");
 	return 1;
 }
 

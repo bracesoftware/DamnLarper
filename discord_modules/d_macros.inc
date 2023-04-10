@@ -7,7 +7,9 @@ new datetimelog[256];
 #define CMD_PREFIX '^'
 #define MAX_LIST_ELEMENTS 50
 
-#define BOT_USER_ID "954063234938306640"
+#define BOT_USER_ID "1094936702017093735"
+#define BOT_AUTH_LINK "https://discord.com/api/oauth2/authorize?client_id="BOT_USER_ID"&permissions=8&scope=bot"
+#define BOT_SUPPORT_MAIL "bracetm.official@gmail.com"
 
 #define MAX_STAFF_MEMBERS 100
 
@@ -123,7 +125,7 @@ new formatted[2048];
 #define @DISCORD_DECORATOR@cmd_params DCC_Message:message,DCC_User:author,PARAMETERS[]
 #define params PARAMETERS
 
-#define RiseOfNations 	DCC_FindGuildById("965261756341559338")
+#define RiseOfNations 		DCC_FindGuildById("987003062726058004")
 
 #define d_beta "<:d_beta:1009087077725519974>"
 
@@ -195,8 +197,14 @@ new formatted[2048];
 
 #define antiraid(%0,%1,%2); @discord() SendChannelMessage(channel, ":shield: **ANTI-RAID** • Hi, <@%s>! The bot's anti-raid system has been activated for `%s`! The moderators will be notified.\n\n",%1,%2);
 
+#define botpfp "<:damn_larper:1094703864512512162>"
+//"<:damn_larper:1007667783699538061>"//"<:diplomy:1006605884706791494>"
+#define d_mask botpfp
+#define damn_larper botpfp
+#define damn_larper_text "<:damn_larper_text:1094703969651150898>"
+#define d_premium "<:d_premium:1094931187027423252>"
+
 #define d_reply "<:d_reply:1007926037511946243>"
-#define botpfp "<:damn_larper:1007667783699538061>"//"<:diplomy:1006605884706791494>"
 #define d_yes "<:d_yes:1006573744787038319>"
 #define d_no "<:d_no:1006573728064348230>"
 #define d_star "<:d_star:1006574765416398889>"
@@ -217,7 +225,6 @@ new formatted[2048];
 #define d_fruits "<:d_fruits:1007394012816212028>"
 #define d_medicine "<:d_medicine:1007394053203169442>"
 #define d_parrot "<:d_parrot:1007595843215425580>"
-#define d_mask botpfp
 #define delimiterlol ""
 #define d_fishingrod "<:d_fishingrod:1007940238255083530>"
 #define d_rawfish "<:d_rawfish:1007946738344140861>"
@@ -230,10 +237,11 @@ new formatted[2048];
 #define d_laptop "<:d_laptop:1008048319370645544>"
 #define d_commonchest "<:d_commonchest:1008080211939708948>"
 #define d_rarechest "<:d_rarechest:1008460112853213314>"
-#define d_premium "<:d_premium:1008729855493406780>"
+//"<:d_premium:1008729855493406780>"
 #define d_safe "<:d_safe:1008815134229151805>"
 #define d_dog "<:d_dog:1008841252650889286>"
 #define d_cat "<:d_cat:1008844391043039262>"
+#define d_protectiveshield "<:d_protectiveshield:1094973029953568798>"
 
 #define d_emptybar1 "<:d_emptybar1:1007987935049683036>"
 #define d_emptybar2 "<:d_emptybar2:1007987961733840956>"

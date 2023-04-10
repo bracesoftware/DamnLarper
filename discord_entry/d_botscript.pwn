@@ -6,6 +6,8 @@
 #include "../discord_api/d_ysscanf.inc"
 #include "../discord_api/d_ycrashdetect.inc"
 
+new DAMN_LARPER_LOADED = 1;
+
 #define @DISCORD_DECORATOR@%0\32; @DISCORD_DECORATOR@
 
 #define @discord%0(%1) @DISCORD_DECORATOR@
@@ -37,22 +39,7 @@
 
 #pragma dynamic 215750000
 
-main()
-{
-	print("The script started sir");
-	/*new DCC_Embed:msg2 = DCC_CreateEmbed(
-		"**__"SERVER_RISE_OF_NATIONS"__**", 
-		""d_reply" • Bot has successfully (re)started - use `"BOT_PREFIX"help` or `d!help` for help!", 
-		"",
-		"", col_embed, datetimelog, 
-		"",
-		"","");*/
-
-	//@discord() SendMsg(channel, msg);
-
-	//DCC_SendChannelEmbedMessage(commandchannel, msg2, ""delimiterlol" **INFO** • Mention me for more information!");
-	//DCC_SendChannelEmbedMessage(logs, msg2, ""delimiterlol" **INFO** • Mention me for more information!");
-}
+main() print("The script started sir");
 
 
 // Commands:
@@ -156,7 +143,7 @@ main()
 
 	new user[DCC_ID_SIZE + 10];
 
-	if(sscanf(params, "s", user))
+	if(sscanf(params, "s[40]", user))
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"addmod [user ID or user mention]`");
 		return 1;
@@ -201,7 +188,7 @@ main()
 
 	new user[DCC_ID_SIZE + 10];
 
-	if(sscanf(params, "s", user))
+	if(sscanf(params, "s[40]", user))
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"addpremium [user ID or user mention]`");
 		return 1;
@@ -237,7 +224,7 @@ main()
 
 	new user[DCC_ID_SIZE + 10];
 
-	if(sscanf(params, "s", user))
+	if(sscanf(params, "s[40]", user))
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"delpremium [user ID or user mention]`");
 		return 1;
@@ -321,7 +308,7 @@ main()
 
 	new user[DCC_ID_SIZE + 10];
 
-	if(sscanf(params, "s", user))
+	if(sscanf(params, "s[40]", user))
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"delmod [user ID or user mention]`");
 		return 1;
@@ -405,7 +392,7 @@ main()
 		"d_arrow"**`"BOT_PREFIX"help socialmedia`**\n"d_reply"Social media system help.\n\n\
 		"delimiterlol" • __Other Information__\n\
 		"d_reply" To learn more about "BOT_NAME", use `"BOT_PREFIX"features`.\n\n\
-		"d_reply" • You can [invite me](https://discord.com/api/oauth2/authorize?client_id="BOT_USER_ID"&permissions=8&scope=bot) on your server too! Use `"BOT_PREFIX"botsetup` to learn about everything you need to know before inviting me.\n\n\
+		"d_reply" • You can [invite me]("BOT_AUTH_LINK") on your server too! Use `"BOT_PREFIX"botsetup` to learn about everything you need to know before inviting me.\n\n\
 		"d_heart" Thanks for choosing **"BOT_NAME"**!\n", 
 		"",
 		"", col_embed, datetimelog, 
@@ -438,7 +425,8 @@ main()
 	if(!strcmp(option, "premium"))
 	{
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
-		"**__"BOT_NAME" Premium Information__**", "**Commands**\n\n\
+		"**__"BOT_NAME" Premium Information__**", "If you have any related questions about premium or how can you get it, contact us @ **"BOT_SUPPORT_MAIL"**.\n\n\
+		**Commands**\n\n\
 		"d_premium" **`"BOT_PREFIX"premiumdaily`**\n"d_reply"Claim your daily!\n\
 		\n**Other Features**\n\n\
 		"d_premium" **Skip Command Cooldown**\n"d_reply"Mine, beg, chop and do other stuff without being disturbed by that annoying command cooldown!\n\
@@ -1483,7 +1471,7 @@ main()
 
 	new user[DCC_ID_SIZE + 10], reason[100];
 
-	if(sscanf(params, "ss", user, reason))
+	if(sscanf(params, "s[40]s[100]", user, reason))
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"warn [user ID or user mention] [reason]`");
 		return 1;
@@ -1537,7 +1525,7 @@ main()
 
 	new user[100];
 
-	if(sscanf(params, "s", user))
+	if(sscanf(params, "s[100]", user))
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"warns [user ID or user mention]`");
 		return 1;
@@ -1917,7 +1905,7 @@ main()
 
 	new user[DCC_ID_SIZE+10], gmcount;
 
-	if(sscanf(params, "si", user, gmcount))
+	if(sscanf(params, "s[40]i", user, gmcount))
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"setgmc [user ID or user mention] [GM count]`");
 		return 1;
@@ -2127,7 +2115,7 @@ main()
 
 	new user[DCC_ID_SIZE+10];
 
-	if(sscanf(params, "s", user))
+	if(sscanf(params, "s[40]", user))
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"getgmc [user ID or user mention]`");
 		return 1;
@@ -2357,7 +2345,7 @@ main()
 
 	new user[DCC_ID_SIZE+10];
 
-	if(sscanf(params, "s", user))
+	if(sscanf(params, "s[40]", user))
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"unban [user ID or user mention]`");
 		return 1;
@@ -2528,7 +2516,7 @@ main()
 
 	DCC_GetUserId(author, id);
 
-	if(sscanf(params, "s", user))
+	if(sscanf(params, "s[40]", user))
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"kick [user ID or user mention]`");
 		return 1;
@@ -2574,7 +2562,7 @@ main()
 
 	new user[DCC_ID_SIZE+10];
 
-	if(sscanf(params, "s", user))
+	if(sscanf(params, "s[40]", user))
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"mute [user ID or user mention]`");
 		return 1;
@@ -2623,7 +2611,7 @@ main()
 
 	new user[DCC_ID_SIZE+10];
 
-	if(sscanf(params, "s", user))
+	if(sscanf(params, "s[40]", user))
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"unmute [user ID or user mention]`");
 		return 1;
@@ -3095,7 +3083,7 @@ SetCommandUsedMin(id, "cmd", m);
 
 	DCC_GetUserId(author, id);
 
-	if(sscanf(params, "s", user))
+	if(sscanf(params, "s[40]", user))
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"rob [user ID or user mention]`");
 		return 1;
@@ -3167,7 +3155,7 @@ SetCommandUsedMin(id, "cmd", m);
 
 	DCC_GetUserId(author, id);
 
-	if(sscanf(params, "s", user))
+	if(sscanf(params, "s[40]", user))
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"heist [user ID or user mention]`");
 		return 1;
@@ -3715,6 +3703,8 @@ stock SetPetEnergy(const id[],count)
 			"d_reply" Price: "d_banknote"`25`\n\n\
 			"d_safe" • **Safe** (*ID: `12`*)\n\
 			"d_reply" Price: "d_banknote"`50`\n\n\
+			"d_protectiveshield" • **Protective Shield** (*ID: `13`*)\n\
+			"d_reply" Price: "d_ruby"`40`\n\n\
 			\n**Page: 2**", 
 			"",
 			"", col_embed, datetimelog, 
@@ -3956,6 +3946,24 @@ stock SetPetEnergy(const id[],count)
 		SetInvData(user, "Safe");
 		SetData(user, "Banknotes", GetData(user, "Banknotes") - 50);
 		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_safe" | `Safe` for "d_banknote" `50`!");
+		@discord() SendInfo(channel, "Your coins will be now deposited to your safe instead of a bank! Now noone knows your safe passcode and won't be able to steal your deposited money!");
+		return 1;
+	}
+	if(id == 13)
+	{
+		if(GetData(user, "Rubies") < 40)
+		{
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
+			return 1;
+		}
+		if(GetInvData(user, "ProtectiveShield") == 1)
+		{
+			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_protectiveshield" | `Protective Shield`!");
+			return 1;
+		}
+		SetInvData(user, "ProtectiveShield");
+		SetData(user, "Rubies", GetData(user, "Rubies") - 40);
+		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_protectiveshield" | `Protective Shield` for "d_ruby" `40`!");
 		@discord() SendInfo(channel, "Your coins will be now deposited to your safe instead of a bank! Now noone knows your safe passcode and won't be able to steal your deposited money!");
 		return 1;
 	}
@@ -5984,7 +5992,7 @@ stock GenerateBar(points = d_max_bar_points)
 
 	new user[DCC_ID_SIZE+10];
 
-	if(sscanf(params, "s", user))
+	if(sscanf(params, "s[40]", user))
 	{
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"blacklist [user ID or user mention]`");
 		return 1;

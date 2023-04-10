@@ -29,6 +29,7 @@ public SlashCommandTest(DCC_Interaction:interaction)
 */
 public DCC_OnMessageCreate(DCC_Message: message) 
 {
+	if(DAMN_LARPER_LOADED==0) return 0;
 	new
 		DCC_User: author,
 		bool: is_bot = false,
@@ -643,7 +644,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 					msg[i+3] == 'g')
 				{
 					DCC_DeleteMessage(message);
-					@discord() SendMsg(channel, ":shield: **SERVER SECURITY** • <@%s>'s message has been removed because it contains inappropriate words, slurs or threatens another user or a community.", id);
+					@discord() SendMsg(channel, ""d_protectiveshield" **SERVER SECURITY** • <@%s>'s message has been removed because it contains inappropriate words, slurs or threatens another user or a community.", id);
 					return 1;
 				}
 				if(msg[i] == 'c' && 
@@ -652,7 +653,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 					msg[i+3] == 't')
 				{
 					DCC_DeleteMessage(message);
-					@discord() SendMsg(channel, ":shield: **SERVER SECURITY** • <@%s>'s message has been removed because it contains inappropriate words, slurs or threatens another user or a community.", id);
+					@discord() SendMsg(channel, ""d_protectiveshield" **SERVER SECURITY** • <@%s>'s message has been removed because it contains inappropriate words, slurs or threatens another user or a community.", id);
 					return 1;
 				}
 			}
@@ -1441,9 +1442,16 @@ public OnDiscordCommandReceived(DCC_Message:message, DCC_User:author, params[])
 	DCC_GetUserId(author, id);
 
 	new DCC_Guild:guild;
+	new DCC_ChannelType:channeltype;
+
+	DCC_GetChannelType(channel, channeltype);
 
 	DCC_GetChannelGuild(channel, guild);
 
+	if(channeltype == DM || channeltype == GROUP_DM)
+	{
+		@discord() SendMsg(channel, "> "d_reply" **WRONG TIME, WRONG PLACE!** • You can't use me here, mate!");
+	}
 
 	if(IsBlacklisted(id))
 	{
@@ -1584,10 +1592,13 @@ public DCC_OnGuildMemberRemove(DCC_Guild:guild, DCC_User:user)
 	return 1;
 }
 
+new DCC_Guild:all_guilds[50];
+
 forward ActivityChange();
 public ActivityChange()
 {
-	format(activity, sizeof activity, "on %i servers! • damn help", GetServers());
+	DCC_GetAllGuilds(all_guilds);
+	format(activity, sizeof activity, "on %s servers! • damn help", _:all_guilds);
 	DCC_SetBotActivity(activity);
 	return 1;
 }
@@ -1734,6 +1745,7 @@ public OnDiscordCommandPerformed(DCC_Message: message, DCC_User: author, bool: s
 
 public OnGameModeInit()
 {
+	printf("OnGameModeInit called");
 	new y,m,d,h,n,s;
 	getdate(y,m,d);
 	gettime(h,n,s);
@@ -1751,6 +1763,9 @@ public OnGameModeInit()
 	LoadCommands();
 	#endif
 	dateupdated = 20;
+
+	DAMN_LARPER_LOADED = 1;
+	printf("OnGameModeInit performed");
 	return 1;
 }
 
