@@ -20,3 +20,11 @@ by © & ® BRACE™
 4. Install Discord Connector plugin for PAWN [here](https://github.com/maddinat0r/samp-discord-connector)...
 5. Compile your script with `pawncc`.
 6. Run your script with your open.mp/SA:MP server.
+
+## Source code structure
+| Directory      | Description                                                                                |
+| -------------------- | ------------------------------------------------------------------------------------------ |
+| `discord_entry/` | Basically an entry point. |
+| `discord_api/` | Contains back-end natives and functions. |
+| `discord_modules/` | Once upon a time, this bot code was just a single `*.pwn` file, so I decided to split it into modules. |
+| `discord_components/` | Bunch of deprecated functions, commands and systems whose were too big to be removed. |
