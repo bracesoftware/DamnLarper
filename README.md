@@ -38,6 +38,12 @@ If you are using ST3, use `pawn.sublime-build` to run the compiler:
 }
 ```
 
+### Code dependencies
+
+Main thing you need to run this is a [Discord Connector plugin](https://github.com/maddinat0r/samp-discord-connector/releases) for the SA:MP and open.mp server.
+
+Code also requires `sscanf` plugin in order to run. You can get it [here](https://github.com/Y-Less/sscanf/releases). Besides `sscanf`, code also has support for `crashdetect` plugin you can get [here](https://github.com/Zeex/samp-plugin-crashdetect/releases).
+
 ## Executing the code
 
 The code supports both **SA:MP** and **open.mp** servers.
@@ -154,7 +160,7 @@ Default `config.json` should look like this:
     "pawn": {
         "legacy_plugins": [],
         "main_scripts": [
-            "../discord_entry/d_botscript 1"
+            "test 1"
         ],
         "side_scripts": []
     },
@@ -185,7 +191,7 @@ Also, modify the RCON password from `changeme` to something you prefer. You also
     "pawn": {
         "legacy_plugins": [],
         "main_scripts": [
-            "test 1"
+            "../discord_entry/d_botscript 1"
         ],
         "side_scripts": []
     },
