@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="500" align="center" src="damn_larper_text.png">
+</p>
+
 # Damn Larper
 
 :zap: ¤ Damn Larper is a multipurpose bot with many commands and features. It is basically a text-based game right in your server! This bot has a verification system, which is not allowing the unverified to send messages until they verify themselves. Besides verification, there are also moderation commands such as ban and kick commands. 
