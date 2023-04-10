@@ -1365,6 +1365,7 @@
 			"", col_embed, datetimelog, 
 			"",
 			"",""));
+
 		return 1;
 	}
 
@@ -1565,6 +1566,7 @@
 		@discord() SendMsg(channel, ""d_reply" **GM COUNT LEADERBOARD** • Sorry, invalid department label(s) provided. You can use: `[pol]`, `[eco]`, `[mil]`, `[pol][eco]`, `[eco][mil]`, `[mil][pol]`, `[war]`\n\n"delimiterlol" • Make sure you don't have spaces between `]`s and `[`s!");
 		return 1;
 	}
+	printf("gmrate_highest : %i", gmrate_highest);
     return 1;
 }
 

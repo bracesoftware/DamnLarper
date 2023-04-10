@@ -5,21 +5,25 @@ new DCC_Command:DAMNLARPER_CMD;
 
 stock LoadCommands()
 {
-	DAMNLARPER_CMD = DCC_CreateCommand("damn", "One command to use the bot!", "SlashCommands", true);
+	DAMNLARPER_CMD = DCC_CreateCommand("damn", "One command to use the bot!", "INTERACTION_RECEIVED", true);
 	return 1;
 }
 
-forward SlashCommands(DCC_Interaction:interaction, DCC_User:DAMN_LARPER_USER);
-public SlashCommands(DCC_Interaction:interaction, DCC_User:DAMN_LARPER_USER)
+forward INTERACTION_RECEIVED(DCC_Interaction:interaction, DCC_User:DAMN_LARPER_USER);
+public INTERACTION_RECEIVED(DCC_Interaction:interaction, DCC_User:DAMN_LARPER_USER)
 {
-	/*new DCC_Channel:DAMN_LARPER_CHANNEL, DAMN_LARPER_CONTENT[1000], DCC_Message:message;
+	new DCC_Channel:DAMN_LARPER_CHANNEL, DAMN_LARPER_CONTENT[1000];
 	DCC_GetInteractionChannel(interaction, DAMN_LARPER_CHANNEL);
 	DCC_GetInteractionContent(interaction, DAMN_LARPER_CONTENT);
-	message = DCC_Message:DCC_SendInteractionMessage(interaction, "Your command/text is being processed!");
-	CallLocalFunction("OnUserUseSlashCommand", "iisi", 
-		_:DAMN_LARPER_CHANNEL, _:DAMN_LARPER_USER, DAMN_LARPER_CONTENT, _:message);*/
+	
 	DCC_SendInteractionMessage(interaction, 
 		""d_reply""damn_larper_text" **OOPS** • I am not smart enough for slash commands yet! Try `damn help`.");
+	return 1;
+}
+
+OnSlashCommandReceived(DCC_Channel:channel, content[]);
+public OnSlashCommandReceived(DCC_Channel:channel, content[])
+{
 	return 1;
 }
 

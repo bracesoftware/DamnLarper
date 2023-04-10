@@ -754,7 +754,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 				if(count2 == GetGuildCountGame(guild)+1)
 				{
 					SaveGuildCountGame(guild, GetGuildCountGame(guild)+1);
-					AddReaction(message, DCC_CreateEmoji("☑️"));
+					AddReaction(message, DCC_CreateEmoji("✅"));
 					return 1;
 				}
 			}
@@ -1451,6 +1451,7 @@ public OnDiscordCommandReceived(DCC_Message:message, DCC_User:author, params[])
 	if(channeltype == DM || channeltype == GROUP_DM)
 	{
 		@discord() SendMsg(channel, "> "d_reply" **WRONG TIME, WRONG PLACE!** • You can't use me here, mate!");
+		return 0;
 	}
 
 	if(IsBlacklisted(id))

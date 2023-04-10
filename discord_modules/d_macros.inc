@@ -138,6 +138,9 @@ new formatted[2048];
 
 #define col_embed 0x414040//0x7fff00
 
+
+
+
 #define IST_GOLD 1
 #define IST_RUBIES 2
 #define IST_RAWMEAT 3
@@ -149,6 +152,13 @@ new formatted[2048];
 #define IST_PLANKS 9
 #define IST_PAPER 10
 #define IST_BANKNOTE 11
+
+
+#define CHEST_COMMON 1
+#define CHEST_RARE 2
+
+
+
 
 #define antiraid(%0,%1,%2); @discord() SendChannelMessage(channel, ":shield: **ANTI-RAID** • Hi, <@%s>! The bot's anti-raid system has been activated for `%s`! The moderators will be notified.\n\n",%1,%2);
 
