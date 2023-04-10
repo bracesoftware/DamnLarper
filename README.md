@@ -29,7 +29,11 @@ by © & ® BRACE™
 If you are using ST3, use `pawn.sublime-build`:
 ```json
 {
-	"cmd": ["pawncc.exe", "-i includes", "$file"],
+	"cmd": [
+		"pawncc.exe",
+		"-i includes",
+		"$file"
+	],
 	"path": "Location in which pawncc.exe is located."
 }
 ```
