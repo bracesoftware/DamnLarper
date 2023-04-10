@@ -1598,7 +1598,7 @@ forward ActivityChange();
 public ActivityChange()
 {
 	DCC_GetAllGuilds(all_guilds);
-	format(activity, sizeof activity, "on %s servers! • damn help", _:all_guilds);
+	format(activity, sizeof activity, "on %i servers! • damn help", sizeof all_guilds);
 	DCC_SetBotActivity(activity);
 	return 1;
 }

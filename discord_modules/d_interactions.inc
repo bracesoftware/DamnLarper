@@ -25,6 +25,37 @@ public SlashCommands(DCC_Interaction:interaction, DCC_User:DAMN_LARPER_USER)
 
 #endinput
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 OnUserUseSlashCommand(DCC_Channel:channel, DCC_User:user, content[], DCC_Message:message);
 public OnUserUseSlashCommand(DCC_Channel:channel, DCC_User:user, content[], DCC_Message:message)
 {
