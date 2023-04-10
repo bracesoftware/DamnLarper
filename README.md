@@ -12,7 +12,7 @@ And it's not over yet, you can basically take care of your virtual pet! You can 
 
 You can also unlock achievements and get spectacular rewards once you complete them! Regarding to server security, there is a anti-raid and security system which is customizeable! There is also social media-like system where you can post messages and view them on a global feed. More features are waiting you once you add Damn Larper to your server!
 
-- Invite it to your server here: https://discord.com/oauth2/authorize?client_id=954063234938306640&permissions=8&scope=bot
+- Invite it to your server [here](https://discord.com/api/oauth2/authorize?client_id=1094936702017093735&permissions=8&scope=bot)!
 
 by © & ® BRACE™
 
