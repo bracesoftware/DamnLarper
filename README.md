@@ -18,7 +18,7 @@ by © & ® BRACE™
 
 ## Building from source
 
-1. Install PAWN 3.10.10 compiler [here](https://github.com/pawn-lang/compiler)...
+1. Install the latest PAWN compiler [here](https://github.com/pawn-lang/compiler)...
 2. Install standard SA:MP library package [here](https://github.com/pawn-lang/samp-stdlib)...
 3. Install standard PAWN library package [here](https://github.com/pawn-lang/pawn-stdlib)...
 4. Install Discord Connector plugin for PAWN [here](https://github.com/maddinat0r/samp-discord-connector)...
@@ -26,7 +26,7 @@ by © & ® BRACE™
 6. Run your script with your open.mp/SA:MP server.
 
 ### Sublime Text
-If you are using ST3, use `pawn.sublime-build`:
+If you are using ST3, use `pawn.sublime-build` to run the compiler:
 ```json
 {
 	"cmd": [
@@ -37,6 +37,148 @@ If you are using ST3, use `pawn.sublime-build`:
 	"path": "Location in which pawncc.exe is located."
 }
 ```
+
+## Executing the code
+
+The code supports both **SA:MP** and **open.mp** servers.
+
+### SA:MP server
+Go to the [Official SA:MP download site](https://www.sa-mp.com/download.php) and download the compressed archive with server files. Extract the files and modify your server configuration.
+
+`server.cfg`:
+```bat
+lanmode 0
+rcon_password 123
+maxplayers 50
+port 7777
+hostname SA-MP 0.3 Server
+gamemode0 ../discord_entry/d_botscript 1
+announce 0
+chatlogging 0
+weburl www.sa-mp.com
+onfoot_rate 40
+incar_rate 40
+weapon_rate 40
+stream_distance 300.0
+stream_rate 1000
+maxnpc 0
+logtimeformat [%H:%M:%S]
+language English
+discord_bot_token MYBOTTOKEN
+```
+
+You should replace `MYBOTTOKEN` with your application bot token. After you've saved your configuration, you can proceed to running the server by executing the SA:MP server.
+
+### open.mp server
+Same process - go to [open.mp download repo](https://github.com/openmultiplayer/open.mp/releases) and download the compressed archive that suits your device's operating system. Extract the files and modify your server configuration.
+
+Default `config.json` should look like this:
+```json
+{
+    "announce": true,
+    "artwork": {
+        "cdn": "",
+        "enable": true,
+        "models_path": "models"
+    },
+    "chat_input_filter": true,
+    "enable_query": true,
+    "game": {
+        "allow_interior_weapons": true,
+        "chat_radius": 200.0,
+        "death_drop_amount": 0,
+        "gravity": 0.008,
+        "group_player_objects": false,
+        "lag_compensation_mode": 1,
+        "map": "",
+        "mode": "",
+        "nametag_draw_radius": 70.0,
+        "player_marker_draw_radius": 250.0,
+        "player_marker_mode": 1,
+        "time": 12,
+        "use_all_animations": false,
+        "use_chat_radius": false,
+        "use_entry_exit_markers": true,
+        "use_instagib": false,
+        "use_manual_engine_and_lights": false,
+        "use_nametag_los": true,
+        "use_nametags": true,
+        "use_player_marker_draw_radius": false,
+        "use_player_ped_anims": false,
+        "use_stunt_bonuses": true,
+        "use_vehicle_friendly_fire": false,
+        "use_zone_names": false,
+        "vehicle_respawn_time": 10000,
+        "weather": 10
+    },
+    "language": "",
+    "logging": {
+        "enable": true,
+        "log_chat": true,
+        "log_cookies": false,
+        "log_deaths": true,
+        "log_queries": false,
+        "log_sqlite": false,
+        "log_sqlite_queries": false,
+        "timestamp_format": "[%Y-%m-%dT%H:%M:%S%z]",
+        "use_prefix": true,
+        "use_timestamp": true
+    },
+    "max_bots": 0,
+    "max_players": 50,
+    "name": "open.mp server",
+    "network": {
+        "acks_limit": 3000,
+        "aiming_sync_rate": 30,
+        "allow_037_clients": true,
+        "bind": "",
+        "cookie_reseed_time": 300000,
+        "in_vehicle_sync_rate": 30,
+        "limits_ban_time": 60000,
+        "message_hole_limit": 3000,
+        "messages_limit": 500,
+        "minimum_connection_time": 0,
+        "mtu": 576,
+        "multiplier": 10,
+        "on_foot_sync_rate": 30,
+        "player_marker_sync_rate": 2500,
+        "player_timeout": 10000,
+        "port": 7777,
+        "public_addr": "",
+        "stream_radius": 200.0,
+        "stream_rate": 1000,
+        "time_sync_rate": 30000,
+        "use_lan_mode": false
+    },
+    "password": "",
+    "pawn": {
+        "legacy_plugins": [],
+        "main_scripts": [
+            "test 1"
+        ],
+        "side_scripts": []
+    },
+    "rcon": {
+        "allow_teleport": false,
+        "enable": false,
+        "password": "changeme"
+    },
+    "sleep": 5.0,
+    "use_dyn_ticks": true,
+    "website": "open.mp"
+}
+```
+
+You should add this part to the `.json` file and save it:
+
+```json
+"discord": {
+	"bot_token": "MYBOTTOKEN",
+	"intents": 131071
+}
+```
+
+Also, modify the RCON password from `changeme` to something you prefer. After that - you can proceed to running your **open.mp** server.
 
 ## Source code structure
 | Directory      | Description                                                                                |
