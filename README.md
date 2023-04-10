@@ -25,6 +25,15 @@ by © & ® BRACE™
 5. Compile your script with `pawncc`.
 6. Run your script with your open.mp/SA:MP server.
 
+### Sublime Text
+
+```json
+{
+	"cmd": ["pawncc.exe", "-i includes", "$file"],
+	"path": "path"
+}
+```
+
 ## Source code structure
 | Directory      | Description                                                                                |
 | -------------------- | ------------------------------------------------------------------------------------------ |
