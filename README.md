@@ -187,7 +187,7 @@ You should add this part to the `.json` file and save it:
 Also, modify the RCON password from `changeme` to something you prefer. You also need to change the `main_script` path.
 
 ```json
-#...
+// ...
     "pawn": {
         "legacy_plugins": [],
         "main_scripts": [
@@ -195,7 +195,7 @@ Also, modify the RCON password from `changeme` to something you prefer. You also
         ],
         "side_scripts": []
     },
-#...
+// ...
 ```
 
 After that - you can proceed to running your **open.mp** server.
