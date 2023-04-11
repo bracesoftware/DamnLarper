@@ -60,7 +60,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 
 	new mention[128];
 
-	format(mention, sizeof mention, "<@%s>", id);
+	format(mention, sizeof mention, ""d_reply" <@%s>", id);
 
 	SetMention(id, mention);
 
@@ -627,7 +627,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 		}
 	}
 
-	if(settings[ac] == 1)
+	if(settings[ac] == 1 && GetGuildSecurity(guild) == 1)
 	{
 		if(author != bot)
 		{
@@ -1540,16 +1540,18 @@ public DCC_OnGuildMemberAdd(DCC_Guild:guild, DCC_User:user)
 
 	@discord() SendMsg(DCC_FindChannelById(GetGuildAirportChannel(guild)), ""d_reply"**JOIN** • <@%s> joined the guild!", id);
 
-	if(GetGuildVerification(guild) == 1)
+	if(!IsUserABot(id))
 	{
-		new code[10];
+		if(GetGuildVerification(guild) == 1)
+		{
+			new code[10];
 
-		format(code, sizeof code, "%i", random(100000));
+			format(code, sizeof code, "%i", random(100000));
 
-		SetVerifyCode(guild, id, code);
+			SetVerifyCode(guild, id, code);
 
-		@discord() SendMsg(DCC_FindChannelById(GetGuildVerificationChannel(guild)), ""botpfp" **WELCOME TO THE GUILD** • Hello <@%s>! Thanks for choosing this guild to join! But in order to send messages here, please use a `"BOT_PREFIX"verify` command.\n\nYour verification code **for this guild** is: `%s`", id, code);
-		@discord() SendInfo(DCC_FindChannelById(GetGuildVerificationChannel(guild)), "<@%s>\n\nPlease make sure to verify as fast as possible to be able to chat, use commands and more!", id);
+			@discord() SendMsg(DCC_FindChannelById(GetGuildVerificationChannel(guild)), ""botpfp" **WELCOME TO THE GUILD** • Hello <@%s>! Thanks for choosing this guild to join! But in order to send messages here, please use a `"BOT_PREFIX"verify` command.\n\nYour verification code **for this guild** is: `%s`", id, code);
+		}
 	}
 	if(user == bot)
 	{
@@ -1739,7 +1741,7 @@ public OnDiscordCommandPerformed(DCC_Message: message, DCC_User: author, bool: s
 	}
 	if(BOT_BETA_PHASE == 1)
 	{
-		@discord() SendInfo(channel, ""d_beta" "BOT_NAME" achieved the **Beta Test** phase of development, help us in the development process by reporting all the bugs and issues using the `"BOT_PREFIX"report` command!");
+		if(random(10) == 5) @discord() SendInfo(channel, ""d_beta" "BOT_NAME" achieved the **Beta Test** phase of development, help us in the development process by reporting all the bugs and issues using the `"BOT_PREFIX"report` command!");
 	}
 	return 1;
 }
@@ -1750,7 +1752,12 @@ public OnGameModeInit()
 	new y,m,d,h,n,s;
 	getdate(y,m,d);
 	gettime(h,n,s);
-	format(datetimelog, sizeof datetimelog, ""BOT_NAME" • %i/%i/%i • %i:%i:%i",d,m,y,h,n,s);
+	format(datetimelog, sizeof datetimelog, 
+		""BOT_NAME" • %i/%i/%i • %i:%i:%i | v%s.%s-R%s",
+		d,m,y,h,n,s,
+		DAMN_LARPER_MAJOR,
+		DAMN_LARPER_MINOR,
+		DAMN_LARPER_RELEASE);
 
 	LoadSettings();
 	DCC_SetBotPresenceStatus(IDLE);
@@ -1776,12 +1783,19 @@ public DateTimeLog()
 	new y,m,d,h,n,s;
 	getdate(y,m,d);
 	gettime(h,n,s);
-	format(datetimelog, sizeof datetimelog, ""BOT_NAME" • %i/%i/%i • %i:%i:%i",d,m,y,h,n,s);
+	format(datetimelog, sizeof datetimelog, 
+		""BOT_NAME" • %i/%i/%i • %i:%i:%i | v%s.%s-R%s",
+		d,m,y,h,n,s,
+		DAMN_LARPER_MAJOR,
+		DAMN_LARPER_MINOR,
+		DAMN_LARPER_RELEASE);
 	return 1;
 }
 
 public OnGameModeExit()
 {
+	DCC_SetBotPresenceStatus(DO_NOT_DISTURB);
+	DCC_SetBotActivity("System is restarting...");
 	SaveSettings();
 	return 1;
 }

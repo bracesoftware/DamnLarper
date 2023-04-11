@@ -44,11 +44,11 @@
 	#endinput
 #endif
 #define _INC_SSCANF
-
+/*
 #if !defined _samp_included
 	#error Please include <a_npc> or <a_samp> first.
 #endif
-
+*/
 /**
  * <library
  *   name="sscanf"

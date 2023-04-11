@@ -44,7 +44,12 @@ new datetimelog[256];
 
 
 new BOT_BETA_PHASE = 1;
-#define BOT_VERSION "Beta @ 1.0"
+
+#define DAMN_LARPER_MAJOR	"1"
+#define DAMN_LARPER_MINOR	"0"
+#define DAMN_LARPER_RELEASE	"1"
+
+#define BOT_VERSION "v"DAMN_LARPER_MAJOR"."DAMN_LARPER_MINOR"-R"DAMN_LARPER_RELEASE""
 #define BOT_NAME "Damn Larper"
 #define BRACE_TEAM "® 𝐁 𝐑 𝐀 𝐂 𝐄™"
 
@@ -110,10 +115,11 @@ new formatted[2048];
 
 #define usercheck(%0); if(DCC_FindUserById(%0) == DCC_INVALID_USER){ \
  @discord() SendMsg(channel, "> "d_reply" **ERROR** • I can't find an user with such ID or name - please, recheck the user ID, and submit again.\n\nUser: <@%s>", %0); \
+ return 1;}if(IsUserABot(%0)==true){@discord() SendMsg(channel, "> "d_reply" **THIS IS A BOT** • <@%s> is a damn bot dude! What are you going to do with a bot?", %0); \
  return 1;}
 
 #define channelcheck(%0); if(DCC_FindChannelById(%0) == DCC_INVALID_CHANNEL){ \
- @discord() SendMsg(channel, "> "d_reply" **ERROR** • I can't find a channel with such ID or name - please, recheck the channel ID, and submit again.\n\nChannel: <@%s>", %0); \
+ @discord() SendMsg(channel, "> "d_reply" **ERROR** • I can't find a channel with such ID or name - please, recheck the channel ID, and submit again.\n\nChannel: <#%s>", %0); \
  return 1;}
 
 #define rolecheck(%0); if(DCC_FindRoleById(%0) == DCC_INVALID_ROLE){ \
@@ -125,7 +131,12 @@ new formatted[2048];
 #define @DISCORD_DECORATOR@cmd_params DCC_Message:message,DCC_User:author,PARAMETERS[]
 #define params PARAMETERS
 
-
+stock bool:IsUserABot(const user[])
+{
+	new bool:is_bot, DCC_User:user2 = DCC_FindUserById(user);
+	DCC_IsUserBot(user2,is_bot);
+	return is_bot;
+}
 
 #define d_beta "<:d_beta:1009087077725519974>"
 

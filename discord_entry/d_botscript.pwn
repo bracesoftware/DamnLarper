@@ -1,7 +1,7 @@
 // Script written by DEntisT, © & ® BRACE™.
 
 #pragma option -;+
-#include <open.mp>
+#include "../discord_api/d_a_entry.inc"
 
 #include "../discord_api/d_ysscanf.inc"
 #include "../discord_api/d_ycrashdetect.inc"
@@ -33,6 +33,7 @@ new DAMN_LARPER_LOADED = 1;
 #include "../discord_modules/d_macros.inc"
 #include "../discord_modules/d_variables.inc"
 #include "../discord_modules/d_utils.inc"
+#include "../discord_modules/d_guildconfig.inc"
 #include "../discord_modules/d_publics.inc"
 #if SLASH_COMMANDS == 1
 #include "../discord_modules/d_interactions.inc"
@@ -1456,7 +1457,8 @@ main() print("The script started sir");
 		//@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"serverconfig [option]`");
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Server Configuration__**", ""delimiterlol" • Setup how "BOT_NAME" will work in your server!\n\
-		Usage: `"BOT_PREFIX"serverconfig [option] [value]`\n\n\
+		Usage: `"BOT_PREFIX"serverconfig [option] [value]`\n\
+		Use `"BOT_PREFIX"serverconfig view cfg` to view current configuration.\n\n\
 		**__Options__**\n\
 		**`logchannel`**\n"d_reply"A channel in which "BOT_NAME" will log things!\n\
 		**`countchannel`**\n"d_reply"A channel where "BOT_NAME" will do a counting game!\n\
@@ -1465,6 +1467,7 @@ main() print("The script started sir");
 		**`verificationchannel`**\n"d_reply"A channel where "BOT_NAME" will verify people!\n\
 		**`levelchannel`**\n"d_reply"A channel where "BOT_NAME" will log member level-ups!\n\
 		**`botannouncements`** "d_beta"\n"d_reply"A channel where "BOT_NAME" will send announcements from the developer team!\n\
+		**`securitysys`** "d_beta"\n"d_reply"Used to toggle the "BOT_NAME" security system! Use `true` to turn it on; and `false` to turn it off.\n\
 		", 
 		"","", col_embed, datetimelog, 
 		"","",""), GetMention(useridmention));
@@ -1480,6 +1483,11 @@ main() print("The script started sir");
 		if(value[i] == '!') strdel(value, i, i+1);
 		if(value[i] == '\32') strdel(value, i, i+1);
 		if(value[i] == '#') strdel(value, i, i+1);
+	}
+	if(!strcmp(option, "view") && !strcmp(value, "cfg"))
+	{
+		@discord() SendMsg(channel, "**Current Server Configuration**\n\n`logchannel` • <#%s>\n`countchannel` • <#%s>\n`airportchannel` • <#%s>\n`verification` • `%s`\n`verificationchannel` • <#%s>\n`levelchannel` • <#%s>\n`botannouncements` • <#%s>\n`securitysys` • `%s`\n",GetGuildLogChannel(guild),GetGuildCountChannel(guild),GetGuildAirportChannel(guild),GetGuildVerification(guild) ? "true" : "false",GetGuildVerificationChannel(guild),GetGuildLevelChannel(guild),GetGuildAnnouncementChannel(guild),GetGuildSecurity(guild) ? "true" : "false");
+		return 1;
 	}
 
 	if(!strcmp(option, "logchannel"))
@@ -1511,12 +1519,16 @@ main() print("The script started sir");
 	}
 	if(!strcmp(option, "verification"))
 	{
+		if(!strcmp(GetGuildVerificationChannel(guild), "Unknown"))
+		{
+			@discord() SendInfo(channel, "You need to setup the `verificationchannel` option first!");
+			return 1;
+		}
 		if(!strcmp(value, "true"))
 		{
 			SetGuildVerification(guild, 1);
 
 			@discord() SendMsg(channel, ""d_reply" **CONFIGURATION UPDATED** • Value for option `%s` was successfully changed to `%s`.", option, value);
-			@discord() SendInfo(channel, "Make sure to setup the `verificationchannel` first in order to not create a huge mess!");
 			return 1;
 		}
 		if(!strcmp(value, "false"))
@@ -1555,6 +1567,29 @@ main() print("The script started sir");
 
 		@discord() SendMsg(channel, ""d_reply" **CONFIGURATION UPDATED** • Value for option `%s` was successfully changed to `%s`.", option, value);
 		return 1;
+	}
+	if(!strcmp(option, "securitysys"))
+	{
+		if(!strcmp(value, "true"))
+		{
+			SetGuildSecurity(guild, 1);
+
+			@discord() SendMsg(channel, ""d_reply" **CONFIGURATION UPDATED** • Value for option `%s` was successfully changed to `%s`.", option, value);
+			return 1;
+		}
+		if(!strcmp(value, "false"))
+		{
+			SetGuildSecurity(guild, 0);
+
+			@discord() SendMsg(channel, ""d_reply" **CONFIGURATION UPDATED** • Value for option `%s` was successfully changed to `%s`.", option, value);
+			return 1;
+		}
+		@discord() SendMsg(channel, ""d_reply" **WRONG VALUE** • Wrong value for option `%s` was given!\nPlease try again with either `true` or `false`!\n\nGiven value: `%s`.", option, value);
+		return 1;
+	}
+	else
+	{
+		@discord() SendInfo(channel, "Something went wrong! Try again.");
 	}
 	return 1;
 }
