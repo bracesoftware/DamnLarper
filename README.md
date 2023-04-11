@@ -203,7 +203,7 @@ After that - you can proceed to running your **open.mp** server.
 ## Source code structure
 | Directory      | Description                                                                                |
 | -------------------- | ------------------------------------------------------------------------------------------ |
-| `discord_entry/` | Basically an entry point. |
-| `discord_api/` | Contains back-end natives and functions. |
-| `discord_modules/` | Once upon a time, this bot code was just a single `*.pwn` file, so I decided to split it into modules. |
-| `discord_components/` | Bunch of deprecated functions, commands and systems whose were too big to be removed. |
+| `DamnLarper.Entry/` | Basically an entry point. |
+| `Discord.API/` | Contains back-end natives and functions. |
+| `DamnLarper.Modules/` | Once upon a time, this bot code was just a single `*.pwn` file, so I decided to split it into modules. |
+| `DamnLarper.Components/` | Bunch of deprecated functions, commands and systems whose were too big to be removed. |
