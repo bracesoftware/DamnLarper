@@ -99,3 +99,7 @@ new listpreview[4000];
 new RISE_OF_NATIONS_GLOBALSTRING[1024];
 
 new activity[100];
+
+new BotTips[][256] = {
+	"You can turn these off with `"BOT_PREFIX"userconfig`."
+};

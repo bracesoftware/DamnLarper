@@ -45,6 +45,8 @@ new DAMN_LARPER_LOADED = 1;
 #include "../DamnLarper.Modules/DL.System.SlashCmds.inc"
 #include "../DamnLarper.Modules/DL.System.Interactions.inc"
 
+#include "../DamnLarper.Modules/DL.System.UserCfg.inc"
+
 #pragma dynamic 215750000
 
 // Commands:

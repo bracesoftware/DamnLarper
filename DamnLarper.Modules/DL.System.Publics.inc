@@ -1713,6 +1713,9 @@ public OnDiscordCommandPerformed(DCC_Message: message, DCC_User: author, bool: s
 	new DCC_Guild:guild;
 
 	DCC_GetChannelGuild(channel, guild);
+
+	new betasent = 0;
+
 	if (!success) 
 	{
 		@discord() SendMsg(channel, "> "d_reply" **ERROR** • I don't know what that command is, try using `"BOT_PREFIX"help` to see a list of available commands.");
@@ -1748,7 +1751,15 @@ public OnDiscordCommandPerformed(DCC_Message: message, DCC_User: author, bool: s
 	}
 	if(BOT_BETA_PHASE == 1)
 	{
-		if(random(10) == 5) @discord() SendInfo(channel, ""d_beta" "BOT_NAME" achieved the **Beta Test** phase of development, help us in the development process by reporting all the bugs and issues using the `"BOT_PREFIX"report` command!");
+		if(random(10) == 5)
+		{
+			@discord() SendInfo(channel, ""d_beta" "BOT_NAME" achieved the **Beta Test** phase of development, help us in the development process by reporting all the bugs and issues using the `"BOT_PREFIX"report` command!");
+			betasent = 1;
+		}
+	}
+	if(random(100) < 10 && betasent == 0 && GetUserConfigTips(author) == 1)
+	{
+		@discord() SendInfo(channel, "**TIP** "d_star" %s", BotTips[random(sizeof BotTips)]);
 	}
 	return 1;
 }

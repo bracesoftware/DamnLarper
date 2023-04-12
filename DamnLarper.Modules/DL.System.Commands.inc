@@ -988,7 +988,8 @@
 		"d_heart" __Welcome to a bot setup guide and FAQ-s.__\n\
 		"d_reply" • This bot doesn't require many setup when it gets invited to the server, \
 		in fact, all of the setup is optional. If you are interested setting up the bot, \
-		you can use the `"BOT_PREFIX"serverconfig` command.", 
+		you can use the `"BOT_PREFIX"serverconfig` command.\n\n\
+		"d_reply" • You can modify your user settings with the `"BOT_PREFIX"userconfig` command.", 
 		"",
 		"", col_embed, datetimelog, 
 		"",
@@ -4859,6 +4860,12 @@ static GetFeed()
 	new id[DCC_ID_SIZE];
 	DCC_GetUserId(author,id);
 
+	if(GetInvData(id, "Gamepad") == 0)
+	{
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_gamepad" | `Gamepad` to use miscellaneous commands!");
+		return 1;
+	}
+
 	new question[100];
 
 	if(sscanf(params, "s[100]", question))
@@ -4867,7 +4874,7 @@ static GetFeed()
 		return 1;
 	}
 
-	@discord() SendInfo(channel, "<@%s>\nYour question: %s\n\n> *%s*",id,question,QuestionAnswers[random(sizeof QuestionAnswers)]);
+	@discord() SendInfo(channel, "<@%s>\nYour question: **`%s`**\n\n> *%s*",id,question,QuestionAnswers[random(sizeof QuestionAnswers)]);
 
 	return 1;
 }
