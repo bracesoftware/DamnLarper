@@ -68,5 +68,5 @@ new DAMN_LARPER_LOADED = 1;
 
 main()
 {
-	print("The script started sir");
+	print("The script started sir.");
 }
