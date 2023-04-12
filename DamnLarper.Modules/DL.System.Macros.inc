@@ -52,7 +52,7 @@ new BOT_BETA_PHASE = 1;
 #define @DISCORD_DECORATOR@SendMsg(%1,%2) \
 	format(formatted, sizeof formatted,%2); \
 	DCC_SendChannelEmbedMessage(%1, DCC_CreateEmbed( \
-			embed_titles[random(sizeof embed_titles)], formatted, "","", col_embed, datetimelog, \
+			"", formatted, "","", col_embed, embed_titles[random(sizeof embed_titles)], \
 			"","",""), "")
 
 new info[2048];
