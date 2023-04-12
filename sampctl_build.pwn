@@ -1,1 +1,0 @@
-#include "DamnLarper.Entry/DAMN_LARPER_ENTRY.pwn"

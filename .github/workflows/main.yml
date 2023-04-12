@@ -24,8 +24,8 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: amx-release
+          name: DamnLarper_AMX_PreRelease
           retention-days: 12 
           if-no-files-found: error
           
-          path: DamnLarper.Entry/DAMN_LARPER_ENTRY.pwn
+          path: DamnLarper.Entry/DAMN_LARPER_ENTRY.amx
