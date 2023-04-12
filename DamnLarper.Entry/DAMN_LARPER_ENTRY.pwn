@@ -9,6 +9,9 @@ new DAMN_LARPER_LOADED = 1;
 #define @discord%0(%1) @DISCORD_DECORATOR@
 
 #define SLASH_COMMANDS 1
+#define DAMN_LARPER_MAJOR	"1"
+#define DAMN_LARPER_MINOR	"0"
+#define DAMN_LARPER_RELEASE	"2"
 
 // API, implementations
 

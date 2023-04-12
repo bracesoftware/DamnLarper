@@ -1,5 +1,13 @@
 // Module written by DEntisT, © & ® BRACE™.
 
+new embed_titles[][256] = {
+	"can't even rest",
+	"bruh",
+	"LMAO",
+	"c'mon",
+	"i'm done"
+};
+
 new DiplomyReplies[][256] = {
 	"Did someone call my name?",
 	"I heard my name!",

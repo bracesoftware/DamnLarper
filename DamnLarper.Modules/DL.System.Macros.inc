@@ -45,10 +45,6 @@ new datetimelog[256];
 
 new BOT_BETA_PHASE = 1;
 
-#define DAMN_LARPER_MAJOR	"1"
-#define DAMN_LARPER_MINOR	"0"
-#define DAMN_LARPER_RELEASE	"1"
-
 #define BOT_VERSION "v"DAMN_LARPER_MAJOR"."DAMN_LARPER_MINOR"-R"DAMN_LARPER_RELEASE""
 #define BOT_NAME "Damn Larper"
 #define BRACE_TEAM "® 𝐁 𝐑 𝐀 𝐂 𝐄™"
@@ -56,7 +52,7 @@ new BOT_BETA_PHASE = 1;
 #define @DISCORD_DECORATOR@SendMsg(%1,%2) \
 	format(formatted, sizeof formatted,%2); \
 	DCC_SendChannelEmbedMessage(%1, DCC_CreateEmbed( \
-			""botpfp"| **__"BOT_NAME"__**", formatted, "","", col_embed, datetimelog, \
+			embed_titles[random(sizeof embed_titles)], formatted, "","", col_embed, datetimelog, \
 			"","",""), "")
 
 new info[2048];
