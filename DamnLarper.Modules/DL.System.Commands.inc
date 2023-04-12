@@ -1424,7 +1424,8 @@
 		**`verificationchannel`**\n"d_reply"A channel where "BOT_NAME" will verify people!\n\
 		**`levelchannel`**\n"d_reply"A channel where "BOT_NAME" will log member level-ups!\n\
 		**`botannouncements`** "d_beta"\n"d_reply"A channel where "BOT_NAME" will send announcements from the developer team!\n\
-		**`securitysys`** "d_beta"\n"d_reply"Used to toggle the "BOT_NAME" security system! Use `true` to turn it on; and `false` to turn it off.\n\
+		**`securitysys`**\n"d_reply"Used to toggle the "BOT_NAME" security system! Use `true` to turn it on; and `false` to turn it off.\n\
+		**`bumpchannel`** "d_beta"\n"d_reply"A channel where "BOT_NAME" will perform the bump system activites.\n\
 		", 
 		"","", col_embed, datetimelog, 
 		"","",""), GetMention(useridmention));
@@ -1443,7 +1444,7 @@
 	}
 	if(!strcmp(option, "view") && !strcmp(value, "cfg"))
 	{
-		@discord() SendMsg(channel, "**Current Server Configuration**\n\n`logchannel` • <#%s>\n`countchannel` • <#%s>\n`airportchannel` • <#%s>\n`verification` • `%s`\n`verificationchannel` • <#%s>\n`levelchannel` • <#%s>\n`botannouncements` • <#%s>\n`securitysys` • `%s`\n",GetGuildLogChannel(guild),GetGuildCountChannel(guild),GetGuildAirportChannel(guild),GetGuildVerification(guild) ? "true" : "false",GetGuildVerificationChannel(guild),GetGuildLevelChannel(guild),GetGuildAnnouncementChannel(guild),GetGuildSecurity(guild) ? "true" : "false");
+		@discord() SendMsg(channel, "**Current Server Configuration**\n\n`logchannel` • <#%s>\n`countchannel` • <#%s>\n`airportchannel` • <#%s>\n`verification` • `%s`\n`verificationchannel` • <#%s>\n`levelchannel` • <#%s>\n`botannouncements` • <#%s>\n`securitysys` • `%s`\n`bumpchannel` • <#%s>\n",GetGuildLogChannel(guild),GetGuildCountChannel(guild),GetGuildAirportChannel(guild),GetGuildVerification(guild) ? "true" : "false",GetGuildVerificationChannel(guild),GetGuildLevelChannel(guild),GetGuildAnnouncementChannel(guild),GetGuildSecurity(guild) ? "true" : "false",GetGuildBumpChannel(guild));
 		return 1;
 	}
 
@@ -1542,6 +1543,15 @@
 			return 1;
 		}
 		@discord() SendMsg(channel, ""d_reply" **WRONG VALUE** • Wrong value for option `%s` was given!\nPlease try again with either `true` or `false`!\n\nGiven value: `%s`.", option, value);
+		return 1;
+	}
+	if(!strcmp(option, "bumpchannel"))
+	{
+		channelcheck(value);
+
+		SetGuildBumpChannel(guild, value);
+
+		@discord() SendMsg(channel, ""d_reply" **CONFIGURATION UPDATED** • Value for option `%s` was successfully changed to `%s`.", option, value);
 		return 1;
 	}
 	

@@ -304,3 +304,43 @@ stock SetGuildSecurity(DCC_Guild:guild, value)
 	fclose(file2);
 	return 1;
 }
+
+
+
+// bump channel
+
+
+
+stock GetGuildBumpChannel(DCC_Guild:guild)
+{
+	new id[DCC_ID_SIZE];
+	DCC_GetGuildId(guild, id);
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"serverdata/bumpc_%s.ini", id);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock SetGuildBumpChannel(DCC_Guild:guild, const value[])
+{
+	new id[DCC_ID_SIZE];
+	DCC_GetGuildId(guild, id);
+	new file_name[150];
+	format(file_name, sizeof file_name,"serverdata/bumpc_%s.ini",id);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
+	return 1;
+}
