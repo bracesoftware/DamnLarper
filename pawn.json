@@ -1,0 +1,14 @@
+{
+	"user": "samp-api",
+	"repo": "DamnLarper",
+	"dependencies": [
+		"pawn-lang/pawn-stdlib",
+		"pawn-lang/samp-stdlib",
+		"maddinat0r/samp-discord-connector"
+	],
+	"entry": "DamnLarper.Entry/DAMN_LARPER_ENTRY.pwn",
+	"output": "DamnLarper.Entry/DAMN_LARPER_ENTRY.amx",
+	"contributors": [
+		"DEntis-T"
+	]
+}
