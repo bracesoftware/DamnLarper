@@ -207,3 +207,32 @@ After that - you can proceed to running your **open.mp** server.
 | `Discord.API/` | Contains back-end natives and functions. |
 | `DamnLarper.Modules/` | Once upon a time, this bot code was just a single `*.pwn` file, so I decided to split it into modules. |
 | `DamnLarper.Components/` | Bunch of deprecated functions, commands and systems whose were too big to be removed. |
+
+## Privacy Policy
+
+All of your information is safe!
+
+Please note that the bot doesn't store any of your personal information or account information such as e-mails, passwords, nicknames or messages besides the user ID, which is used to store the data such as your economy money, level, message count and many more!
+
+We deeply care about your privacy and security online. But, we aren't responsible for any data loss using the bot, you shouldn't use passwords, usernames and such information as list names, custom command names or anything else requiring a text input! Thanks.
+
+
+## Terms of Service
+
+It's mandatory for everyone to accept our Terms of Service in order to use the bot properly.
+
+1. Don't exploit bugs of the bot, doing so may result in a command blacklist.
+
+2. Using custom commands to send explicit or forbidden content of a certain server may result in a command blacklist.
+
+3. Putting bad words as an arguments in commands is a bannable offense.
+
+4. Using bot's commands to share personal information is not allowed.
+
+5. Sharing fake information about the bot community is bannable offense.
+
+6. Using commands such as `damn report` for fun or multiple times is not a thing you should really do. Multiple requests and reports will be ignored.
+
+7. Noticing the bug and not reporting it is not a nice thing to do - whenever you notice something unusual happening, you should use the `damn report` command.
+
+8. Redistributing the bot's resources (such as images, logos, text) is prohibited.
