@@ -216,6 +216,7 @@ Please note that the bot doesn't store any of your personal information or accou
 
 We deeply care about your privacy and security online. But, we aren't responsible for any data loss using the bot, you shouldn't use passwords, usernames and such information as list names, custom command names or anything else requiring a text input! Thanks.
 
+- Violation may result in a blacklist.
 
 ## Terms of Service
 
@@ -236,3 +237,5 @@ It's mandatory for everyone to accept our Terms of Service in order to use the b
 7. Noticing the bug and not reporting it is not a nice thing to do - whenever you notice something unusual happening, you should use the `damn report` command.
 
 8. Redistributing the bot's resources (such as images, logos, text) is prohibited.
+
+- Violation may result in a blacklist.
