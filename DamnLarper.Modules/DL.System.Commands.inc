@@ -532,6 +532,7 @@
 		"d_arrow"**`"BOT_PREFIX"chop`**\n"d_reply"Go chopping and get planks!\n\
 		"d_arrow"**`"BOT_PREFIX"make`**\n"d_reply"Make items out of other items!\n\
 		"d_arrow"**`"BOT_PREFIX"openchest`**\n"d_reply"Open a chest!\n\
+		"d_arrow"**`"BOT_PREFIX"dig`**\n"d_reply"Go digging into the dirt and hopefully find something!\n\
 		", 
 		"",
 		"", col_embed, datetimelog, 
@@ -2863,6 +2864,8 @@ stock SetPetEnergy(const id[],count)
 			"d_reply" Price: "d_banknote"`50`\n\n\
 			"d_protectiveshield" • **Protective Shield** (*ID: `13`*)\n\
 			"d_reply" Price: "d_ruby"`40`\n\n\
+			"d_shovel" • **Shovel** (*ID: `14`*)\n\
+			"d_reply" Price: "d_coin"`20000`\n\n\
 			\n**Page: 2**", 
 			"",
 			"", col_embed, datetimelog, 
@@ -3126,6 +3129,24 @@ stock SetPetEnergy(const id[],count)
 		return 1;
 	}
 
+	if(id == 14)
+	{
+		if(GetData(user, "Balance") < 20000)
+		{
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
+			return 1;
+		}
+		if(GetInvData(user, "Shovel") == 1)
+		{
+			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_shovel" | `Shovel`!");
+			return 1;
+		}
+		SetInvData(user, "Shovel");
+		SetData(user, "Balance", GetData(user, "Balance") - 20000);
+		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_shovel" | `Shovel` for "d_coin" `20000`!");
+		return 1;
+	}
+
 	@discord() SendMsg(channel, ""d_reply" **ERROR** • Wrong item ID was given, please recheck the shop!");
 
 	return 1;
@@ -3178,6 +3199,11 @@ stock GenerateInvString(const id[], type)
 	{
 		format(string, sizeof string, ""d_reply" "d_banknote" • **Banknotes**: %ix\n", GetData(id, "Banknotes"));
 	}
+	if(type == IST_COPPER)
+	{
+		format(string, sizeof string, ""d_reply" "d_copper" • **Copper**: %ix\n", GetData(id, "Copper"));
+	}
+
 	return string;
 }
 
@@ -3243,6 +3269,7 @@ stock GenerateChestString(const id[], type)
 		%s\
 		%s\
 		%s\
+		%s\
 		",
 		GetInvData(id, "Phone") ? ""d_reply" "d_phone" • **Phone** (*ID: `1`*)\n" : "",
 		GetInvData(id, "Gamepad") ? ""d_reply" "d_gamepad" • **Gamepad** (*ID: `2`*)\n" : "",
@@ -3256,7 +3283,8 @@ stock GenerateChestString(const id[], type)
 		GetInvData(id, "Axe") ? ""d_reply" "d_axe" • **Axe** (*ID: `10`*)\n" : "",
 		GetInvData(id, "Laptop") ? ""d_reply" "d_laptop" • **Laptop** (*ID: `11`*)\n" : "",
 		GetInvData(id, "Safe") ? ""d_reply" "d_safe" • **Safe** (*ID: `12`*)\n" : "",
-		GetInvData(id, "ProtectiveShield") ? ""d_reply" "d_protectiveshield" • **Protective Shield** (*ID: `13`*)\n" : ""
+		GetInvData(id, "ProtectiveShield") ? ""d_reply" "d_protectiveshield" • **Protective Shield** (*ID: `13`*)\n" : "",
+		GetInvData(id, "Shovel") ? ""d_reply" "d_shovel" • **Shovel** (*ID: `14`*)\n" : ""
 		);
 
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
@@ -3270,6 +3298,7 @@ stock GenerateChestString(const id[], type)
 	if(!strcmp(invtype, "otheritems"))
 	{
 		format(inv, sizeof inv, ""d_reply" **INVENTORY** • These are the items that you've found or produced!\n\n\
+		%s\
 		%s\
 		%s\
 		%s\
@@ -3302,7 +3331,9 @@ stock GenerateChestString(const id[], type)
 		
 		(GetData(id, "Paper") == 0) ? "" : GenerateInvString(id, IST_PAPER), 
 		
-		(GetData(id, "Banknotes") == 0) ? "" : GenerateInvString(id, IST_BANKNOTE));
+		(GetData(id, "Banknotes") == 0) ? "" : GenerateInvString(id, IST_BANKNOTE),
+
+		(GetData(id, "Copper") == 0) ? "" : GenerateInvString(id, IST_COPPER));
 
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Your Found & Produced Items Inventory__**", inv, 
@@ -4072,6 +4103,8 @@ stock GenerateBar(points = d_max_bar_points)
 		"d_reply"Use the `"BOT_PREFIX"mine` command!\n\n\
 		"d_arrow" • **Pet Owner** (Reward: 1x "d_rarechest" | `Rare Chest`)\n\
 		"d_reply"Use the `"BOT_PREFIX"buypet` command and get a pet!\n\n\
+		"d_arrow" • **Digger** (Reward: 1x "d_rarechest" | `Rare Chest`)\n\
+		"d_reply"Use the `"BOT_PREFIX"dig` command!\n\n\
 		", 
 		"",
 		"", col_embed, datetimelog, 
@@ -4728,5 +4761,88 @@ static GetFeed()
 		"", col_embed, datetimelog, 
 		"",
 		"",""), GetMention(useridmention));
+	return 1;
+}
+
+@discord() command:dig(@discord() cmd_params)
+{
+	new DCC_Channel:channel;
+
+	DCC_GetMessageChannel(message, channel);
+
+	SettingsCheck(rp);
+
+	new id[DCC_ID_SIZE];
+
+	DCC_GetUserId(author, id);
+
+	CommandCooldownMin(channel, id, "dig", "Have control over your demands digger!");
+
+	if(GetInvData(id, "Shovel") == 0)
+	{
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_shovel" | `Shovel` to go digging!");
+		return 1;
+	}
+
+	if(GetEnergy(id) == 0)
+	{
+		@discord() SendMsg(channel, ""d_reply" **YOU'RE TOO TIRED** • Your energy is at zero! Eat something or go hunting!");
+		return 1;
+	}
+
+	if(GetAchievement(id, "Digger") == 0)
+	{
+		@discord() SendInfo(channel, "<@%s>\n\nYou successfully unlocked a **Digger** achievement and got 1x "d_rarechest" | `Rare Chest` as a reward.", id);
+		SaveRareChest(id, GetRareChest(id) + 1);
+		SetAchievement(id, "Digger");
+	}
+
+	new copper = random(5);
+	
+	if(copper == 0)
+	{
+		SetEnergy(id, GetEnergy(id) - 1);
+		@discord() SendMsg(channel, "**<@%s>**\n\n"d_reply" **DIGGING FINISHED** • You've been digging for a while, but you could not find anything!", id);
+		return 1;
+	}
+
+
+	@discord() SendMsg(channel, "**<@%s>**\n\n"d_reply" **DIGGING FINISHED** • You've been digging for a while, you found:\n\n%ix "d_copper" | `Copper`\n", id, copper);
+	SetEnergy(id, GetEnergy(id) - 1);
+
+	if(GetPet(id) != 0)
+	{
+		if(GetPetEnergy(id) == 0)
+		{
+			@discord() SendInfo(channel, "Your pet is too tired to work and could not help you this time! Use `"BOT_PREFIX"feedpet`!");
+			return 1;
+		}
+		copper = random(5);
+		@discord() SendInfo(channel, "**<@%s>**\n\n"d_reply" **PET BONUS** • Your pet somehow managed to help you, he mined this for you:\n\n%ix "d_copper" | `Copper`\n", id, copper);
+		SetData(id, "Copper", GetData(id, "Copper") + copper);
+		SetPetEnergy(id, GetPetEnergy(id) - 1);
+	}
+
+	return 1;
+}
+
+@discord() command:interaction_test(@discord() cmd_params)
+{
+	new DCC_Channel:channel;
+
+	DCC_GetMessageChannel(message, channel);
+
+	new id[DCC_ID_SIZE];
+	DCC_GetUserId(author,id);
+
+	new DCC_Message:interaction = DCC_Message:DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
+		"**__"BOT_NAME" Interaction Test__**", "React to the message!", 
+		"",
+		"", col_embed, datetimelog, 
+		"",
+		"",""), GetMention(id));
+
+	SetInteraction(interaction, author, INTERACTION_TYPE_TEST);
+
 	return 1;
 }

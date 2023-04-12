@@ -61,7 +61,7 @@ new BOT_BETA_PHASE = 1;
 
 new info[2048];
 
-#define @DISCORD_DECORATOR@SendInfo(%1,%2) format(info, sizeof info, ""d_reply" • "%2);DCC_SendChannelMessage(%1, info)
+#define @DISCORD_DECORATOR@SendInfo(%1,%2) format(info, sizeof info, ""d_reply" • "%2),DCC_SendChannelMessage(%1, info)
 
 /*
 
@@ -138,6 +138,13 @@ stock bool:IsUserABot(const user[])
 	return is_bot;
 }
 
+stock bool:IsUserABot_2(DCC_User:user)
+{
+	new bool:is_bot;
+	DCC_IsUserBot(user,is_bot);
+	return is_bot;
+}
+
 #define d_beta "<:d_beta:1009087077725519974>"
 
 
@@ -152,21 +159,22 @@ stock bool:IsUserABot(const user[])
 
 
 
-#define IST_GOLD 1
-#define IST_RUBIES 2
-#define IST_RAWMEAT 3
-#define IST_COOKEDMEAT 4
-#define IST_FRUITS 5
-#define IST_MEDICINE 6
-#define IST_RAWFISH 7
-#define IST_COOKEDFISH 8
-#define IST_PLANKS 9
-#define IST_PAPER 10
-#define IST_BANKNOTE 11
+#define IST_GOLD 			1
+#define IST_RUBIES 			2
+#define IST_RAWMEAT 		3
+#define IST_COOKEDMEAT 		4
+#define IST_FRUITS 			5
+#define IST_MEDICINE 		6
+#define IST_RAWFISH 		7
+#define IST_COOKEDFISH 		8
+#define IST_PLANKS 			9
+#define IST_PAPER 			10
+#define IST_BANKNOTE 		11
+#define IST_COPPER 			12
 
 
-#define CHEST_COMMON 1
-#define CHEST_RARE 2
+#define CHEST_COMMON 		1
+#define CHEST_RARE 			2
 
 
 
@@ -218,6 +226,8 @@ stock bool:IsUserABot(const user[])
 #define d_dog "<:d_dog:1008841252650889286>"
 #define d_cat "<:d_cat:1008844391043039262>"
 #define d_protectiveshield "<:d_protectiveshield:1094973029953568798>"
+#define d_shovel "<:d_shovel:1095379234240860160>"
+#define d_copper "<:d_copper:1095608869725675541>"
 
 #define d_emptybar1 "<:d_emptybar1:1007987935049683036>"
 #define d_emptybar2 "<:d_emptybar2:1007987961733840956>"

@@ -1738,6 +1738,8 @@ public OnDiscordCommandPerformed(DCC_Message: message, DCC_User: author, bool: s
 		"", col_embed, datetimelog, 
 		"",
 		"",""), ""delimiterlol" **INFO** • Mention me for more information!");
+
+		CallLocalFunction("TurnInteractionOff", "i", _:author);
 	}
 	if(BOT_BETA_PHASE == 1)
 	{

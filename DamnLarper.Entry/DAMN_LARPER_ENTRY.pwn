@@ -41,6 +41,7 @@ new DAMN_LARPER_LOADED = 1;
 #include "../DamnLarper.Modules/DL.System.Utils.inc"
 #include "../DamnLarper.Modules/DL.System.GuildCfg.inc"
 #include "../DamnLarper.Modules/DL.System.Publics.inc"
+#include "../DamnLarper.Modules/DL.System.SlashCmds.inc"
 #include "../DamnLarper.Modules/DL.System.Interactions.inc"
 
 #pragma dynamic 215750000

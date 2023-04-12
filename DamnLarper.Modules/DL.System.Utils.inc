@@ -129,6 +129,22 @@ stock GetAchievement(const user[], const achievement[])
 			return strval(strFromFile2);
 		}
 	}
+	if(!strcmp(achievement, "Digger"))
+	{
+		format(file_name, sizeof file_name,
+			"achieve/digger_%s.ini", user);
+		//format(strFromFile2, sizeof strFromFile2, "Unknown");
+		if(!fexist(file_name)) return 0;
+		new File: file = fopen(file_name, io_read);
+		if (file)
+		{
+			fread(file, strFromFile2);
+
+			fclose(file);
+
+			return strval(strFromFile2);
+		}
+	}
 	return 0;
 }
 
@@ -159,6 +175,13 @@ stock SetAchievement(const user[], const achievement[])
 	if(!strcmp(achievement, "PetOwner"))
 	{
 		format(file_name, sizeof file_name,"achieve/petowner_%s.ini",user);
+		new File: file2 = fopen(file_name, io_write);
+		fwrite(file2, "1");
+		fclose(file2);
+	}
+	if(!strcmp(achievement, "Digger"))
+	{
+		format(file_name, sizeof file_name,"achieve/digger_%s.ini",user);
 		new File: file2 = fopen(file_name, io_write);
 		fwrite(file2, "1");
 		fclose(file2);
@@ -761,6 +784,23 @@ stock GetData(const id[], const data[])
 			return count;
 		}
 	}
+	if(!strcmp(data, "Copper"))
+	{
+		format(file_name, sizeof file_name,
+			"data/copper_%s.ini", id);
+		if(!fexist(file_name)) return 0;
+		new File: file = fopen(file_name, io_read);
+		if (file)
+		{
+			fread(file, strFromFile2);
+			
+			count = strval(strFromFile2);
+
+			fclose(file);
+
+			return count;
+		}
+	}
 	return 0;
 }
 
@@ -879,6 +919,15 @@ stock SetData(const id[], const data[], count)
 		fwrite(file2, string);
 		fclose(file2);
 	}
+	if(!strcmp(data, "Copper"))
+	{
+		format(file_name, sizeof file_name,"data/copper_%s.ini",id);
+		format(string, sizeof(string), "%i", count);
+		new File: file2 = fopen(file_name, io_write);
+		fwrite(file2, string);
+		fclose(file2);
+	}
+
 	return 1;
 }
 
@@ -3099,6 +3148,22 @@ stock GetInvData(const user[], const data[])
 			return strval(strFromFile2);
 		}
 	}
+	if(!strcmp(data, "Shovel"))
+	{
+		format(file_name, sizeof file_name,
+			"inv/shovel_%s.ini", user);
+		//format(strFromFile2, sizeof strFromFile2, "Unknown");
+		if(!fexist(file_name)) return 0;
+		new File: file = fopen(file_name, io_read);
+		if (file)
+		{
+			fread(file, strFromFile2);
+
+			fclose(file);
+
+			return strval(strFromFile2);
+		}
+	}
 	return 0;
 }
 
@@ -3192,6 +3257,13 @@ stock SetInvData(const user[], const data[])
 	if(!strcmp(data, "ProtectiveShield"))
 	{
 		format(file_name, sizeof file_name,"inv/protshield_%s.ini",user);
+		new File: file2 = fopen(file_name, io_write);
+		fwrite(file2, "1");
+		fclose(file2);
+	}
+	if(!strcmp(data, "Shovel"))
+	{
+		format(file_name, sizeof file_name,"inv/shovel_%s.ini",user);
 		new File: file2 = fopen(file_name, io_write);
 		fwrite(file2, "1");
 		fclose(file2);
