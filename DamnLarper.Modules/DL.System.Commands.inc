@@ -4134,11 +4134,13 @@ stock GenerateBar(points = d_max_bar_points)
 		%s\
 		%s\
 		%s\
+		%s\
 		",
 		GetAchievement(id, "Beggar") ? ""d_arrow" • **Beggar**\n" : "",
 		GetAchievement(id, "Consumer") ? ""d_arrow" • **Consumer**\n" : "",
 		GetAchievement(id, "Miner") ? ""d_arrow" • **Miner**\n" : "",
-		GetAchievement(id, "PetOwner") ? ""d_arrow" • **Pet Owner**\n" : ""
+		GetAchievement(id, "PetOwner") ? ""d_arrow" • **Pet Owner**\n" : "",
+		GetAchievement(id, "Digger") ? ""d_arrow" • **Digger**\n" : ""
 		);
 
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
