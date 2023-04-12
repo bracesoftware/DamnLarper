@@ -223,19 +223,26 @@ We deeply care about your privacy and security online. But, we aren't responsibl
 It's mandatory for everyone to accept our Terms of Service in order to use the bot properly.
 
 1. Don't exploit bugs of the bot, doing so may result in a command blacklist.
-
 2. Using custom commands to send explicit or forbidden content of a certain server may result in a command blacklist.
-
 3. Putting bad words as an arguments in commands is a bannable offense.
-
 4. Using bot's commands to share personal information is not allowed.
-
 5. Sharing fake information about the bot community is bannable offense.
-
 6. Using commands such as `damn report` for fun or multiple times is not a thing you should really do. Multiple requests and reports will be ignored.
-
 7. Noticing the bug and not reporting it is not a nice thing to do - whenever you notice something unusual happening, you should use the `damn report` command.
-
 8. Redistributing the bot's resources (such as images, logos, text) is prohibited.
 
 - Violation may result in a blacklist.
+
+## Contribution
+
+Clone the repository.
+
+```cmd
+$ git clone https://<your username>:<your access token>@github.com/samp-api/damnlarper
+```
+
+Make your changes and make a pull request.
+
+```cmd
+$ git pull
+```
