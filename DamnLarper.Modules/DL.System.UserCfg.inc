@@ -58,7 +58,7 @@ stock SetUserConfigTips(DCC_User:user, value)
 		Usage: `"BOT_PREFIX"userconfig [option] [value]`\n\
 		Use `"BOT_PREFIX"userconfig view cfg` to view current configuration.\n\n\
 		**__Options__**\n\
-		**`tips`**\n"d_reply"Toggle the "BOT_NAME" Tips system on or of!\n\
+		**`tips`**\n"d_reply"Toggle the "BOT_NAME" Tips system on or off - use `true` to turn it on and `false` to turn it off!\n\
 		", 
 		"","", col_embed, datetimelog, 
 		"","",""), GetMention(useridmention));
