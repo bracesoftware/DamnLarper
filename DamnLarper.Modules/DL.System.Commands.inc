@@ -450,7 +450,8 @@
 		"**__Help Panel__**", "**Miscellaneous commands**\n\n\
 		"d_arrow"**`"BOT_PREFIX"search`**\n"d_reply"Let me Google stuff for you!\n\
 		"d_arrow"**`"BOT_PREFIX"say`**\n"d_reply"Say something anonymously.\n\
-		"d_arrow"**`"BOT_PREFIX"joke`**\n"d_reply"Get a joke.", 
+		"d_arrow"**`"BOT_PREFIX"joke`**\n"d_reply"Get a joke.\n\
+		"d_arrow"**`"BOT_PREFIX"qna`**\n"d_reply"Ask us a question!", 
 		"",
 		"", col_embed, datetimelog, 
 		"",
@@ -4808,6 +4809,8 @@ static GetFeed()
 
 
 	@discord() SendMsg(channel, "**<@%s>**\n\n"d_reply" **DIGGING FINISHED** • You've been digging for a while, you found:\n\n%ix "d_copper" | `Copper`\n", id, copper);
+	SetData(id, "Copper", GetData(id, "Copper") + copper);
+
 	SetEnergy(id, GetEnergy(id) - 1);
 
 	if(GetPet(id) != 0)
@@ -4826,7 +4829,7 @@ static GetFeed()
 	return 1;
 }
 
-@discord() command:interaction_test(@discord() cmd_params)
+@discord() command:interactiontest(@discord() cmd_params)
 {
 	new DCC_Channel:channel;
 
@@ -4843,6 +4846,28 @@ static GetFeed()
 		"",""), GetMention(id));
 
 	SetInteraction(interaction, author, INTERACTION_TYPE_TEST);
+
+	return 1;
+}
+
+@discord() command:qna(@discord() cmd_params)
+{
+	new DCC_Channel:channel;
+
+	DCC_GetMessageChannel(message, channel);
+
+	new id[DCC_ID_SIZE];
+	DCC_GetUserId(author,id);
+
+	new question[100];
+
+	if(sscanf(params, "s[100]", question))
+	{
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"qna [question]`");
+		return 1;
+	}
+
+	@discord() SendInfo(channel, "<@%s>\nYour question: %s\n\n> *%s*",id,question,QuestionAnswers[random(sizeof QuestionAnswers)]);
 
 	return 1;
 }

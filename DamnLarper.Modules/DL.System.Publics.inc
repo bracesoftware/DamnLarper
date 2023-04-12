@@ -614,13 +614,18 @@ public DCC_OnMessageCreate(DCC_Message: message)
 		}
 		for(new i; i < msglen; i++)
 		{
-			if(msg[i] == 'd' && 
-				msg[i+1] == 'i' && 
-				msg[i+2] == 'p' && 
-				msg[i+3] == 'l' && 
-				msg[i+4] == 'o' && 
-				msg[i+5] == 'm' && 
-				msg[i+6] == 'y')
+			if(tolower(msg[i]) == 'd' && 
+				tolower(msg[i+1]) == 'a' && 
+				tolower(msg[i+2]) == 'm' && 
+				tolower(msg[i+3]) == 'n' &&
+				tolower(msg[i+4]) == ' ' &&
+				tolower(msg[i+5]) == 'l' &&
+				tolower(msg[i+6]) == 'a' &&
+				tolower(msg[i+7]) == 'r' &&
+				tolower(msg[i+8]) == 'p' &&
+				tolower(msg[i+9]) == 'e' &&
+				tolower(msg[i+10]) == 'r' 
+				)
 			{
 				DCC_SendChannelMessage(channel, DiplomyReplies[random(sizeof DiplomyReplies)]);
 			}

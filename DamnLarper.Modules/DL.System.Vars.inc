@@ -13,6 +13,49 @@ new DiplomyReplies[][256] = {
 	"Be polite man!"
 };
 
+new QuestionAnswers[][256] = {
+	"sure, why not",
+	"are you out of your mind?",
+	"only if your mom is ok with it",
+	"idk",
+	"i am just a stupid ai.",
+	"i don't think your dad would agree",
+	"that's not ok.",
+	"i am sure not",
+	"ask your dad",
+	"ask your mom later",
+	"huh?",
+	"shut up",
+	"i don't like ur tone.",
+	"LMAO",
+	"LOL",
+	"tell me you aren't that dumb.",
+	"pls no",
+	"what is that?",
+	"i am sure that's okay.",
+	"no",
+	"yes",
+	"i am a magician",
+	"don't be so sure about that",
+	"ask your dog",
+	"smh",
+	"ur annoying",
+	"c'mon man",
+	"obviously",
+	"that's sus",
+	"hmmmmmmm",
+	"ok",
+	"log off.",
+	"i could not care less",
+	"tbh that's stupid",
+	"idk, try using `"BOT_PREFIX"search`",
+	"when",
+	"why",
+	"how",
+	"bruh"
+};
+
+
 new DiplomyJokes[][512] = {
 	"You.",
 	"What's the best thing about Switzerland? I do not know, but the flag is a big plus.",

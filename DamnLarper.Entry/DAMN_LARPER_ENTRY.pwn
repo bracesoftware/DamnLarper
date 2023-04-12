@@ -36,6 +36,7 @@ new DAMN_LARPER_LOADED = 1;
 
 // Modules
 
+#include "../DamnLarper.Modules/DL.System.Emoji.inc"
 #include "../DamnLarper.Modules/DL.System.Macros.inc"
 #include "../DamnLarper.Modules/DL.System.Vars.inc"
 #include "../DamnLarper.Modules/DL.System.Utils.inc"
