@@ -1,11 +1,13 @@
 // Module written by DEntisT, © & ® BRACE™.
 
 new embed_titles[][256] = {
-	"can't even rest",
-	"bruh",
-	"LMAO",
+	"i can't even rest",
+	"bruh why?",
+	"LMAO man help pls",
 	"c'mon",
-	"i'm done"
+	"i'm done",
+	"dis cmd is really cool, isn't it?",
+	"finally bro!"
 };
 
 new DiplomyReplies[][256] = {

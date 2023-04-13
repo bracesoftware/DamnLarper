@@ -1600,13 +1600,12 @@ public DCC_OnGuildMemberRemove(DCC_Guild:guild, DCC_User:user)
 	return 1;
 }
 
-new DCC_Guild:all_guilds[50];
+
 
 forward ActivityChange();
 public ActivityChange()
 {
-	DCC_GetAllGuilds(all_guilds);
-	format(activity, sizeof activity, "on %i servers! • damn help", sizeof all_guilds);
+	format(activity, sizeof activity, "/damn • damn help");
 	DCC_SetBotActivity(activity);
 	return 1;
 }

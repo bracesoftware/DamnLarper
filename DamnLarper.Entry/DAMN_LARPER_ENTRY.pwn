@@ -11,8 +11,8 @@ new DAMN_LARPER_LOADED = 1;
 #define SLASH_COMMANDS 1
 
 #define DAMN_LARPER_MAJOR	"1"
-#define DAMN_LARPER_MINOR	"0"
-#define DAMN_LARPER_RELEASE	"2"
+#define DAMN_LARPER_MINOR	"1"
+#define DAMN_LARPER_RELEASE	"1"
 
 // API, implementations
 
