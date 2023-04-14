@@ -364,6 +364,11 @@
 	//other systems
 	if(!strcmp(option, "custom"))
 	{
+		if(DAMN_LARPER_REWRITE == 1)
+		{
+			@discord() SendMsg(channel, ""d_reply" **UH OH!** • This help panel is currently deprecated! Try seeing another topic.");
+			return 1;
+		}
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Custom Features Help Panel__**", "\n\n\
 		"delimiterlol" __List of Commands available for **"SERVER_RISE_OF_NATIONS"**__\n\

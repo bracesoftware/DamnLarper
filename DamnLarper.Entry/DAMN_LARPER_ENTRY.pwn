@@ -2,13 +2,12 @@
 
 #pragma option -;+
 
-new DAMN_LARPER_LOADED = 1;
-
 #define @DISCORD_DECORATOR@%0\32; @DISCORD_DECORATOR@
 
 #define @discord%0(%1) @DISCORD_DECORATOR@
 
 #define SLASH_COMMANDS 1
+stock DAMN_LARPER_REWRITE = 1;
 
 #define DAMN_LARPER_MAJOR	"1"
 #define DAMN_LARPER_MINOR	"1"
