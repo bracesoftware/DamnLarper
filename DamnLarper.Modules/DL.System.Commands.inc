@@ -2644,7 +2644,7 @@ stock SetPetEnergy(const id[],count)
 
 	SettingsCheck(eco);
 
-	new id, user[DCC_ID_SIZE];
+	new user[DCC_ID_SIZE];
 
 	DCC_GetUserId(author, user);
 
@@ -2654,11 +2654,6 @@ stock SetPetEnergy(const id[],count)
 		return 1;
 	}
 
-	if(sscanf(params, "i", id))
-	{
-		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"buypet [pet ID]`");
-		return 1;
-	}
 
 	SetPet(user, 0);
 
