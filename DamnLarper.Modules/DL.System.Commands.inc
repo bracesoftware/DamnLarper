@@ -338,7 +338,8 @@
 		**Commands**\n\n\
 		"d_premium" **`"BOT_PREFIX"premiumdaily`**\n"d_reply"Claim your daily!\n\
 		\n**Other Features**\n\n\
-		"d_premium" **Skip Command Cooldown**\n"d_reply"Mine, beg, chop and do other stuff without being disturbed by that annoying command cooldown!\n\
+		"d_premium" **Skip Command Cooldown**\n"d_reply"Mine, beg, chop and do other stuff without being disturbed by that annoying command cooldown!\n\n\
+		"d_premium" **Access Special Pets**\n"d_reply"With premium perks, you can access special pets in the pet shop such as "d_pepefrog" | `Pepe Frog`!\n\n\
 		", 
 		"",
 		"", col_embed, datetimelog, 
@@ -517,7 +518,9 @@
 		"d_arrow"**`"BOT_PREFIX"buypet`**\n"d_reply"Buy a pet!\n\
 		"d_arrow"**`"BOT_PREFIX"petstats`**\n"d_reply"View your pet statistics!\n\
 		"d_arrow"**`"BOT_PREFIX"namepet`**\n"d_reply"Give your pet a new name!\n\
-		"d_arrow"**`"BOT_PREFIX"feedpet`**\n"d_reply"Give your pet some food!\n", 
+		"d_arrow"**`"BOT_PREFIX"feedpet`**\n"d_reply"Give your pet some food!\n\
+		"d_arrow"**`"BOT_PREFIX"sellpet`**\n"d_reply"Sell your pet and make it cry!\n\
+		", 
 		"",
 		"", col_embed, datetimelog, 
 		"",
@@ -1575,7 +1578,7 @@
 
 	SettingsCheck(mod);
 
-	if(DCC_HasGuildMemberPermission(guild, author, PERMISSION_BAN_MEMBERS) == false)
+	if(DCC_HasGuildMemberPermission(guild, author, DCC_PERMISSION_BAN_MEMBERS) == false)
 	{
 		@discord() SendMsg(channel, ""d_reply" **AUTHORIZATION ERROR** • You do not have a `BAN_MEMBERS` permission!");
 		return 1;
@@ -1631,7 +1634,7 @@
 
 	SettingsCheck(mod);
 
-	if(DCC_HasGuildMemberPermission(guild, author, PERMISSION_BAN_MEMBERS) == false)
+	if(DCC_HasGuildMemberPermission(guild, author, DCC_PERMISSION_BAN_MEMBERS) == false)
 	{
 		@discord() SendMsg(channel, ""d_reply" **AUTHORIZATION ERROR** • You do not have a `BAN_MEMBERS` permission!");
 		return 1;
@@ -1674,7 +1677,7 @@
 
 	SettingsCheck(mod);
 
-	if(DCC_HasGuildMemberPermission(guild, author, PERMISSION_MANAGE_ROLES) == false)
+	if(DCC_HasGuildMemberPermission(guild, author, DCC_PERMISSION_MANAGE_ROLES) == false)
 	{
 		@discord() SendMsg(channel, ""d_reply" **AUTHORIZATION ERROR** • You do not have a `MANAGE_ROLES` permission!");
 		return 1;
@@ -1737,7 +1740,7 @@
 
 	SettingsCheck(mod);
 
-	if(DCC_HasGuildMemberPermission(guild, author, PERMISSION_MANAGE_ROLES) == false)
+	if(DCC_HasGuildMemberPermission(guild, author, DCC_PERMISSION_MANAGE_ROLES) == false)
 	{
 		@discord() SendMsg(channel, ""d_reply" **AUTHORIZATION ERROR** • You do not have a `MANAGE_ROLES` permission!");
 		return 1;
@@ -1800,7 +1803,7 @@
 
 	SettingsCheck(mod);
 
-	if(DCC_HasGuildMemberPermission(guild, author, PERMISSION_KICK_MEMBERS) == false)
+	if(DCC_HasGuildMemberPermission(guild, author, DCC_PERMISSION_KICK_MEMBERS) == false)
 	{
 		@discord() SendMsg(channel, ""d_reply" **AUTHORIZATION ERROR** • You do not have a `KICK_MEMBERS` permission!");
 		return 1;
@@ -2402,11 +2405,13 @@ SetCommandUsedMin(id, "cmd", m);
 		"**__"BOT_NAME" Pet Shop__**", 
 		""d_reply" **PET SHOP** • This is the list of pets you can purchase.\n\n\
 		"d_parrot" • **Parrot** (*ID: `1`*)\n\
-		"d_reply" Price: "d_coin"`15000`\n\n\
+		"d_reply" Price: "d_coin"`5000`\n\n\
 		"d_dog" • **Dog** (*ID: `2`*)\n\
 		"d_reply" Price: "d_coin"`15000`\n\n\
 		"d_cat" • **Cat** (*ID: `3`*)\n\
 		"d_reply" Price: "d_coin"`15000`\n\n\
+		"d_pepefrog" • **Pepe Frog** (*ID: `4`*) "d_premium"\n\
+		"d_reply" Price: "d_coin"`20000`\n\n\
 		", 
 		"",
 		"", col_embed, datetimelog, 
@@ -2537,7 +2542,7 @@ stock SetPetEnergy(const id[],count)
 
 	if(id == 1)
 	{
-		if(GetData(user, "Balance") < 15000)
+		if(GetData(user, "Balance") < 5000)
 		{
 			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
 			return 1;
@@ -2601,8 +2606,67 @@ stock SetPetEnergy(const id[],count)
 		}
 		return 1;
 	}
+	if(id == 4)
+	{
+		premiumcheck(user);
+		if(GetData(user, "Balance") < 20000)
+		{
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
+			return 1;
+		}
+		SetPet(user, 4);
+		SetPetName(user, "Unnamed Pet");
+		SetPetEnergy(user, d_max_bar_points);
+		SetData(user, "Balance", GetData(user, "Balance") - 20000);
+		@discord() SendMsg(channel, ""d_reply" **PET BOUGHT** • You successfully bought a "d_pepefrog" | `Pepe Frog` pet for "d_coin" `20000`!");
+		@discord() SendInfo(channel, "To view your pet's statistics, please use `"BOT_PREFIX"petstats`.");
+		
+		if(GetAchievement(user, "PetOwner") == 0)
+		{
+			@discord() SendInfo(channel, "<@%s>\n\nYou successfully unlocked a **Pet Owner** achievement and got 1x "d_rarechest" | `Rare Chest` as a reward.", user);
+			SaveRareChest(user, GetRareChest(user) + 1);
+			SetAchievement(user, "PetOwner");
+		}
+		return 1;
+	}
+
 
 	@discord() SendMsg(channel, ""d_reply" **ERROR** • Wrong pet ID was given, please recheck the shop!");
+
+	return 1;
+}
+
+@discord() command:sellpet(@discord() cmd_params)
+{
+	new DCC_Channel:channel;
+
+	DCC_GetMessageChannel(message, channel);
+
+	SettingsCheck(eco);
+
+	new id, user[DCC_ID_SIZE];
+
+	DCC_GetUserId(author, user);
+
+	if(GetPet(user) == 0)
+	{
+		@discord() SendMsg(channel, ""d_reply" **NO PETS** • You are already lonely!");
+		return 1;
+	}
+
+	if(sscanf(params, "i", id))
+	{
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"buypet [pet ID]`");
+		return 1;
+	}
+
+	SetPet(user, 0);
+
+	new payout = random(1000);
+
+	@discord() SendMsg(channel, ""d_reply" **BYE!** • Your pet could not be happier to run away! **You can buy another one or stay lonely.**\n\nBy the way, you got "d_coin" `%i` for your pet.", payout);
+
+	SetData(user, "Balance", GetData(user, "Balance") + payout);
 
 	return 1;
 }
@@ -2640,6 +2704,10 @@ stock SetPetEnergy(const id[],count)
 	if(GetPet(id) == 3)
 	{
 		format(pettype, sizeof pettype, ""d_cat" | `Cat`");
+	}
+	if(GetPet(id) == 4)
+	{
+		format(pettype, sizeof pettype, ""d_pepefrog" | `Pepe Frog`");
 	}
 	
 	format(stats, sizeof stats, "**Pet's Name**\n\

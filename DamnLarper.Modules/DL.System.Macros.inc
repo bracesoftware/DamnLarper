@@ -101,7 +101,7 @@ new formatted[2048];
 @discord() SendMsg(channel,"> "d_reply" **AUTHORIZATION ERROR** • Only the "BRACE_TEAM" team can use this command!");return 1;}
 
 #define premiumcheck(%1); if(GetPremium(%1)==0) { \
-@discord() SendMsg(channel,"> "d_reply" **NO PREMIUM?** • Only the "BOT_NAME" premium users can use or do this!");return 1;}
+@discord() SendMsg(channel,"> "d_reply" **NO PREMIUM?** • Only the "BOT_NAME" premium users can access this feature!");return 1;}
 
 #define SettingsCheck(%1); if(settings[%1] == 0) { \
  @discord() SendMsg(channel, "> "d_reply" **ERROR** • This command module has been disabled by a bot moderator."); return 1;}

@@ -51,9 +51,10 @@
 #define d_banknote "<:d_banknote:1007992117550911598>"
 #define d_copper "<:d_copper:1095608869725675541>"
 //////////////////////////////////virtual pets////////////////////////////////////
+#define d_parrot "<:d_parrot:1007595843215425580>"
 #define d_dog "<:d_dog:1008841252650889286>"
 #define d_cat "<:d_cat:1008844391043039262>"
-#define d_parrot "<:d_parrot:1007595843215425580>"
+#define d_pepefrog "<:d_pepefrog:1096748752586428508>"
 ///////////////////////////////chests///////////////////////////////////////
 #define d_commonchest "<:d_commonchest:1008080211939708948>"
 #define d_rarechest "<:d_rarechest:1008460112853213314>"
