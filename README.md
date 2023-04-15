@@ -10,18 +10,7 @@ In case you're searching for a fun bot, there are categories of commands for eco
 
 And it's not over yet, you can basically take care of your virtual pet! You can get one at a petshop (it helps you gain sweet bonuses on economy commands!). There's also roleplaying, where you can buy items, craft items, go mining, hunting, fishing and chopping wood - in basic terms, get resources and be a boss (there are command cooldowns though, get premium to avoid them!). 
 
-You can also unlock achievements and get spectacular rewards once you complete them! Regarding to server security, there is a anti-raid and security system which is customizeable! There is also social media-like system where you can post messages and view them on a global feed. More features are waiting you once you add Damn Larper to your server!
-
-- Invite it to your server [here](https://discord.com/api/oauth2/authorize?client_id=1094936702017093735&permissions=8&scope=bot)!
-
-by © & ® BRACE™
-
-## Building from source
-
-1. Install the latest PAWN compiler [here](https://github.com/pawn-lang/compiler)...
-2. Install standard SA:MP library package [here](https://github.com/pawn-lang/samp-stdlib)...
-3. Install standard PAWN library package [here](https://github.com/pawn-lang/pawn-stdlib)...
-4. Install Discord Connector plugin for PAWN [here](https://github.com/maddinat0r/samp-discord-connector)...
+You can also unlock achievements and get spectacular rewards once you complete them! Regarding to server security, there is a anti-raid and security system which is customizeable! There is also social media-like system where you can post messages and view them on a global feed. More features are waiting you once you add Damn Larp://github.com/maddinat0r/samp-discord-connector)...
 5. Compile your script with `pawncc`.
 6. Run your script with your open.mp/SA:MP server.
 
