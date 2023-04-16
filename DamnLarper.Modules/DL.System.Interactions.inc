@@ -12,7 +12,18 @@
 
 // Funcs
 
-stock SetInteraction(DCC_Message:message, DCC_User:user, interaction_type)
+forward SetInteraction(user[], type);
+public SetInteraction(user[], type)
+{
+	__Internal_SetInteraction(
+		DCC_GetCreatedMessage(),
+		DCC_FindUserById(user),
+		type)
+	;
+	return 1;
+}
+
+stock __Internal_SetInteraction(DCC_Message:message, DCC_User:user, interaction_type)
 {
 	new messageid[DCC_ID_SIZE], userid[DCC_ID_SIZE];
 	DCC_GetMessageId(message, messageid);

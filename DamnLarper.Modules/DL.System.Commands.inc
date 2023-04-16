@@ -4919,14 +4919,13 @@ static GetFeed()
 	new id[DCC_ID_SIZE];
 	DCC_GetUserId(author,id);
 
-	new DCC_Message:interaction = DCC_Message:DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
+	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__"BOT_NAME" Interaction Test__**", "React to the message!", 
 		"",
 		"", col_embed, datetimelog, 
 		"",
-		"",""), GetMention(id));
-
-	SetInteraction(interaction, author, INTERACTION_TYPE_TEST);
+		"",""), GetMention(id),
+		"SetInteraction", "si", id, INTERACTION_TYPE_TEST);
 
 	return 1;
 }
