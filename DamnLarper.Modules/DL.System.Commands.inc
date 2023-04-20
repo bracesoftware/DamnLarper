@@ -4760,8 +4760,7 @@ stock MakePost(const userid[], const name[], const nickname[], const text[])
 	new file_name2[150];
 	format(file_name2, sizeof file_name2,"socialmedia/verify_%s.ini",userid);
 	new File: file2 = fopen("socialmedia/feed.ini", io_write);
-	format(feed, sizeof feed, "**<@%s>** | __%s__ • @%s %s\n\n\
-		> `%s`\n\n%s", 
+	format(feed, sizeof feed, "**<@%s>** | __%s__ • @%s %s\\\\> `%s`\\\\%s", 
 		userid, 
 		name, 
 		nickname, 
@@ -4783,6 +4782,14 @@ static GetFeed()
 		fread(file, newfeed);
 
 		fclose(file);
+
+		for(new i; i < strlen(newfeed); i++)
+		{
+			if(newfeed[i] == '\\') 
+			{
+				newfeed[i] = '\n';
+			}
+		}
 
 		return newfeed;
 	}
