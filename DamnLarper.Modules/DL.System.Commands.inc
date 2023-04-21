@@ -4757,6 +4757,7 @@ new feed[2048];
 
 stock MakePost(const userid[], const name[], const nickname[], const text[])
 {
+	GetFeed();
 	new file_name2[150];
 	format(file_name2, sizeof file_name2,"socialmedia/verify_%s.ini",userid);
 	new File: file2 = fopen("socialmedia/feed.ini", io_write);
@@ -4766,7 +4767,7 @@ stock MakePost(const userid[], const name[], const nickname[], const text[])
 		nickname, 
 		fexist(file_name2) ? ""d_yes"" : "", 
 		text,
-		GetFeed());
+		newfeed);
 	fwrite(file2, feed);
 	fclose(file2);
 	return 1;
@@ -4841,6 +4842,8 @@ static GetFeed()
 		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You do not have a "d_phone" | `Phone`.");
 		return 1;
 	}
+
+	GetFeed();
 
 	format(feed, sizeof feed, ""d_phone" **NETWORK FEED** • View the most recent posts below.\n\n%s",newfeed);
 
