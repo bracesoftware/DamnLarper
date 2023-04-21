@@ -4791,9 +4791,9 @@ static GetFeed()
 			}
 		}
 
-		return newfeed;
+		return 1;
 	}
-	return newfeed;
+	return 0;
 }
 
 @discord() command:post(@discord() cmd_params)
@@ -4842,7 +4842,7 @@ static GetFeed()
 		return 1;
 	}
 
-	format(feed, sizeof feed, ""d_phone" **NETWORK FEED** • View the most recent posts below.\n\n%s",GetFeed());
+	format(feed, sizeof feed, ""d_phone" **NETWORK FEED** • View the most recent posts below.\n\n%s",newfeed);
 
 	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__"BOT_NAME" Network Feed__**", feed, 
