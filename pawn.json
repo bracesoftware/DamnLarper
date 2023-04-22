@@ -3,7 +3,8 @@
 	"repo": "DamnLarper",
 	"dependencies": [
 		"openmultiplayer/omp-stdlib",
-		"maddinat0r/samp-discord-connector"
+		"maddinat0r/samp-discord-connector",
+		"pBlueG/SA-MP-MySQL"
 	],
 	"entry": "DamnLarper.Entry/DAMN_LARPER_ENTRY.pwn",
 	"output": "DamnLarper.Entry/DAMN_LARPER_ENTRY.amx",
