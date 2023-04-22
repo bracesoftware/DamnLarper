@@ -18,9 +18,13 @@ stock LoadCommands()
 forward INTERACTION_RECEIVED(DCC_Interaction:interaction, DCC_User:DAMN_LARPER_USER);
 public INTERACTION_RECEIVED(DCC_Interaction:interaction, DCC_User:DAMN_LARPER_USER)
 {
+	print("INTERACTION_RECEIVED called.");
 	new DCC_Channel:DAMN_LARPER_CHANNEL, DAMN_LARPER_CONTENT[1000];
 	DCC_GetInteractionChannel(interaction, DAMN_LARPER_CHANNEL);
+	new channelid[DCC_ID_SIZE];
+	DCC_GetChannelId(DAMN_LARPER_CHANNEL,channelid);
 	DCC_GetInteractionContent(interaction, DAMN_LARPER_CONTENT);
+	printf("channelid : '%s'\nDAMN_LARPER_CONTENT : '%s'",channelid,DAMN_LARPER_CONTENT);
 	// cmd args:msg,author,args
 	new 
 		cmdname[32],
@@ -31,11 +35,17 @@ public INTERACTION_RECEIVED(DCC_Interaction:interaction, DCC_User:DAMN_LARPER_US
 		""d_reply""damn_larper_text" **OOPS** • You need to use it like this:\n`/damn [command] [arguments]`");
 		return 1;
 	}
+	printf("cmdname : '%s'\narguments : '%s'", cmdname,arguments);
 
 	new cmdfuncname[64];
 	format(cmdfuncname, sizeof cmdfuncname, "discord_%s", cmdname);
 
+	printf("cmdfuncname : '%s'", cmdfuncname);
+
 	new returned = CallLocalFunction(cmdfuncname, "iis", 0,0,arguments,_:DAMN_LARPER_CHANNEL);
+	
+	printf("returned : %i", returned);
+
 	if(returned == 0)
 	{
 		DCC_SendInteractionMessage(interaction, 
