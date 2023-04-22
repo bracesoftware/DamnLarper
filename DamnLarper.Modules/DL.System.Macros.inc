@@ -88,6 +88,8 @@ if(GetCommandUsed(%1,%2)==1){\
 @discord() SendMsg(%0, "**<@%s>**\n\n"d_reply" **COOLDOWN** • "%3" **You can use this command once every 1 day.**", %1); \
 return 1;}SetCommandUsed(%1,%2, "1");SetCommandUsedDay(%1,%2, d)
 
+#define SetUpCommandChannel(%0,%1)%2; \
+new DCC_Channel:%0;DCC_GetMessageChannel(message,%0);if(%0==DCC_INVALID_CHANNEL){%0=%1;}
 
 new dmstring[2048];
 
@@ -124,7 +126,7 @@ new formatted[2048];
 
 #define @DISCORD_DECORATOR@command:%0(%1) DISCORD:%0(%1)
 
-#define @DISCORD_DECORATOR@cmd_params DCC_Message:message,DCC_User:author,PARAMETERS[]
+#define @DISCORD_DECORATOR@cmd_params DCC_Message:message,DCC_User:author,PARAMETERS[],DCC_Channel:slashchannel
 #define params PARAMETERS
 
 stock bool:IsUserABot(const user[])

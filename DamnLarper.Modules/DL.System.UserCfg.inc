@@ -37,9 +37,7 @@ stock SetUserConfigTips(DCC_User:user, value)
 
 @discord() command:userconfig(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new id[DCC_ID_SIZE];
 

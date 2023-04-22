@@ -45,6 +45,7 @@ stock DAMN_LARPER_REWRITE = 1;
 #include "../DamnLarper.Modules/DL.System.Emoji.inc"
 #include "../DamnLarper.Modules/DL.System.Macros.inc"
 #include "../DamnLarper.Modules/DL.System.Vars.inc"
+#include "../DamnLarper.Modules/DL.System.SQL.inc"
 #include "../DamnLarper.Modules/DL.System.Utils.inc"
 #include "../DamnLarper.Modules/DL.System.GuildCfg.inc"
 #include "../DamnLarper.Modules/DL.System.Publics.inc"

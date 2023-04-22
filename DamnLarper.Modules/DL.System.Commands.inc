@@ -2,9 +2,7 @@
 
 @discord() command:verify(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new user[DCC_ID_SIZE];
 
@@ -41,9 +39,7 @@
 
 @discord() command:newverifycode(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new id[DCC_ID_SIZE];
 
@@ -70,30 +66,28 @@
 
 @discord() command:balance(@discord() cmd_params)
 {
-	return discord_bal(message, author, PARAMETERS);
+	return discord_bal(message, author, PARAMETERS, slashchannel);
 }
 
 @discord() command:deposit(@discord() cmd_params)
 {
-	return discord_dep(message, author, PARAMETERS);
+	return discord_dep(message, author, PARAMETERS, slashchannel);
 }
 
 @discord() command:withdraw(@discord() cmd_params)
 {
-	return discord_with(message, author, PARAMETERS);
+	return discord_with(message, author, PARAMETERS, slashchannel);
 }
 
 @discord() command:inventory(@discord() cmd_params)
 {
-	return discord_inv(message, author, PARAMETERS);
+	return discord_inv(message, author, PARAMETERS, slashchannel);
 }
 
 
 @discord() command:addmod(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	modcheck;
 
@@ -136,9 +130,7 @@
 
 @discord() command:addpremium(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	modcheck;
 
@@ -172,9 +164,7 @@
 
 @discord() command:delpremium(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	modcheck;
 
@@ -209,9 +199,7 @@
 
 @discord() command:delmod(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	modcheck;
 
@@ -259,9 +247,7 @@
 @discord() command:help(@discord() cmd_params)
 {
 
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new DCC_Guild:guild;
 
@@ -602,9 +588,7 @@
 
 @discord() command:features(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 	new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
 	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Help Panel__**", ""delimiterlol" Below, there's a list of all the features included in the bot.\n\n\
@@ -638,9 +622,7 @@
 
 @discord() command:tos(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 	new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
 	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Terms of Service__**", "**Hello! It's mandatory for everyone to accept our Terms of Service in order to use the bot properly.**\n\n\
@@ -664,9 +646,7 @@
 
 @discord() command:pp(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 	new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
 	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Privacy Policy__**", ""d_reply" Your information is safe!\n\n\
@@ -690,9 +670,7 @@
 
 @discord() command:createlist(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new id[DCC_ID_SIZE],listname[20];
 
@@ -719,9 +697,7 @@
 
 @discord() command:addelement(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new listname[20], element[50], id[DCC_ID_SIZE];
 
@@ -753,9 +729,7 @@
 
 @discord() command:delelement(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new listname[20], element, id[DCC_ID_SIZE];
 
@@ -787,9 +761,7 @@
 
 @discord() command:viewlist(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 	new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
 	new listname[20], element[150], el[50];
 
@@ -835,9 +807,7 @@
 
 @discord() command:bump(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new DCC_Guild:guild;
 
@@ -861,9 +831,7 @@
 
 @discord() command:servers(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
+	SetUpCommandChannel(channel,slashchannel);new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
 
     DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Coming soon!__**", ""d_reply" This feature is currently unavailable, but don't give up with bumping - bump command works.", 
@@ -878,9 +846,7 @@
 
 @discord() command:level(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
+	SetUpCommandChannel(channel,slashchannel);new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
 
 	new id[DCC_ID_SIZE];
 
@@ -904,9 +870,7 @@
 
 @discord() command:declcmd(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(ccmd);
 
@@ -948,9 +912,7 @@
 
 @discord() command:delcmd(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(ccmd);
 
@@ -987,9 +949,7 @@
 
 @discord() command:botsetup(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Bot Setup__**", "\
@@ -1008,9 +968,7 @@
 
 @discord() command:report(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 	new cid[DCC_ID_SIZE];
 	DCC_GetChannelId(channel, cid);
 
@@ -1027,9 +985,7 @@
 
 @discord() command:errors(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	modcheck;
 
@@ -1040,9 +996,7 @@
 //https://www.google.com/search?q=KEYWORDS+OF+A+SEARCH
 @discord() command:search(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new query[256];
 
@@ -1069,9 +1023,7 @@
 
 @discord() command:say(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new t[256];
 
@@ -1095,9 +1047,7 @@
 
 @discord() command:joke(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 
 	new id[DCC_ID_SIZE]; DCC_GetUserId(author,id);if(GetInvData(id, "Gamepad") == 0)
@@ -1121,9 +1071,7 @@
 */
 @discord() command:website(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
+	SetUpCommandChannel(channel,slashchannel);new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
 
 	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__"BOT_NAME" • Website__**", "\
@@ -1140,9 +1088,7 @@
 
 @discord() command:version(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	@discord() SendMsg(channel, "• **Last Update**\n"d_reply"Script was (re)compiled last time at `%s-%s`.\n• **Script Version**\n"d_reply"Bot code version: `"BOT_VERSION"`",__date, __time);
 
@@ -1151,9 +1097,7 @@
 
 @discord() command:bankacc(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new id[DCC_ID_SIZE];
 
@@ -1176,9 +1120,7 @@
 
 @discord() command:afk(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new afkstatus[256];
 
@@ -1201,9 +1143,7 @@
 
 @discord() command:settings(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new option[30];
 	
@@ -1381,9 +1321,7 @@
 
 @discord() command:saveset(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	modcheck;
 
@@ -1394,9 +1332,7 @@
 
 @discord() command:serverconfig(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new DCC_Guild:guild;
 	DCC_GetChannelGuild(channel, guild);
@@ -1569,9 +1505,7 @@
 
 @discord() command:ban(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new DCC_Guild:guild;
 	DCC_GetChannelGuild(channel, guild);
@@ -1625,9 +1559,7 @@
 
 @discord() command:unban(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new DCC_Guild:guild;
 	DCC_GetChannelGuild(channel, guild);
@@ -1668,9 +1600,7 @@
 
 @discord() command:roleall(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new DCC_Guild:guild;
 	DCC_GetChannelGuild(channel, guild);
@@ -1731,9 +1661,7 @@
 
 @discord() command:deroleall(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new DCC_Guild:guild;
 	DCC_GetChannelGuild(channel, guild);
@@ -1794,9 +1722,7 @@
 
 @discord() command:kick(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new DCC_Guild:guild;
 	DCC_GetChannelGuild(channel, guild);
@@ -1849,9 +1775,7 @@
 
 @discord() command:gmexample(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	@discord() SendMsg(channel, ""d_reply" **__GM Example__**\n\
 		```\n\
@@ -1866,9 +1790,7 @@
 
 @discord() command:gmlvl(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	/*@discord() SendMsg(channel, "**__Bot settings__**\n\n\
 		"d_arrow"**`"BOT_PREFIX"logs`**\n"d_reply"Enable or disable the log system.\n\
@@ -1894,9 +1816,7 @@
 
 @discord() command:bal(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(eco);
 
@@ -1912,9 +1832,7 @@
 
 @discord() command:work(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(eco);
 
@@ -2033,9 +1951,7 @@ SetCommandUsedMin(id, "cmd", m);
 
 @discord() command:daily(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(eco);
 
@@ -2069,9 +1985,7 @@ SetCommandUsedMin(id, "cmd", m);
 
 @discord() command:premiumdaily(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new id[DCC_ID_SIZE];
 
@@ -2092,9 +2006,7 @@ SetCommandUsedMin(id, "cmd", m);
 
 @discord() command:beg(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(eco);
 
@@ -2125,9 +2037,7 @@ SetCommandUsedMin(id, "cmd", m);
 
 @discord() command:dep(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(eco);
 
@@ -2184,9 +2094,7 @@ SetCommandUsedMin(id, "cmd", m);
 /*
 @discord() command:depall(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(eco);
 
@@ -2211,9 +2119,7 @@ SetCommandUsedMin(id, "cmd", m);
 */
 @discord() command:with(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(eco);
 
@@ -2252,9 +2158,7 @@ SetCommandUsedMin(id, "cmd", m);
 
 @discord() command:rob(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(eco);
 
@@ -2324,9 +2228,7 @@ SetCommandUsedMin(id, "cmd", m);
 
 @discord() command:heist(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(eco);
 
@@ -2394,9 +2296,7 @@ SetCommandUsedMin(id, "cmd", m);
 
 @discord() command:petshop(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(eco);
 	new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
@@ -2517,9 +2417,7 @@ stock SetPetEnergy(const id[],count)
 
 @discord() command:buypet(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(eco);
 
@@ -2638,9 +2536,7 @@ stock SetPetEnergy(const id[],count)
 
 @discord() command:sellpet(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(eco);
 
@@ -2668,9 +2564,7 @@ stock SetPetEnergy(const id[],count)
 
 @discord() command:petstats(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(rp);
 	new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
@@ -2727,9 +2621,7 @@ stock SetPetEnergy(const id[],count)
 
 @discord() command:namepet(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new name[100];
 
@@ -2758,9 +2650,7 @@ stock SetPetEnergy(const id[],count)
 
 @discord() command:feedpet(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new id[DCC_ID_SIZE];
 	DCC_GetUserId(author, id);
@@ -2887,9 +2777,7 @@ stock SetPetEnergy(const id[],count)
 
 @discord() command:shop(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(eco);
 	new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
@@ -2961,9 +2849,7 @@ stock SetPetEnergy(const id[],count)
 
 @discord() command:buy(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(eco);
 
@@ -3306,9 +3192,7 @@ stock GenerateChestString(const id[], type)
 
 @discord() command:inv(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(eco);
 	new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
@@ -3448,9 +3332,7 @@ stock GenerateChestString(const id[], type)
 }
 @discord() command:openchest(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(eco);
 	new id[DCC_ID_SIZE];
@@ -3507,9 +3389,7 @@ stock GenerateChestString(const id[], type)
 
 @discord() command:mine(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(rp);
 
@@ -3574,9 +3454,7 @@ stock GenerateChestString(const id[], type)
 
 @discord() command:chop(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(rp);
 
@@ -3623,9 +3501,7 @@ stock GenerateChestString(const id[], type)
 
 @discord() command:fish(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(rp);
 
@@ -3671,9 +3547,7 @@ stock GenerateChestString(const id[], type)
 
 @discord() command:hunt(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(rp);
 
@@ -3723,9 +3597,7 @@ stock GenerateChestString(const id[], type)
 
 @discord() command:melt(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new id[DCC_ID_SIZE];
 	DCC_GetUserId(author, id);
@@ -3913,9 +3785,7 @@ stock GenerateBar(points = d_max_bar_points)
 
 @discord() command:mystats(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(rp);
 	new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
@@ -3944,9 +3814,7 @@ stock GenerateBar(points = d_max_bar_points)
 
 @discord() command:eat(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new id[DCC_ID_SIZE];
 	DCC_GetUserId(author, id);
@@ -4090,9 +3958,7 @@ stock GenerateBar(points = d_max_bar_points)
 
 @discord() command:make(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new id[DCC_ID_SIZE];
 	DCC_GetUserId(author, id);
@@ -4165,9 +4031,7 @@ stock GenerateBar(points = d_max_bar_points)
 
 @discord() command:achievements(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(eco);
 	new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
@@ -4195,9 +4059,7 @@ stock GenerateBar(points = d_max_bar_points)
 
 @discord() command:myachievements(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(eco);
 	new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
@@ -4236,9 +4098,7 @@ stock GenerateBar(points = d_max_bar_points)
 
 @discord() command:blacklist(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	modcheck;
 
@@ -4299,9 +4159,7 @@ socialmedia
 
 @discord() command:smtos(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 	new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
 	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Terms of Use of "BRACE_TEAM" Account__**", "**Hello! It's mandatory for everyone to accept our Terms of Use in order to use the their BRACE:tm: account properly.**\n\n\
@@ -4441,9 +4299,7 @@ static GetPfp(const id[])
 
 @discord() command:smregister(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new id[DCC_ID_SIZE];
 
@@ -4480,9 +4336,7 @@ static GetPfp(const id[])
 
 @discord() command:setaccdata(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	modcheck;
 
@@ -4588,9 +4442,7 @@ static GetPfp(const id[])
 
 @discord() command:smprofile(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new id[DCC_ID_SIZE];
 	new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
@@ -4664,9 +4516,7 @@ static GetPfp(const id[])
 
 @discord() command:smaccname(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new id[DCC_ID_SIZE];
 
@@ -4694,9 +4544,7 @@ static GetPfp(const id[])
 
 @discord() command:smbio(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new id[DCC_ID_SIZE];
 
@@ -4724,9 +4572,7 @@ static GetPfp(const id[])
 
 @discord() command:smpfp(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new id[DCC_ID_SIZE];
 
@@ -4799,9 +4645,7 @@ static GetFeed()
 
 @discord() command:post(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new id[DCC_ID_SIZE];
 
@@ -4829,9 +4673,7 @@ static GetFeed()
 
 @discord() command:feed(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new id[DCC_ID_SIZE];
 	new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
@@ -4858,9 +4700,7 @@ static GetFeed()
 
 @discord() command:dig(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	SettingsCheck(rp);
 
@@ -4922,9 +4762,7 @@ static GetFeed()
 
 @discord() command:interactiontest(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new id[DCC_ID_SIZE];
 	DCC_GetUserId(author,id);
@@ -4942,9 +4780,7 @@ static GetFeed()
 
 @discord() command:qna(@discord() cmd_params)
 {
-	new DCC_Channel:channel;
-
-	DCC_GetMessageChannel(message, channel);
+	SetUpCommandChannel(channel,slashchannel);
 
 	new id[DCC_ID_SIZE];
 	DCC_GetUserId(author,id);

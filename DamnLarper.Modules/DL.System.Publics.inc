@@ -383,9 +383,9 @@ public DCC_OnMessageCreate(DCC_Message: message)
 	}
 
 	#if defined OnDiscordCommandPerformed
-		OnDiscordCommandPerformed(message, author, bool: CallLocalFunction(discord, "iis", _: message, _: author, params));
+		OnDiscordCommandPerformed(message, author, bool: CallLocalFunction(discord, "iis", _: message, _: author, params, _:channel));
 	#else
-		CallLocalFunction(discord, "iis", _: message, _: author, params);
+		CallLocalFunction(discord, "iis", _: message, _: author, params, _:channel);
 	#endif
 	
 	#if defined discdcmd_DCC_OnMessageCreate
@@ -582,6 +582,7 @@ public OnDiscordCommandPerformed(DCC_Message: message, DCC_User: author, bool: s
 
 public OnGameModeInit()
 {
+	d_sqlconnect();
 	printf("OnGameModeInit called");
 	new y,m,d,h,n,s;
 	getdate(y,m,d);
