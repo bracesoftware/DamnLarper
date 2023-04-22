@@ -33,6 +33,9 @@ stock DAMN_LARPER_REWRITE = 1;
 #include "../Discord.API/DCC.Plugin.Commands.inc"
 #include "../Discord.API/DCC.Plugin.Interactions.inc"
 
+#include "../Discord.API/MySQL.Plugin.inc"
+#include "../Discord.API/easysql.Import.inc"
+
 // NRP_Components
 
 #include "../DamnLarper.Components/NRP_Component.Macros.inc"
