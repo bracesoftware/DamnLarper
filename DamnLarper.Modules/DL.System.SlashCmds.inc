@@ -19,17 +19,24 @@ forward INTERACTION_RECEIVED(DCC_Interaction:interaction, DCC_User:DAMN_LARPER_U
 public INTERACTION_RECEIVED(DCC_Interaction:interaction, DCC_User:DAMN_LARPER_USER)
 {
 	print("INTERACTION_RECEIVED called.");
-	new DCC_Channel:DAMN_LARPER_CHANNEL, DAMN_LARPER_CONTENT[1000];
+	new 
+		DCC_Channel:DAMN_LARPER_CHANNEL, 
+		DAMN_LARPER_CONTENT[1000];
+
 	DCC_GetInteractionChannel(interaction, DAMN_LARPER_CHANNEL);
 	new channelid[DCC_ID_SIZE];
 	DCC_GetChannelId(DAMN_LARPER_CHANNEL,channelid);
 	DCC_GetInteractionContent(interaction, DAMN_LARPER_CONTENT);
+	
 	printf("channelid : '%s'\nDAMN_LARPER_CONTENT : '%s'",channelid,DAMN_LARPER_CONTENT);
 	// cmd args:msg,author,args
 	new 
 		cmdname[32],
 		arguments[1024];
-	if(sscanf(DAMN_LARPER_CONTENT, "s[32]s[1024]", cmdname,arguments))
+
+	sscanf(DAMN_LARPER_CONTENT, "s[32]s[1024]", cmdname,arguments);
+
+	if(strlen(cmdname) < 1)
 	{
 		DCC_SendInteractionMessage(interaction, 
 		""d_reply""damn_larper_text" **OOPS** • You need to use it like this:\n`/damn [command] [arguments]`");
@@ -42,7 +49,7 @@ public INTERACTION_RECEIVED(DCC_Interaction:interaction, DCC_User:DAMN_LARPER_US
 
 	printf("cmdfuncname : '%s'", cmdfuncname);
 
-	new returned = CallLocalFunction(cmdfuncname, "iis", 0,0,arguments,_:DAMN_LARPER_CHANNEL);
+	new returned = CallLocalFunction(cmdfuncname, "iisi", 0, _:DAMN_LARPER_USER,arguments,_:DAMN_LARPER_CHANNEL);
 	
 	printf("returned : %i", returned);
 
@@ -52,6 +59,14 @@ public INTERACTION_RECEIVED(DCC_Interaction:interaction, DCC_User:DAMN_LARPER_US
 		""d_reply""damn_larper_text" **UNKNOWN COMMAND** • I don't know what that is!");
 		return 1;
 	}
+
+	if(returned == 1)
+	{
+		DCC_SendInteractionMessage(interaction, 
+		""d_reply""damn_larper_text" Slash commands are the new "d_beta" feature!\n\nReport everything using `/damn report`.");
+		return 1;
+	}
+
 
 	//DCC_SendInteractionMessage(interaction, ""d_reply""damn_larper_text" **OOPS** • I am not smart enough for slash commands yet! Try `damn help`.");
 	return 1;
