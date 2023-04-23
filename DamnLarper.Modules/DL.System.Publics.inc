@@ -66,8 +66,11 @@ public DCC_OnMessageCreate(DCC_Message: message)
 	{
 		if(channel != DCC_FindChannelById(GetGuildVerificationChannel(guild)))
 		{
-			DCC_DeleteMessage(message);
-			@discord() SendInfo(DCC_FindChannelById(GetGuildVerificationChannel(guild)), "<@%s>\n\n"d_reply" **UNVERIFIED!** • You aren't verified in this guild so your message was deleted! You can use commands and chat **only** in this channel. You can use `"BOT_PREFIX"newverifycode` to generate a new verification code for this guild in case you lost yours or didn't even get it.", id);
+			if(DCC_FindUserById(id) != DCC_INVALID_USER)
+			{
+				DCC_DeleteMessage(message);
+				@discord() SendInfo(DCC_FindChannelById(GetGuildVerificationChannel(guild)), "<@%s>\n\n"d_reply" **UNVERIFIED!** • You aren't verified in this guild so your message was deleted! You can use commands and chat **only** in this channel. You can use `"BOT_PREFIX"newverifycode` to generate a new verification code for this guild in case you lost yours or didn't even get it.", id);
+			}
 			return 1;
 		}
 	}
