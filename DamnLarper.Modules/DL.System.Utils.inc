@@ -59,135 +59,6 @@ stock SetServers(count)
 	return 1;
 }
 
-//Achievements
-
-stock GetAchievement(const user[], const achievement[])
-{
-	new file_name[150];
-	new strFromFile2[128];
-	if(!strcmp(achievement, "Beggar"))
-	{
-		format(file_name, sizeof file_name,
-			"achieve/beggar_%s.ini", user);
-		//format(strFromFile2, sizeof strFromFile2, "Unknown");
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-
-			fclose(file);
-
-			return strval(strFromFile2);
-		}
-	}
-	if(!strcmp(achievement, "Consumer"))
-	{
-		format(file_name, sizeof file_name,
-			"achieve/consumer_%s.ini", user);
-		//format(strFromFile2, sizeof strFromFile2, "Unknown");
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-
-			fclose(file);
-
-			return strval(strFromFile2);
-		}
-	}
-	if(!strcmp(achievement, "Miner"))
-	{
-		format(file_name, sizeof file_name,
-			"achieve/miner_%s.ini", user);
-		//format(strFromFile2, sizeof strFromFile2, "Unknown");
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-
-			fclose(file);
-
-			return strval(strFromFile2);
-		}
-	}
-	if(!strcmp(achievement, "PetOwner"))
-	{
-		format(file_name, sizeof file_name,
-			"achieve/petowner_%s.ini", user);
-		//format(strFromFile2, sizeof strFromFile2, "Unknown");
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-
-			fclose(file);
-
-			return strval(strFromFile2);
-		}
-	}
-	if(!strcmp(achievement, "Digger"))
-	{
-		format(file_name, sizeof file_name,
-			"achieve/digger_%s.ini", user);
-		//format(strFromFile2, sizeof strFromFile2, "Unknown");
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-
-			fclose(file);
-
-			return strval(strFromFile2);
-		}
-	}
-	return 0;
-}
-
-stock SetAchievement(const user[], const achievement[])
-{
-	new file_name[150];
-	if(!strcmp(achievement, "Beggar"))
-	{
-		format(file_name, sizeof file_name,"achieve/beggar_%s.ini",user);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, "1");
-		fclose(file2);
-	}
-	if(!strcmp(achievement, "Consumer"))
-	{
-		format(file_name, sizeof file_name,"achieve/consumer_%s.ini",user);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, "1");
-		fclose(file2);
-	}
-	if(!strcmp(achievement, "Miner"))
-	{
-		format(file_name, sizeof file_name,"achieve/miner_%s.ini",user);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, "1");
-		fclose(file2);
-	}
-	if(!strcmp(achievement, "PetOwner"))
-	{
-		format(file_name, sizeof file_name,"achieve/petowner_%s.ini",user);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, "1");
-		fclose(file2);
-	}
-	if(!strcmp(achievement, "Digger"))
-	{
-		format(file_name, sizeof file_name,"achieve/digger_%s.ini",user);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, "1");
-		fclose(file2);
-	}
-	return 1;
-}
 
 stock split(const strsrc[], strdest[][], delimiter)
 {
@@ -205,72 +76,6 @@ stock split(const strsrc[], strdest[][], delimiter)
 		}
 		i++;
 	}
-	return 1;
-}
-
-// Chests
-
-stock GetCommonChest(const id[])
-{
-	new count,file_name[150];
-	format(file_name, sizeof file_name,
-		"inv/commonc_%s.ini", id);
-	new strFromFile2[128];
-	if(!fexist(file_name)) return 0;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-		
-		count = strval(strFromFile2);
-
-		fclose(file);
-
-		return count;
-	}
-	return 0;
-}
-
-stock SaveCommonChest(const id[],count)
-{
-	new string[10], file_name[150];
-	format(file_name, sizeof file_name,"inv/commonc_%s.ini",id);
-	format(string, sizeof(string), "%i", count);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, string);
-	fclose(file2);
-	return 1;
-}
-
-stock GetRareChest(const id[])
-{
-	new count,file_name[150];
-	format(file_name, sizeof file_name,
-		"inv/rarec_%s.ini", id);
-	new strFromFile2[128];
-	if(!fexist(file_name)) return 0;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-		
-		count = strval(strFromFile2);
-
-		fclose(file);
-
-		return count;
-	}
-	return 0;
-}
-
-stock SaveRareChest(const id[],count)
-{
-	new string[10], file_name[150];
-	format(file_name, sizeof file_name,"inv/rarec_%s.ini",id);
-	format(string, sizeof(string), "%i", count);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, string);
-	fclose(file2);
 	return 1;
 }
 
@@ -521,415 +326,6 @@ stock SetPremium(const id[],value)
 	fclose(file2);
 	return 1;
 }
-//bankacc
-stock bool:HasBankAccount(const id[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,
-		"data/bacc_%s.ini", id);
-	return fexist(file_name) ? true : false;
-}
-
-stock OpenBankAccount(const id[])
-{
-	new file_name[150];
-	format(file_name, sizeof file_name,"data/bacc_%s.ini",id);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, "");
-	fclose(file2);
-	return 1;
-}
-
-//Economy 
-
-
-stock GetData(const id[], const data[])
-{
-	new count,file_name[150],strFromFile2[128];
-	if(!strcmp(data, "Level"))
-	{
-		format(file_name, sizeof file_name,
-			"data/lvl_%s.ini", id);
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-			
-			count = strval(strFromFile2);
-
-			fclose(file);
-
-			return count;
-		}
-	}
-	if(!strcmp(data, "Balance"))
-	{
-		format(file_name, sizeof file_name,
-			"data/eco_%s.ini", id);
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-			
-			count = strval(strFromFile2);
-
-			fclose(file);
-
-			return count;
-		}
-	}
-	if(!strcmp(data, "DepBalance"))
-	{
-		format(file_name, sizeof file_name,
-			"data/ecod_%s.ini", id);
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-			
-			count = strval(strFromFile2);
-
-			fclose(file);
-
-			return count;
-		}
-	}
-	if(!strcmp(data, "Rubies"))
-	{
-		format(file_name, sizeof file_name,
-			"data/rubies_%s.ini", id);
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-			
-			count = strval(strFromFile2);
-
-			fclose(file);
-
-			return count;
-		}
-	}
-	if(!strcmp(data, "Planks"))
-	{
-		format(file_name, sizeof file_name,
-			"data/planks_%s.ini", id);
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-			
-			count = strval(strFromFile2);
-
-			fclose(file);
-
-			return count;
-		}
-	}
-	if(!strcmp(data, "Paper"))
-	{
-		format(file_name, sizeof file_name,
-			"data/paper_%s.ini", id);
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-			
-			count = strval(strFromFile2);
-
-			fclose(file);
-
-			return count;
-		}
-	}
-	if(!strcmp(data, "Banknotes"))
-	{
-		format(file_name, sizeof file_name,
-			"data/banknote_%s.ini", id);
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-			
-			count = strval(strFromFile2);
-
-			fclose(file);
-
-			return count;
-		}
-	}
-	if(!strcmp(data, "Gold"))
-	{
-		format(file_name, sizeof file_name,
-			"data/gold_%s.ini", id);
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-			
-			count = strval(strFromFile2);
-
-			fclose(file);
-
-			return count;
-		}
-	}
-	if(!strcmp(data, "RawMeat"))
-	{
-		format(file_name, sizeof file_name,
-			"data/rawm_%s.ini", id);
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-			
-			count = strval(strFromFile2);
-
-			fclose(file);
-
-			return count;
-		}
-	}
-	if(!strcmp(data, "RawFish"))
-	{
-		format(file_name, sizeof file_name,
-			"data/rawf_%s.ini", id);
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-			
-			count = strval(strFromFile2);
-
-			fclose(file);
-
-			return count;
-		}
-	}
-	if(!strcmp(data, "CookedMeat"))
-	{
-		format(file_name, sizeof file_name,
-			"data/cookm_%s.ini", id);
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-			
-			count = strval(strFromFile2);
-
-			fclose(file);
-
-			return count;
-		}
-	}
-	if(!strcmp(data, "CookedFish"))
-	{
-		format(file_name, sizeof file_name,
-			"data/cookf_%s.ini", id);
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-			
-			count = strval(strFromFile2);
-
-			fclose(file);
-
-			return count;
-		}
-	}
-	if(!strcmp(data, "Fruits"))
-	{
-		format(file_name, sizeof file_name,
-			"data/fruits_%s.ini", id);
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-			
-			count = strval(strFromFile2);
-
-			fclose(file);
-
-			return count;
-		}
-	}
-	if(!strcmp(data, "Medicine"))
-	{
-		format(file_name, sizeof file_name,
-			"data/meds_%s.ini", id);
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-			
-			count = strval(strFromFile2);
-
-			fclose(file);
-
-			return count;
-		}
-	}
-	if(!strcmp(data, "Copper"))
-	{
-		format(file_name, sizeof file_name,
-			"data/copper_%s.ini", id);
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-			
-			count = strval(strFromFile2);
-
-			fclose(file);
-
-			return count;
-		}
-	}
-	return 0;
-}
-
-stock SetData(const id[], const data[], count)
-{
-	new string[10], file_name[150];
-	if(!strcmp(data, "Level"))
-	{
-		format(file_name, sizeof file_name,"data/lvl_%s.ini",id);
-		format(string, sizeof(string), "%i", count);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, string);
-		fclose(file2);
-	}
-	if(!strcmp(data, "Balance"))
-	{
-		format(file_name, sizeof file_name,"data/eco_%s.ini",id);
-		format(string, sizeof(string), "%i", count);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, string);
-		fclose(file2);
-	}
-	if(!strcmp(data, "DepBalance"))
-	{
-		format(file_name, sizeof file_name,"data/ecod_%s.ini",id);
-		format(string, sizeof(string), "%i", count);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, string);
-		fclose(file2);
-	}
-	if(!strcmp(data, "Rubies"))
-	{
-		format(file_name, sizeof file_name,"data/rubies_%s.ini",id);
-		format(string, sizeof(string), "%i", count);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, string);
-		fclose(file2);
-	}
-	if(!strcmp(data, "Planks"))
-	{
-		format(file_name, sizeof file_name,"data/planks_%s.ini",id);
-		format(string, sizeof(string), "%i", count);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, string);
-		fclose(file2);
-	}
-	if(!strcmp(data, "Paper"))
-	{
-		format(file_name, sizeof file_name,"data/paper_%s.ini",id);
-		format(string, sizeof(string), "%i", count);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, string);
-		fclose(file2);
-	}
-	if(!strcmp(data, "Banknotes"))
-	{
-		format(file_name, sizeof file_name,"data/banknote_%s.ini",id);
-		format(string, sizeof(string), "%i", count);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, string);
-		fclose(file2);
-	}
-	if(!strcmp(data, "Gold"))
-	{
-		format(file_name, sizeof file_name,"data/gold_%s.ini",id);
-		format(string, sizeof(string), "%i", count);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, string);
-		fclose(file2);
-	}
-	if(!strcmp(data, "RawMeat"))
-	{
-		format(file_name, sizeof file_name,"data/rawm_%s.ini",id);
-		format(string, sizeof(string), "%i", count);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, string);
-		fclose(file2);
-	}
-	if(!strcmp(data, "RawFish"))
-	{
-		format(file_name, sizeof file_name,"data/rawf_%s.ini",id);
-		format(string, sizeof(string), "%i", count);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, string);
-		fclose(file2);
-	}
-	if(!strcmp(data, "CookedMeat"))
-	{
-		format(file_name, sizeof file_name,"data/cookm_%s.ini",id);
-		format(string, sizeof(string), "%i", count);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, string);
-		fclose(file2);
-	}
-	if(!strcmp(data, "CookedFish"))
-	{
-		format(file_name, sizeof file_name,"data/cookf_%s.ini",id);
-		format(string, sizeof(string), "%i", count);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, string);
-		fclose(file2);
-	}
-	if(!strcmp(data, "Fruits"))
-	{
-		format(file_name, sizeof file_name,"data/fruits_%s.ini",id);
-		format(string, sizeof(string), "%i", count);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, string);
-		fclose(file2);
-	}
-	if(!strcmp(data, "Medicine"))
-	{
-		format(file_name, sizeof file_name,"data/meds_%s.ini",id);
-		format(string, sizeof(string), "%i", count);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, string);
-		fclose(file2);
-	}
-	if(!strcmp(data, "Copper"))
-	{
-		format(file_name, sizeof file_name,"data/copper_%s.ini",id);
-		format(string, sizeof(string), "%i", count);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, string);
-		fclose(file2);
-	}
-
-	return 1;
-}
 
 
 stock GetMention(const id[])
@@ -988,40 +384,6 @@ stock IsBlacklisted(const id[])
 	new file_name[150];
 	format(file_name, sizeof file_name, "blacklist_%s.ini", id);
 	return fexist(file_name);
-}
-
-// Inactivity purge
-
-stock GetInactivityHours(const id[])
-{
-	new count,file_name[150];
-	format(file_name, sizeof file_name,
-		"incprg/user_%s.ini", id);
-	new strFromFile2[128];
-	if(!fexist(file_name)) return 0;
-	new File: file = fopen(file_name, io_read);
-	if (file)
-	{
-		fread(file, strFromFile2);
-		
-		count = strval(strFromFile2);
-
-		fclose(file);
-
-		return count;
-	}
-	return 0;
-}
-
-stock SaveInactivityHours(const id[], count)
-{
-	new string[10], file_name[150];
-	format(file_name, sizeof file_name,"incprg/user_%s.ini",id);
-	format(string, sizeof(string), "%i", count);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, string);
-	fclose(file2);
-	return 1;
 }
 
 // AFK
@@ -1210,8 +572,6 @@ stock LoadChannels()
 
 // Staff 
 
-new staffid[MAX_STAFF_MEMBERS][DCC_ID_SIZE], staffstring[2200];
-
 stock bool:isequal(const str1[], const str2[], bool:ignorecase = false) {
     new
         c1 = (str1[0] > 255) ? str1{0} : str1[0],
@@ -1224,49 +584,6 @@ stock bool:isequal(const str1[], const str2[], bool:ignorecase = false) {
     return !strcmp(str1, str2, ignorecase);
 }
 
-
-stock bool:IsStaff(const id[])
-{
-	GetStaffString();
-	split(staffstring, staffid, '*');
-	for(new i; i < MAX_STAFF_MEMBERS; i++)
-	{
-		if(!strcmp(staffid[i], id))
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
-stock SaveStaffString(const staff[])
-{
-	GetStaffString();
-	if(IsStaff(staff))
-	{
-		return 1;
-	}
-	new newid[30], file_name[20];
-	format(file_name, sizeof file_name,"bot/pod_staffs.ini");
-	format(newid, sizeof newid, "*%s", staff);
-	strcat(staffstring, newid);
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, staffstring);
-	fclose(file2);
-	return 1;
-}
-
-stock DeleteStaffMember(const staff[])
-{
-	GetStaffString();
-	strreplace(staffstring, staff, "");
-	new file_name[20];
-	format(file_name, sizeof file_name,"bot/pod_staffs.ini");
-	new File: file2 = fopen(file_name, io_write);
-	fwrite(file2, staffstring);
-	fclose(file2);
-	return 1;
-}
 
 stock AddReaction(DCC_Message:message, DCC_Emoji:emoji)
 {
@@ -1688,337 +1005,280 @@ stock DeleteAFK(const id[])
 
 
 
-stock GetInvData(const user[], const data[])
+
+stock GetClaimedDaily(const user[])
 {
 	new file_name[150];
+	format(file_name, sizeof file_name,
+		"data/cdl_%s.ini", user);
 	new strFromFile2[128];
-	if(!strcmp(data, "Phone"))
+	//format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return 0;
+	new File: file = fopen(file_name, io_read);
+	if (file)
 	{
-		format(file_name, sizeof file_name,
-			"inv/phone_%s.ini", user);
-		//format(strFromFile2, sizeof strFromFile2, "Unknown");
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
+		fread(file, strFromFile2);
 
-			fclose(file);
+		fclose(file);
 
-			return strval(strFromFile2);
-		}
-	}
-	if(!strcmp(data, "Gamepad"))
-	{
-		format(file_name, sizeof file_name,
-			"inv/gamepad_%s.ini", user);
-		//format(strFromFile2, sizeof strFromFile2, "Unknown");
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-
-			fclose(file);
-
-			return strval(strFromFile2);
-		}
-	}
-	if(!strcmp(data, "Wallet"))
-	{
-		format(file_name, sizeof file_name,
-			"inv/wallet_%s.ini", user);
-		//format(strFromFile2, sizeof strFromFile2, "Unknown");
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-
-			fclose(file);
-
-			return strval(strFromFile2);
-		}
-	}
-	if(!strcmp(data, "Pickaxe"))
-	{
-		format(file_name, sizeof file_name,
-			"inv/pickaxe_%s.ini", user);
-		//format(strFromFile2, sizeof strFromFile2, "Unknown");
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-
-			fclose(file);
-
-			return strval(strFromFile2);
-		}
-	}
-	if(!strcmp(data, "Furnace"))
-	{
-		format(file_name, sizeof file_name,
-			"inv/furnace_%s.ini", user);
-		//format(strFromFile2, sizeof strFromFile2, "Unknown");
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-
-			fclose(file);
-
-			return strval(strFromFile2);
-		}
-	}
-	if(!strcmp(data, "Slingshot"))
-	{
-		format(file_name, sizeof file_name,
-			"inv/slingshot_%s.ini", user);
-		//format(strFromFile2, sizeof strFromFile2, "Unknown");
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-
-			fclose(file);
-
-			return strval(strFromFile2);
-		}
-	}
-	if(!strcmp(data, "Mask"))
-	{
-		format(file_name, sizeof file_name,
-			"inv/mask_%s.ini", user);
-		//format(strFromFile2, sizeof strFromFile2, "Unknown");
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-
-			fclose(file);
-
-			return strval(strFromFile2);
-		}
-	}
-	if(!strcmp(data, "FishingRod"))
-	{
-		format(file_name, sizeof file_name,
-			"inv/frod_%s.ini", user);
-		//format(strFromFile2, sizeof strFromFile2, "Unknown");
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-
-			fclose(file);
-
-			return strval(strFromFile2);
-		}
-	}
-	if(!strcmp(data, "Desk"))
-	{
-		format(file_name, sizeof file_name,
-			"inv/desk_%s.ini", user);
-		//format(strFromFile2, sizeof strFromFile2, "Unknown");
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-
-			fclose(file);
-
-			return strval(strFromFile2);
-		}
-	}
-	if(!strcmp(data, "Axe"))
-	{
-		format(file_name, sizeof file_name,
-			"inv/axe_%s.ini", user);
-		//format(strFromFile2, sizeof strFromFile2, "Unknown");
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-
-			fclose(file);
-
-			return strval(strFromFile2);
-		}
-	}
-	if(!strcmp(data, "Laptop"))
-	{
-		format(file_name, sizeof file_name,
-			"inv/laptop_%s.ini", user);
-		//format(strFromFile2, sizeof strFromFile2, "Unknown");
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-
-			fclose(file);
-
-			return strval(strFromFile2);
-		}
-	}
-	if(!strcmp(data, "Safe"))
-	{
-		format(file_name, sizeof file_name,
-			"inv/safe_%s.ini", user);
-		//format(strFromFile2, sizeof strFromFile2, "Unknown");
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-
-			fclose(file);
-
-			return strval(strFromFile2);
-		}
-	}
-	if(!strcmp(data, "ProtectiveShield"))
-	{
-		format(file_name, sizeof file_name,
-			"inv/protshield_%s.ini", user);
-		//format(strFromFile2, sizeof strFromFile2, "Unknown");
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-
-			fclose(file);
-
-			return strval(strFromFile2);
-		}
-	}
-	if(!strcmp(data, "Shovel"))
-	{
-		format(file_name, sizeof file_name,
-			"inv/shovel_%s.ini", user);
-		//format(strFromFile2, sizeof strFromFile2, "Unknown");
-		if(!fexist(file_name)) return 0;
-		new File: file = fopen(file_name, io_read);
-		if (file)
-		{
-			fread(file, strFromFile2);
-
-			fclose(file);
-
-			return strval(strFromFile2);
-		}
+		return strval(strFromFile2);
 	}
 	return 0;
 }
 
-stock SetInvData(const user[], const data[])
+stock SetClaimedDaily(const user[], const value[])
 {
 	new file_name[150];
-	if(!strcmp(data, "Phone"))
-	{
-		format(file_name, sizeof file_name,"inv/phone_%s.ini",user);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, "1");
-		fclose(file2);
-	}
-	if(!strcmp(data, "Gamepad"))
-	{
-		format(file_name, sizeof file_name,"inv/gamepad_%s.ini",user);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, "1");
-		fclose(file2);
-	}
-	if(!strcmp(data, "Wallet"))
-	{
-		format(file_name, sizeof file_name,"inv/wallet_%s.ini",user);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, "1");
-		fclose(file2);
-	}
-	if(!strcmp(data, "Pickaxe"))
-	{
-		format(file_name, sizeof file_name,"inv/pickaxe_%s.ini",user);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, "1");
-		fclose(file2);
-	}
-	if(!strcmp(data, "Furnace"))
-	{
-		format(file_name, sizeof file_name,"inv/furnace_%s.ini",user);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, "1");
-		fclose(file2);
-	}
-	if(!strcmp(data, "Slingshot"))
-	{
-		format(file_name, sizeof file_name,"inv/slingshot_%s.ini",user);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, "1");
-		fclose(file2);
-	}
-	if(!strcmp(data, "Mask"))
-	{
-		format(file_name, sizeof file_name,"inv/mask_%s.ini",user);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, "1");
-		fclose(file2);
-	}
-	if(!strcmp(data, "FishingRod"))
-	{
-		format(file_name, sizeof file_name,"inv/frod_%s.ini",user);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, "1");
-		fclose(file2);
-	}
-	if(!strcmp(data, "Desk"))
-	{
-		format(file_name, sizeof file_name,"inv/desk_%s.ini",user);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, "1");
-		fclose(file2);
-	}
-	if(!strcmp(data, "Axe"))
-	{
-		format(file_name, sizeof file_name,"inv/axe_%s.ini",user);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, "1");
-		fclose(file2);
-	}
-	if(!strcmp(data, "Laptop"))
-	{
-		format(file_name, sizeof file_name,"inv/laptop_%s.ini",user);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, "1");
-		fclose(file2);
-	}
-	if(!strcmp(data, "Safe"))
-	{
-		format(file_name, sizeof file_name,"inv/safe_%s.ini",user);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, "1");
-		fclose(file2);
-	}
-	if(!strcmp(data, "ProtectiveShield"))
-	{
-		format(file_name, sizeof file_name,"inv/protshield_%s.ini",user);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, "1");
-		fclose(file2);
-	}
-	if(!strcmp(data, "Shovel"))
-	{
-		format(file_name, sizeof file_name,"inv/shovel_%s.ini",user);
-		new File: file2 = fopen(file_name, io_write);
-		fwrite(file2, "1");
-		fclose(file2);
-	}
+	format(file_name, sizeof file_name,"data/cdl_%s.ini",user);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, value);
+	fclose(file2);
 	return 1;
+}
+
+stock GetClaimedDay(const user[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"data/cday_%s.ini", user);
+	new strFromFile2[128];
+	//format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return 0;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strval(strFromFile2);
+	}
+	return 0;
+}
+
+stock SetClaimedDay(const user[], const value)
+{
+	new file_name[150], string[10];
+	format(string, sizeof string, "%i", value);
+	format(file_name, sizeof file_name,"data/cday_%s.ini",user);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, string);
+	fclose(file2);
+	return 1;
+}
+
+
+stock GetHealth(const id[])
+{
+	new count,file_name[150];
+	format(file_name, sizeof file_name,
+		"rp/hp_%s.ini", id);
+	new strFromFile2[128];
+	if(!fexist(file_name)) return 0;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+		
+		count = strval(strFromFile2);
+
+		fclose(file);
+
+		return count;
+	}
+	return 0;
+}
+
+stock SetHealth(const id[],count)
+{
+	new string[10], file_name[150];
+	format(file_name, sizeof file_name,"rp/hp_%s.ini",id);
+	format(string, sizeof(string), "%i", count);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, string);
+	fclose(file2);
+	return 1;
+}
+
+stock GetEnergy(const id[])
+{
+	new count,file_name[150];
+	format(file_name, sizeof file_name,
+		"rp/energy_%s.ini", id);
+	new strFromFile2[128];
+	if(!fexist(file_name)) return 0;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+		
+		count = strval(strFromFile2);
+
+		fclose(file);
+
+		return count;
+	}
+	return 0;
+}
+
+stock SetEnergy(const id[],count)
+{
+	new string[10], file_name[150];
+	format(file_name, sizeof file_name,"rp/energy_%s.ini",id);
+	format(string, sizeof(string), "%i", count);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, string);
+	fclose(file2);
+	return 1;
+}
+
+stock GenerateBar(points = d_max_bar_points)
+{
+	new bar[512];
+	if(points == 0)
+	{
+		format(bar, sizeof bar, ""d_emptybar1""d_emptybar2""d_emptybar2""d_emptybar2""d_emptybar3" • `0%%`");
+	}
+	if(points == 1)
+	{
+		format(bar, sizeof bar, ""d_fullbar1""d_emptybar2""d_emptybar2""d_emptybar2""d_emptybar3" • `20%%`");
+	}
+	if(points == 2)
+	{
+		format(bar, sizeof bar, ""d_fullbar1""d_fullbar2""d_emptybar2""d_emptybar2""d_emptybar3" • `40%%`");
+	}
+	if(points == 3)
+	{
+		format(bar, sizeof bar, ""d_fullbar1""d_fullbar2""d_fullbar2""d_emptybar2""d_emptybar3" • `60%%`");
+	}
+	if(points == 4)
+	{
+		format(bar, sizeof bar, ""d_fullbar1""d_fullbar2""d_fullbar2""d_fullbar2""d_emptybar3" • `80%%`");
+	}
+	if(points == 5)
+	{
+		format(bar, sizeof bar, ""d_fullbar1""d_fullbar2""d_fullbar2""d_fullbar2""d_fullbar3" • `100%%`");
+	}
+	return bar;
+}
+
+
+stock SetAccount(const id[], const nickname[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"socialmedia/acc_%s.ini",id);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, nickname);
+	fclose(file2);
+	return 1;
+}
+
+stock GetNickname(const id[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"socialmedia/acc_%s.ini", id);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock SetName(const id[], const name[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"socialmedia/accname_%s.ini",id);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, name);
+	fclose(file2);
+	return 1;
+}
+
+stock GetName(const id[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"socialmedia/accname_%s.ini", id);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "Unknown");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock SetBio(const id[], const name[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"socialmedia/accbio_%s.ini",id);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, name);
+	fclose(file2);
+	return 1;
+}
+
+stock GetBio(const id[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"socialmedia/accbio_%s.ini", id);
+	new strFromFile2[128];
+	format(strFromFile2, sizeof strFromFile2, "No bio");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
+}
+
+stock SetPfp(const id[], const name[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,"socialmedia/accpfp_%s.ini",id);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, name);
+	fclose(file2);
+	return 1;
+}
+
+stock GetPfp(const id[])
+{
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"socialmedia/accpfp_%s.ini", id);
+	new strFromFile2[512];
+	format(strFromFile2, sizeof strFromFile2, "");
+	if(!fexist(file_name)) return strFromFile2;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strFromFile2;
+	}
+	return strFromFile2;
 }

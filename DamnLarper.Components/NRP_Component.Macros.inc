@@ -8,6 +8,7 @@
 
 new RISE_OF_NATIONS_GLOBALSTRING[1024];
 new dateupdated;
+new staffid[MAX_STAFF_MEMBERS][DCC_ID_SIZE], staffstring[2200];
 
 
 #define bankicklog 			DCC_FindChannelById("1006119258851385404") //d

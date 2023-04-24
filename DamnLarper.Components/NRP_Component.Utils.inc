@@ -1414,3 +1414,81 @@ public NRP_SETDATE()
 	dateupdated = 20;
 	return 1;
 }
+
+
+// Inactivity purge
+
+stock GetInactivityHours(const id[])
+{
+	new count,file_name[150];
+	format(file_name, sizeof file_name,
+		"incprg/user_%s.ini", id);
+	new strFromFile2[128];
+	if(!fexist(file_name)) return 0;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+		
+		count = strval(strFromFile2);
+
+		fclose(file);
+
+		return count;
+	}
+	return 0;
+}
+
+stock SaveInactivityHours(const id[], count)
+{
+	new string[10], file_name[150];
+	format(file_name, sizeof file_name,"incprg/user_%s.ini",id);
+	format(string, sizeof(string), "%i", count);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, string);
+	fclose(file2);
+	return 1;
+}
+
+stock bool:IsStaff(const id[])
+{
+	GetStaffString();
+	split(staffstring, staffid, '*');
+	for(new i; i < MAX_STAFF_MEMBERS; i++)
+	{
+		if(!strcmp(staffid[i], id))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+stock SaveStaffString(const staff[])
+{
+	GetStaffString();
+	if(IsStaff(staff))
+	{
+		return 1;
+	}
+	new newid[30], file_name[20];
+	format(file_name, sizeof file_name,"bot/pod_staffs.ini");
+	format(newid, sizeof newid, "*%s", staff);
+	strcat(staffstring, newid);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, staffstring);
+	fclose(file2);
+	return 1;
+}
+
+stock DeleteStaffMember(const staff[])
+{
+	GetStaffString();
+	strreplace(staffstring, staff, "");
+	new file_name[20];
+	format(file_name, sizeof file_name,"bot/pod_staffs.ini");
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, staffstring);
+	fclose(file2);
+	return 1;
+}

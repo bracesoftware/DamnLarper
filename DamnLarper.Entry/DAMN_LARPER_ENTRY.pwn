@@ -55,8 +55,13 @@ stock DAMN_LARPER_REWRITE = 1;
 #include "../DamnLarper.Modules/DL.System.Macros.inc"
 #include "../DamnLarper.Modules/DL.System.Vars.inc"
 #include "../DamnLarper.Modules/DL.System.SQL.inc"
+
 #include "../DamnLarper.Modules/DL.System.Utils.inc"
+#include "../DamnLarper.Modules/DL.System.Inventory.inc"
+#include "../DamnLarper.Modules/DL.System.Pets.inc"
+#include "../DamnLarper.Modules/DL.System.Achievements.inc"
 #include "../DamnLarper.Modules/DL.System.GuildCfg.inc"
+
 #include "../DamnLarper.Modules/DL.System.Publics.inc"
 #include "../DamnLarper.Modules/DL.System.SlashCmds.inc"
 #include "../DamnLarper.Modules/DL.System.Interactions.inc"
