@@ -17,7 +17,7 @@ jobs:
      
       - uses: AGraber/sampctl-action@v1
         with:
-          version: '1.10.0'
+          version: '1.11.0'
        
       - run: sampctl p build --forceEnsure
       - run: sampctl version
