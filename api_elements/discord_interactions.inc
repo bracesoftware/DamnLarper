@@ -1,6 +1,4 @@
-#if SLASH_COMMANDS == 0
-#endinput
-#endif
+
 
 // interactions
 native DCC_GetInteractionMentionCount(DCC_Interaction:interaction, &mentioned_user_count);

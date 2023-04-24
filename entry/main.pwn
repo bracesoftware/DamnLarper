@@ -6,9 +6,6 @@
 
 #define @discord%0(%1) @DISCORD_DECORATOR@
 
-#define SLASH_COMMANDS 1
-stock DAMN_LARPER_REWRITE = 1;
-
 #define DAMN_LARPER_MAJOR	"2"
 #define DAMN_LARPER_MINOR	"1"
 #define DAMN_LARPER_RELEASE	"1"

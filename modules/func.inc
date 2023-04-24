@@ -2,31 +2,7 @@
 
 forward OnDiscordCommandPerformed(DCC_Message: message, DCC_User: author, bool: success);
 
-/*
-public DCC_OnMessageReaction(DCC_Message:message, DCC_User:reaction_user, DCC_Emoji:emoji, DCC_MessageReactionType:reaction_type)
-{
-	if(reaction_type == REACTION_ADD)
-	{
-		
-	}
-	if(reaction_type == REACTION_REMOVE)
-	{
-		
-	}
-	return 1;
-}
 
-#if SLASH_COMMANDS == 1
-forward SlashCommandTest(DCC_Interaction:interaction);
-public SlashCommandTest(DCC_Interaction:interaction)
-{
-	new DCC_Channel:channel;
-	DCC_GetInteractionChannel(interaction, channel);
-	DCC_SendInteractionMessage(interaction, "This worked ig");
-	return 1;
-}
-#endif
-*/
 public DCC_OnMessageCreate(DCC_Message: message) 
 {
 	new
@@ -605,9 +581,7 @@ public OnGameModeInit()
 	SetTimer("DateTimeLog", 1000, true);
 
 	LoadChannels();
-	#if SLASH_COMMANDS == 1
 	LoadCommands();
-	#endif
 	CallLocalFunction("NRP_SETDATE", "");
 	printf("OnGameModeInit performed");
 	return 1;

@@ -1,10 +1,5 @@
 // Script written by DEntisT, © & ® BRACE™.
 
-#if SLASH_COMMANDS == 0
-#endinput
-#endif
-
-
 
 new DCC_Command:DAMNLARPER_CMD;
 #pragma unused DAMNLARPER_CMD
