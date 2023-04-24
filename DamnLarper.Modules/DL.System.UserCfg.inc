@@ -35,6 +35,42 @@ stock SetUserConfigTips(DCC_User:user, value)
 	return 1;
 }
 
+stock GetUserConfigBetaAnnc(DCC_User:user)
+{
+	new id[DCC_ID_SIZE];
+	DCC_GetUserId(user, id);
+	new file_name[150];
+	format(file_name, sizeof file_name,
+		"usercfg/betaancc_%s.ini", id);
+	new strFromFile2[128];
+	if(!fexist(file_name)) return 0;
+	new File: file = fopen(file_name, io_read);
+	if (file)
+	{
+		fread(file, strFromFile2);
+
+		fclose(file);
+
+		return strval(strFromFile2);
+	}
+	return strval(strFromFile2);
+}
+
+stock SetUserConfigBetaAnnc(DCC_User:user, value)
+{
+	new id[DCC_ID_SIZE];
+	DCC_GetUserId(user, id);
+	new file_name[150], string[10];
+
+	format(file_name, sizeof file_name,"usercfg/betaancc_%s.ini",id);
+	format(string, sizeof(string), "%i", value);
+	new File: file2 = fopen(file_name, io_write);
+	fwrite(file2, string);
+	fclose(file2);
+	return 1;
+}
+
+
 @discord() command:userconfig(@discord() cmd_params)
 {
 	SetUpCommandChannel(channel,slashchannel);
@@ -57,6 +93,7 @@ stock SetUserConfigTips(DCC_User:user, value)
 		Use `"BOT_PREFIX"userconfig view cfg` to view current configuration.\n\n\
 		**__Options__**\n\
 		**`tips`**\n"d_reply"Toggle the "BOT_NAME" Tips system on or off - use `true` to turn it on and `false` to turn it off!\n\
+		**`betaannc`**\n"d_reply"Toggle the "BOT_NAME" beta announcements on or off - use `true` to turn it on and `false` to turn it off!\n\
 		", 
 		"","", col_embed, datetimelog, 
 		"","",""), GetMention(useridmention));
@@ -75,7 +112,7 @@ stock SetUserConfigTips(DCC_User:user, value)
 	}
 	if(!strcmp(option, "view") && !strcmp(value, "cfg"))
 	{
-		@discord() SendMsg(channel, "**<@%s>'s Current Configuration**\n\n`tips` • `%s`\n",id,GetUserConfigTips(author) ? "true" : "false");
+		@discord() SendMsg(channel, "**<@%s>'s Current Configuration**\n\n`tips` • `%s`\n`betaannc` • `%s`\n",id,GetUserConfigTips(author) ? "true" : "false",GetUserConfigBetaAnnc(author) ? "true" : "false");
 		return 1;
 	}
 
@@ -98,7 +135,26 @@ stock SetUserConfigTips(DCC_User:user, value)
 		@discord() SendMsg(channel, ""d_reply" **WRONG VALUE** • Wrong value for option `%s` was given!\nPlease try again with either `true` or `false`!\n\nGiven value: `%s`.", option, value);
 		return 1;
 	}
-	
+	if(!strcmp(option, "betaannc"))
+	{
+		if(!strcmp(value, "true"))
+		{
+			SetUserConfigBetaAnnc(author, 1);
+
+			@discord() SendMsg(channel, ""d_reply" **USER CONFIG UPDATED** • Value for option `%s` was successfully changed to `%s`.", option, value);
+			return 1;
+		}
+		if(!strcmp(value, "false"))
+		{
+			SetUserConfigBetaAnnc(author, 0);
+
+			@discord() SendMsg(channel, ""d_reply" **USER CONFIG UPDATED** • Value for option `%s` was successfully changed to `%s`.", option, value);
+			return 1;
+		}
+		@discord() SendMsg(channel, ""d_reply" **WRONG VALUE** • Wrong value for option `%s` was given!\nPlease try again with either `true` or `false`!\n\nGiven value: `%s`.", option, value);
+		return 1;
+	}
+
 	@discord() SendInfo(channel, "Something went wrong! Try again.");
 	return 1;
 }

@@ -49,17 +49,6 @@ public INTERACTION_RECEIVED(DCC_Interaction:interaction, DCC_User:DAMN_LARPER_US
 
 	printf("cmdfuncname : '%s'", cmdfuncname);
 
-	new returned = CallLocalFunction(cmdfuncname, "iisi", 0, _:DAMN_LARPER_USER,arguments,_:DAMN_LARPER_CHANNEL);
-	
-	printf("returned : %i", returned);
-
-	if(returned == 0)
-	{
-		DCC_SendInteractionMessage(interaction, 
-		""d_reply""damn_larper_text" **UNKNOWN COMMAND** • I don't know what that is!");
-		return 1;
-	}
-
 	new DCC_ChannelType:channeltype;
 
 	DCC_GetChannelType(DAMN_LARPER_CHANNEL, channeltype);
@@ -80,10 +69,26 @@ public INTERACTION_RECEIVED(DCC_Interaction:interaction, DCC_User:DAMN_LARPER_US
 		return 1;
 	}
 
+	new returned = CallLocalFunction(cmdfuncname, "iisi", 0, _:DAMN_LARPER_USER,arguments,_:DAMN_LARPER_CHANNEL);
+	
+	printf("returned : %i", returned);
+
+	if(returned == 0)
+	{
+		DCC_SendInteractionMessage(interaction, 
+		""d_reply""damn_larper_text" **UNKNOWN COMMAND** • I don't know what that is!");
+		return 1;
+	}
+
 	if(returned == 1)
 	{
 		DCC_SendInteractionMessage(interaction, 
 		""d_reply""damn_larper_text" Slash commands are the new "d_beta" feature!\n\nReport everything using `"BOT_PREFIX" report`.");
+		
+		CallLocalFunction("OnSlashCommandReceived", "iis", 
+			_:DAMN_LARPER_CHANNEL, 
+			_:DAMN_LARPER_USER, 
+			DAMN_LARPER_CONTENT);
 		return 1;
 	}
 
@@ -92,8 +97,21 @@ public INTERACTION_RECEIVED(DCC_Interaction:interaction, DCC_User:DAMN_LARPER_US
 	return 1;
 }
 
-OnSlashCommandReceived(DCC_Channel:channel, content[]);
-public OnSlashCommandReceived(DCC_Channel:channel, content[])
+OnSlashCommandReceived(DCC_Channel:channel, DCC_User:user, content[]);
+public OnSlashCommandReceived(DCC_Channel:channel, DCC_User:user, content[])
 {
+	new betasent;
+	if(BOT_BETA_PHASE == 1)
+	{
+		if(random(10) == 5 && GetUserConfigBetaAnnc(user) == 1)
+		{
+			@discord() SendInfo(channel, ""d_beta" "BOT_NAME" achieved the **Beta Test** phase of development, help us in the development process by reporting all the bugs and issues using the `"BOT_PREFIX"report` command!");
+			betasent = 1;
+		}
+	}
+	if(random(100) < 10 && betasent == 0 && GetUserConfigTips(user) == 1)
+	{
+		@discord() SendInfo(channel, "**TIP** "d_star" %s", BotTips[random(sizeof BotTips)]);
+	}
 	return 1;
 }
