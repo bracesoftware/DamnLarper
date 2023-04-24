@@ -95,8 +95,8 @@ new DCC_Channel:%0;DCC_GetMessageChannel(message,%0);if(%0==DCC_INVALID_CHANNEL)
 
 new dmstring[2048];
 
-#define @DISCORD_DECORATOR@SendDM(%1,%2) \
-	format(dmstring, sizeof dmstring,%2);DCC_CreatePrivateChannel(%1, "senddm", "s", dmstring)
+#define @DISCORD_DECORATOR@SendDM(%1,%2)%3; \
+	if(GetUserConfigDMNotif(%1)==1){format(dmstring, sizeof dmstring,%2);DCC_CreatePrivateChannel(%1, "senddm", "s", dmstring);}
 
 
 new formatted[2048];
