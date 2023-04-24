@@ -9,9 +9,14 @@
 #define SLASH_COMMANDS 1
 stock DAMN_LARPER_REWRITE = 1;
 
-#define DAMN_LARPER_MAJOR	"1"
-#define DAMN_LARPER_MINOR	"1"
+#define DAMN_LARPER_MAJOR	"2"
+#define DAMN_LARPER_MINOR	"0"
 #define DAMN_LARPER_RELEASE	"1"
+
+#define USE_DEPRECATED_COMPONENTS 0
+
+#pragma dynamic 215750000
+
 
 // API, implementations
 
@@ -38,7 +43,11 @@ stock DAMN_LARPER_REWRITE = 1;
 
 // NRP_Components
 
+#if USE_DEPRECATED_COMPONENTS == 1
+
 #include "../DamnLarper.Components/NRP_Component.Macros.inc"
+
+#endif
 
 // Modules
 
@@ -56,14 +65,13 @@ stock DAMN_LARPER_REWRITE = 1;
 
 #include "../DamnLarper.Modules/DL.System.UserCfg.inc"
 
-#pragma dynamic 215750000
-
 // Commands:
 
 #include "../DamnLarper.Modules/DL.System.Commands.inc"
 
-
 // Other components:
+
+#if USE_DEPRECATED_COMPONENTS == 1
 
 // Included on the top:#include "../discord_components/d_nrp_macros.inc"
 #include "../DamnLarper.Components/NRP_Component.Cmds.inc"
@@ -71,7 +79,7 @@ stock DAMN_LARPER_REWRITE = 1;
 #include "../DamnLarper.Components/NRP_Component.Utils.inc"
 #include "../DamnLarper.Components/NRP_Component.Impl.inc"
 
-
+#endif
 
 // Other things
 

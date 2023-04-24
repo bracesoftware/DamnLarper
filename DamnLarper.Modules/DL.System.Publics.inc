@@ -608,7 +608,7 @@ public OnGameModeInit()
 	#if SLASH_COMMANDS == 1
 	LoadCommands();
 	#endif
-	dateupdated = 20;
+	CallLocalFunction("NRP_SETDATE", "");
 	printf("OnGameModeInit performed");
 	return 1;
 }

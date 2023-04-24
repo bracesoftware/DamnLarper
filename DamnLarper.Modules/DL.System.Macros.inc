@@ -17,6 +17,9 @@ new datetimelog[256];
 	#define isnull(%1) ((!(%1[0])) || (((%1[0]) == '\1') && (!(%1[1]))))
 #endif
 
+#define reports 			DCC_FindChannelById("1007376405220311070") //d
+
+
 // Config
 
 #define MAX_CMD_LEN         32
@@ -192,3 +195,4 @@ public senddm(message[])
 			"","",""), "");
 	return 1;
 }
+

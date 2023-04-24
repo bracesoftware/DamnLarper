@@ -6,6 +6,9 @@
 
 #define RiseOfNations 		DCC_FindGuildById("987003062726058004")
 
+new RISE_OF_NATIONS_GLOBALSTRING[1024];
+new dateupdated;
+
 
 #define bankicklog 			DCC_FindChannelById("1006119258851385404") //d
 #define rpnotices 			DCC_FindChannelById("994393758940541100") //d
@@ -20,7 +23,6 @@
 #define logs 				DCC_FindChannelById("1006560017845067876") //d
 #define announcements 		DCC_FindChannelById("994393713461706832") //d
 #define countchannel 		DCC_FindChannelById("994393752351285338") //d
-#define reports 			DCC_FindChannelById("1007376405220311070") //d
 #define appreview 			DCC_FindChannelById("1006140665819824208") //d
 #define verifychannel   	DCC_FindChannelById("1006227267048968212") //d
 

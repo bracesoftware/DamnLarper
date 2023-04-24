@@ -39,7 +39,7 @@ public INTERACTION_RECEIVED(DCC_Interaction:interaction, DCC_User:DAMN_LARPER_US
 	if(strlen(cmdname) < 1)
 	{
 		DCC_SendInteractionMessage(interaction, 
-		""d_reply""damn_larper_text" **OOPS** • You need to use it like this:\n`/damn [command] [arguments]`");
+		""d_reply""damn_larper_text" **OOPS** • You need to use it like this:\n`"BOT_PREFIX" [command] [arguments]`");
 		return 1;
 	}
 	printf("cmdname : '%s'\narguments : '%s'", cmdname,arguments);
@@ -60,10 +60,30 @@ public INTERACTION_RECEIVED(DCC_Interaction:interaction, DCC_User:DAMN_LARPER_US
 		return 1;
 	}
 
+	new DCC_ChannelType:channeltype;
+
+	DCC_GetChannelType(DAMN_LARPER_CHANNEL, channeltype);
+
+	new id[DCC_ID_SIZE];
+
+	DCC_GetUserId(DAMN_LARPER_USER,id);
+
+	if(channeltype == DM || channeltype == GROUP_DM)
+	{
+		DCC_SendInteractionMessage(interaction, "> "d_reply" **WRONG TIME, WRONG PLACE!** • You may not use **"BOT_NAME"** commands in group or DM chats!");
+		return 1;
+	}
+
+	if(IsBlacklisted(id))
+	{
+		DCC_SendInteractionMessage(interaction,  "> "d_reply" **ERROR** • You're blacklisted from using bot commands.");
+		return 1;
+	}
+
 	if(returned == 1)
 	{
 		DCC_SendInteractionMessage(interaction, 
-		""d_reply""damn_larper_text" Slash commands are the new "d_beta" feature!\n\nReport everything using `/damn report`.");
+		""d_reply""damn_larper_text" Slash commands are the new "d_beta" feature!\n\nReport everything using `"BOT_PREFIX" report`.");
 		return 1;
 	}
 

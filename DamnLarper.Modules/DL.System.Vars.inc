@@ -90,7 +90,6 @@ new DiplomyJokes[][512] = {
 	"What do you call a rope made in European Union? Europe."
 };
 
-new dateupdated;
 
 enum esettings
 {
@@ -108,8 +107,6 @@ new settings[esettings];
 
 
 new listpreview[4000];
-
-new RISE_OF_NATIONS_GLOBALSTRING[1024];
 
 new activity[100];
 

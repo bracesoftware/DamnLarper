@@ -331,16 +331,9 @@
 	//other systems
 	if(!strcmp(option, "custom"))
 	{
-		if(DAMN_LARPER_REWRITE == 1)
-		{
-			@discord() SendMsg(channel, ""d_reply" **UH OH!** • This help panel is currently deprecated! Try seeing another topic.");
-			return 1;
-		}
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Custom Features Help Panel__**", "\n\n\
-		"delimiterlol" __List of Commands available for **"SERVER_RISE_OF_NATIONS"**__\n\
-		"d_arrow"**`"BOT_PREFIX"moderation`**\n"d_reply"Help about server moderation.\n\
-		"d_arrow"**`"BOT_PREFIX"nrphelp`**\n"d_reply"Nation role-play system help.\n\n", 
+		Nothing to see here!", 
 		"",
 		"", col_embed, datetimelog, 
 		"",
@@ -572,23 +565,7 @@
 	new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
 	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Help Panel__**", ""delimiterlol" Below, there's a list of all the features included in the bot.\n\n\
-		**Exclusive "SERVER_RISE_OF_NATIONS" Features**\n\
-		**1.** GM counting\n\
-		**2.** Number counting\n\
-		**3.** Moderation logging\n\
-		**4.** Moderation commands\n\
-		**5.** Bot settings can be maintained only by a bot mods\n\n\
-		**Features available for all servers**\n\
-		**1.** Economy system\n\
-		**2.** AFK system\n\
-		**3.** Leveling system\n\
-		**4.** Custom commands\n\
-		**5.** Message management\n\
-		**6.** Server bump and leaderboard\n\
-		**7.** Create and manage lists themed on any topic you want!\n\
-		**8.** Other funny commands displayed on the `"BOT_PREFIX"help` panel\n\
-		**9.** Role-play system!\n\n\
-		"delimiterlol" **NOTE** • Bot is regularly maintained and updated, a lot of interesting cross-server features are coming soon!", 
+		We're working on this panel!", 
 		"",
 		"", col_embed, datetimelog, 
 		"",
