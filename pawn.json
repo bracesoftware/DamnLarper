@@ -2,9 +2,7 @@
 	"user": "samp-api",
 	"repo": "DamnLarper",
 	"dependencies": [
-		"openmultiplayer/omp-stdlib",
-		"maddinat0r/samp-discord-connector",
-		"pBlueG/SA-MP-MySQL"
+		"openmultiplayer/omp-stdlib"
 	],
 	"entry": "entry/main.pwn",
 	"output": "entry/main.amx",
