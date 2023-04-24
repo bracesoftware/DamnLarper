@@ -19,7 +19,7 @@ jobs:
         with:
           version: '1.11.0'
        
-      - run: sampctl p build --forceEnsure
+      - run: sampctl package build --forceEnsure
       - run: sampctl version
 
       - uses: actions/upload-artifact@v3
