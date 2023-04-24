@@ -493,7 +493,10 @@ public DCC_OnGuildMemberRemove(DCC_Guild:guild, DCC_User:user)
 forward ActivityChange();
 public ActivityChange()
 {
-	format(activity, sizeof activity, "/damn • damn help");
+	format(activity, sizeof activity, "/damn • damn help • %s.%s-R%s",
+		DAMN_LARPER_MAJOR,
+		DAMN_LARPER_MINOR,
+		DAMN_LARPER_RELEASE);
 	DCC_SetBotActivity(activity);
 	return 1;
 }
