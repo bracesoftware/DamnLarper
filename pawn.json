@@ -6,8 +6,8 @@
 		"maddinat0r/samp-discord-connector",
 		"pBlueG/SA-MP-MySQL"
 	],
-	"entry": "DamnLarper.Entry/DAMN_LARPER_ENTRY.pwn",
-	"output": "DamnLarper.Entry/DAMN_LARPER_ENTRY.amx",
+	"entry": "entry/main.pwn",
+	"output": "entry/main.amx",
 	"contributors": [
 		"DEntis-T"
 	]

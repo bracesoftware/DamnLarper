@@ -28,4 +28,4 @@ jobs:
           retention-days: 12 
           if-no-files-found: error
           
-          path: DamnLarper.Entry/DAMN_LARPER_ENTRY.amx
+          path: entry/main.amx

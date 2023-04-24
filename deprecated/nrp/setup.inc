@@ -2,6 +2,7 @@
 // Nation RP bot component - macros
 
 #define SERVER_RISE_OF_NATIONS "RoN • Rise of Nations"
+#define MAX_STAFF_MEMBERS 100
 
 
 #define RiseOfNations 		DCC_FindGuildById("987003062726058004")
