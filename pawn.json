@@ -2,8 +2,8 @@
 	"user": "samp-api",
 	"repo": "DamnLarper",
 	"dependencies": [
-		"samp-api/pawn-stdlib"
-		"samp-api/samp-stdlib"
+		"samp-api/pawn-stdlib",
+		"samp-api/samp-stdlib",
 		"openmultiplayer/omp-stdlib"
 	],
 	"entry": "entry/main.pwn",
