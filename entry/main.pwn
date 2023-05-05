@@ -14,6 +14,7 @@
 
 #pragma dynamic 215750000
 
+#tryinclude <samp/a_samp>
 
 // API, implementations
 

@@ -1,4 +1,6 @@
+#if !defined __SAMPStdLib
 #include <open.mp>
+#endif
 
 #endinput
 
