@@ -564,7 +564,9 @@ public OnDiscordCommandPerformed(DCC_Message: message, DCC_User: author, bool: s
 
 public OnGameModeInit()
 {
+	#if !defined DAMNLARPER_NO_SQL
 	d_sqlconnect();
+	#endif
 	printf("OnGameModeInit called");
 	new y,m,d,h,n,s;
 	getdate(y,m,d);

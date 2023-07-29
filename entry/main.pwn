@@ -1,3 +1,14 @@
+/*
+*
+*	Damn Larper
+*	Discord Bot
+*
+*	by: DEntisT
+*
+*	v2.1-R3-alpha
+*
+*/
+
 // Script written by DEntisT, © & ® BRACE™.
 
 #pragma option -;+
@@ -10,11 +21,14 @@
 #define DAMN_LARPER_MINOR	"1"
 #define DAMN_LARPER_RELEASE	"3"
 
+////////////////////////////////
+
 #define USE_DEPRECATED_COMPONENTS 0
+#define DAMNLARPER_NO_SQL
 
 #pragma dynamic 215750000
 
-#tryinclude <samp/a_samp>
+//#tryinclude <samp/a_samp>
 
 // API, implementations
 
@@ -25,8 +39,12 @@
 
 #include "../api_elements/discord.inc"
 
+#if !defined DAMNLARPER_NO_SQL
+
 #include "../api_elements/mysql.inc"
 #include "../api_elements/sql_api.inc"
+
+#endif
 
 // NRP_Components
 

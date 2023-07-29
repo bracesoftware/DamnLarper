@@ -1,5 +1,9 @@
 // Module written by DEntisT, © & ® BRACE™.
 
+#if defined DAMNLARPER_NO_SQL
+#endinput
+#endif
+
 new MySQL:d_sql_database;
 
 stock d_sql_gethost()
