@@ -2,8 +2,7 @@
 	"user": "samp-api",
 	"repo": "DamnLarper",
 	"dependencies": [
-		"bracetm/samp-stdlib",
-		"bracetm/pawn-stdlib"
+		"openmultiplayer/omp-stdlib"
 	],
 	"entry": "entry/main.pwn",
 	"output": "entry/main.amx",
