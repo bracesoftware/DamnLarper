@@ -2,6 +2,7 @@
   <img width="500" align="center" src="damn_larper_text.png">
 </p>
 
+# Damn Larper
 
 <img height="30" align="left" src="https://cdn.discordapp.com/attachments/1130879376423145522/1137384085271093308/Pawn_logo.png">
 <img height="30" align="left" src="https://cdn.discordapp.com/attachments/1130879376423145522/1137382717672136767/BraceTeamProduct.png">
@@ -9,8 +10,6 @@
 <img height="30" align="left" src="https://cdn.discordapp.com/attachments/1130879376423145522/1137381948529070131/logo-dark-trans.png">
 
 <br></br>
-
-# Damn Larper
 
 :zap: ¤ Damn Larper is a multipurpose bot with many commands and features. It is basically a text-based game right in your server! This bot has a verification system, which is not allowing the unverified to send messages until they verify themselves. Besides verification, there are also moderation commands such as ban and kick commands. 
 
