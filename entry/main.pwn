@@ -17,9 +17,9 @@
 
 #define @discord%0(%1) @DISCORD_DECORATOR@
 
-#define DAMN_LARPER_MAJOR	"2"
-#define DAMN_LARPER_MINOR	"1"
-#define DAMN_LARPER_RELEASE	"3"
+#define DAMN_LARPER_MAJOR	"3"
+#define DAMN_LARPER_MINOR	"0"
+#define DAMN_LARPER_RELEASE	"1"
 
 ////////////////////////////////
 
