@@ -37,6 +37,7 @@
 #define d_safe "<:d_safe:1008815134229151805>"
 #define d_protectiveshield "<:d_protectiveshield:1094973029953568798>"
 #define d_shovel "<:d_shovel:1095379234240860160>"
+#define d_backpack "<:d_backpack:1244906730257780746>"
 /////////////////////////////found/produced items/////////////////////////////////////////
 #define d_ruby "<:d_ruby:1007939594878210120>"
 #define d_gold "<:d_gold:1007202547922120756>"

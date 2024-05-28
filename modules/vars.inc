@@ -111,5 +111,8 @@ new listpreview[4000];
 new activity[100];
 
 new BotTips[][256] = {
-	"You can turn these off with `"BOT_PREFIX"userconfig`."
+	"You can turn these off with `"BOT_PREFIX"userconfig`.",
+	"You can use a laptop from the shop to perform heists.",
+	"You need a backpack to access the inventory command.",
+	"Give us a hand by reporting bugs and flaws."
 };

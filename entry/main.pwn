@@ -5,7 +5,7 @@
 *
 *	by: DEntisT
 *
-*	v4.0-R1-alpha
+*	v5.0-R1-alpha
 *
 */
 
@@ -17,9 +17,9 @@
 
 #define @discord%0(%1) @DISCORD_DECORATOR@
 
-#define DAMN_LARPER_MAJOR	"4"
+#define DAMN_LARPER_MAJOR	"5"
 #define DAMN_LARPER_MINOR	"0"
-#define DAMN_LARPER_RELEASE	"1"
+#define DAMN_LARPER_RELEASE	"2"
 
 ////////////////////////////////
 

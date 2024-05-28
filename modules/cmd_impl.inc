@@ -2623,6 +2623,8 @@
 			"d_reply" Price: "d_ruby"`40`\n\n\
 			"d_shovel" • **Shovel** (*ID: `14`*)\n\
 			"d_reply" Price: "d_coin"`20000`\n\n\
+			"d_backpack" • **Backpack** (*ID: `15`*)\n\
+			"d_reply" Price: "d_coin"`5000`\n\n\
 			\n**Page: 2**", 
 			"",
 			"", col_embed, datetimelog, 
@@ -2845,6 +2847,7 @@
 		SetInvData(user, "Laptop");
 		SetData(user, "Banknotes", GetData(user, "Banknotes") - 25);
 		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_laptop" | `Laptop` for "d_banknote" `25`!");
+		@discord() SendInfo(channel, "**<@%s>**\n\n"d_reply" **Good for *u*?** • Now you can perform heists using your new laptop!");
 		return 1;
 	}
 	if(id == 12)
@@ -2901,6 +2904,23 @@
 		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_shovel" | `Shovel` for "d_coin" `20000`!");
 		return 1;
 	}
+	if(id == 15)
+	{
+		if(GetData(user, "Balance") < 5000)
+		{
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
+			return 1;
+		}
+		if(GetInvData(user, "Backpack") == 1)
+		{
+			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_backpack" | `Backpack`!");
+			return 1;
+		}
+		SetInvData(user, "Backpack");
+		SetData(user, "Balance", GetData(user, "Balance") - 20000);
+		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_backpack" | `Backpack` for "d_coin" `5000`!");
+		return 1;
+	}
 
 	@discord() SendMsg(channel, ""d_reply" **ERROR** • Wrong item ID was given, please recheck the shop!");
 
@@ -2917,6 +2937,12 @@
 	new id[DCC_ID_SIZE];
 
 	DCC_GetUserId(author, id);
+
+	if(GetInvData(id, "Backpack") == 0)
+	{
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • You need a "d_backpack" | `Backpack` to unlock your inventory command! Use the shop command to get one.");
+		return 1;
+	}
 
 	new inv[4096], invtype[30];
 	
@@ -2952,6 +2978,7 @@
 		%s\
 		%s\
 		%s\
+		%s\
 		",
 		GetInvData(id, "Phone") ? ""d_reply" "d_phone" • **Phone** (*ID: `1`*)\n" : "",
 		GetInvData(id, "Gamepad") ? ""d_reply" "d_gamepad" • **Gamepad** (*ID: `2`*)\n" : "",
@@ -2966,7 +2993,8 @@
 		GetInvData(id, "Laptop") ? ""d_reply" "d_laptop" • **Laptop** (*ID: `11`*)\n" : "",
 		GetInvData(id, "Safe") ? ""d_reply" "d_safe" • **Safe** (*ID: `12`*)\n" : "",
 		GetInvData(id, "ProtectiveShield") ? ""d_reply" "d_protectiveshield" • **Protective Shield** (*ID: `13`*)\n" : "",
-		GetInvData(id, "Shovel") ? ""d_reply" "d_shovel" • **Shovel** (*ID: `14`*)\n" : ""
+		GetInvData(id, "Shovel") ? ""d_reply" "d_shovel" • **Shovel** (*ID: `14`*)\n" : "",
+		GetInvData(id, "Backpack") ? ""d_reply" "d_backpack" • **Backpack** (*ID: `15`*)\n" : ""
 		);
 
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
