@@ -2508,7 +2508,7 @@
 	}
 	if(!strcmp(item, "fruits"))
 	{
-		if(GetData(id, "CookedMeat") < quantity)
+		if(GetData(id, "Fruits") < quantity)
 		{
 			@discord() SendMsg(channel, ""d_reply" **QUANTITY ERROR** • You do not have that much "d_fruits" | `Fruits`.");
 			return 1;
@@ -2880,7 +2880,7 @@
 		SetInvData(user, "ProtectiveShield");
 		SetData(user, "Rubies", GetData(user, "Rubies") - 40);
 		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_protectiveshield" | `Protective Shield` for "d_ruby" `40`!");
-		@discord() SendInfo(channel, "Your coins will be now deposited to your safe instead of a bank! Now noone knows your safe passcode and won't be able to steal your deposited money!");
+		//@discord() SendInfo(channel, "Your coins will be now deposited to your safe instead of a bank! Now noone knows your safe passcode and won't be able to steal your deposited money!");
 		return 1;
 	}
 
