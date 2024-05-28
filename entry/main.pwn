@@ -17,7 +17,7 @@
 
 #define @discord%0(%1) @DISCORD_DECORATOR@
 
-#define DAMN_LARPER_MAJOR	"3"
+#define DAMN_LARPER_MAJOR	"4"
 #define DAMN_LARPER_MINOR	"0"
 #define DAMN_LARPER_RELEASE	"1"
 
@@ -95,5 +95,8 @@
 
 main()
 {
+	print("==========================");
+	print("DAMN LARPER IS BACK!");
 	print("The script started sir.");
+	print("==========================");
 }

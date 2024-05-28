@@ -4308,3 +4308,11 @@ static GetFeed()
 
 	return 1;
 }
+
+/////////////////TEST//////////////////
+@discord() command:commandtest__(@discord() cmd_params)
+{
+	SetUpCommandChannel(channel,slashchannel);
+	@discord() SendMsg(channel, "nvm");
+	return 1;
+}
