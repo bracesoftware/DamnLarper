@@ -4,11 +4,11 @@
 
 # Damn Larper
 
-<img height="30" align="left" src="https://cdn.discordapp.com/attachments/1130879376423145522/1137384085271093308/Pawn_logo.png">
-<img height="30" align="left" src="https://cdn.discordapp.com/attachments/1130879376423145522/1137382717672136767/BraceTeamProduct.png">
-<img height="30" align="left" href="https://sa-mp.com" src="https://cdn.discordapp.com/attachments/1130879376423145522/1134843694487441438/brace_samp.png">
-<img height="30" align="left" src="https://cdn.discordapp.com/attachments/1130879376423145522/1137381948529070131/logo-dark-trans.png">
-<img height="30" align="left" src="https://cdn.discordapp.com/attachments/1130879376423145522/1137420653646073876/636e0b52aa9e99b832574a53_full_logo_blurple_RGB.png">
+<img height="30" align="left" src="pawn_logo.png">
+<img height="30" align="left" src="bracetm_product.png">
+<img height="30" align="left" href="https://sa-mp.com" src="samp_logo.png">
+<img height="30" align="left" src="omp_compatible.png">
+<img height="30" align="left" src="discord_logo.png">
 
 <br></br>
 
