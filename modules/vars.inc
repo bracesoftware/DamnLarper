@@ -65,7 +65,10 @@ new QuestionAnswers[][256] = {
 	"when",
 	"why",
 	"how",
-	"bruh"
+	"bruh",
+	"yes?",
+	"your mom said otherwise!",
+	"your dad does not agree with that."
 };
 
 
@@ -116,3 +119,6 @@ new BotTips[][256] = {
 	"You need a backpack to access the inventory command.",
 	"Give us a hand by reporting bugs and flaws."
 };
+
+new d_announcement[4096];
+new d_annc_title[512];

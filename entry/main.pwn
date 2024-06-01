@@ -17,6 +17,7 @@
 
 #define @discord%0(%1) @DISCORD_DECORATOR@
 
+
 #define DAMN_LARPER_MAJOR	"5"
 #define DAMN_LARPER_MINOR	"0"
 #define DAMN_LARPER_RELEASE	"2"
@@ -45,6 +46,8 @@
 #include "../api_elements/sql_api.inc"
 
 #endif
+
+#include "../api_elements/fsutil.inc"
 
 // NRP_Components
 
@@ -93,10 +96,41 @@
 
 // Other things
 
+Damn_SendBotAnnouncement()
+{
+
+	new dir:dHandle = dir_open("./scriptfiles/serverdata/");
+	new item[100], type;
+		
+	while(dir_list(dHandle, item, type))
+	{
+	    if(type == FM_FILE)
+	    {
+	    	if(item[0] == 'a' && item[1] == 'n' && item[2] == 'c' && item[3] == '_')
+	    	{
+	    		third__strreplace(item, "anc_", "");
+	    		third__strreplace(item, ".ini", "");
+	    		printf("Guild found: '%s'",item);
+
+	    		@discord() SendMsg(DCC_FindChannelById(GetGuildAnnouncementChannel(DCC_FindGuildById(item))), "**__Announcement from the Devs__**\n\n"botpfp" **%s** • %s",d_annc_title,d_announcement);
+	    	}
+	    }
+	}
+			
+	dir_close(dHandle);
+
+	return 1;
+}
+
 main()
 {
+	print("_______________________");
 	print("==========================");
 	print("DAMN LARPER IS BACK!");
 	print("The script started sir.");
 	print("==========================");
+	strmid(d_annc_title, "We're back!", 0, sizeof d_annc_title);
+	strmid(d_announcement, "The bot is online again; get help at `"BOT_PREFIX"help`.", 0, sizeof d_announcement);
+	Damn_SendBotAnnouncement();//RemoveDir("test__dentist", true);
 }
+

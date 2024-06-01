@@ -17,6 +17,12 @@
 		return 1;
 	}
 
+	if(GetUserVerification(guild, user) == 1)
+	{
+		@discord() SendInfo(channel, "You are already verified in this guild!");
+		return 1;
+	}
+
 	new code[10];
 
 	if(sscanf(params, "s[10]", code))
@@ -289,6 +295,7 @@
 		"d_arrow"**`"BOT_PREFIX"delmod`**\n"d_reply"Remove someone from the "BOT_NAME" moderation team!\n\
 		"d_arrow"**`"BOT_PREFIX"addpremium`**\n"d_reply"Give someone the "BOT_NAME" Premium perks!\n\
 		"d_arrow"**`"BOT_PREFIX"delpremium`**\n"d_reply"Take "BOT_NAME" Premium perks from someone and make them mad!\n\
+		"d_arrow"**`"BOT_PREFIX"botannc`**\n"d_reply"Send an announcement to all servers the bot is in (and properly set up)!\n\
 		", 
 		"",
 		"", col_embed, datetimelog, 
@@ -4342,5 +4349,25 @@ static GetFeed()
 {
 	SetUpCommandChannel(channel,slashchannel);
 	@discord() SendMsg(channel, "nvm");
+	return 1;
+}
+
+////////////////////////////
+
+@discord() command:botannc(@discord() cmd_params)
+{
+	SetUpCommandChannel(channel,slashchannel);
+
+	modcheck;
+
+	if(sscanf(params, "s[512]s[4096]", d_annc_title, d_announcement))
+	{
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"botannc [title] [message]`");
+		return 1;
+	}
+
+	Damn_SendBotAnnouncement();
+	@discord() SendMsg(channel, ""d_reply" • Announcement was successfully sent.");
+
 	return 1;
 }
