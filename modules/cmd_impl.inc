@@ -261,17 +261,18 @@
 		"delimiterlol" • __List of Main Commands__\n\
 		"d_arrow"**`"BOT_PREFIX"help verification`** "d_beta"\n"d_reply"Help about verification system.\n\
 		"d_arrow"**`"BOT_PREFIX"help moderation`**\n"d_reply"Help about moderation commands.\n\
-		"d_arrow"**`"BOT_PREFIX"help economy`** "d_new"\n"d_reply"Help about economy commands.\n\
-		"d_arrow"**`"BOT_PREFIX"help afk`**\n"d_reply"Help about AFK system.\n\
+		"d_arrow"**`"BOT_PREFIX"help achievements`**\n"d_reply"Achievement system help.\n\
+		"d_arrow"**`"BOT_PREFIX"help socialmedia`**\n"d_reply"Social media system help.\n\
 		"d_arrow"**`"BOT_PREFIX"help customcmd`**\n"d_reply"Help with your own custom commands!\n\
-		"d_arrow"**`"BOT_PREFIX"help fun`**\n"d_reply"Other miscellaneous panel - contains a big variety of other types of commands!\n\
+		"d_arrow"**`"BOT_PREFIX"help economy`** "d_new"\n"d_reply"Help about economy commands.\n\
+		"d_arrow"**`"BOT_PREFIX"help security`**\n"d_reply"Anti-raid and security system help.\n\
+		"d_arrow"**`"BOT_PREFIX"help afk`**\n"d_reply"Help about AFK system.\n\
 		"d_arrow"**`"BOT_PREFIX"help levels`**\n"d_reply"Help about leveling system.\n\
 		"d_arrow"**`"BOT_PREFIX"help bump`**\n"d_reply"Help about server bumping and leaderboard.\n\
 		"d_arrow"**`"BOT_PREFIX"help lists`**\n"d_reply"Lists system help.\n\
 		"d_arrow"**`"BOT_PREFIX"help pets`**\n"d_reply"Help with pet system!\n\
-		"d_arrow"**`"BOT_PREFIX"help security`**\n"d_reply"Anti-raid and security system help.\n\
-		"d_arrow"**`"BOT_PREFIX"help achievements`**\n"d_reply"Achievement system help.\n\
-		"d_arrow"**`"BOT_PREFIX"help socialmedia`**\n"d_reply"Social media system help.\n\n\
+		"d_arrow"**`"BOT_PREFIX"help fun` "d_new"**\n"d_reply"Other miscellaneous panel - contains a big variety of other types of commands!\n\
+		\n\
 		"delimiterlol" • __Other Information__\n\
 		"d_reply" To learn more about "BOT_NAME", use `"BOT_PREFIX"features`.\n\n\
 		"d_reply" • You can [invite me]("BOT_AUTH_LINK") on your server too! Use `"BOT_PREFIX"botsetup` to learn about everything you need to know before inviting me.\n\n\

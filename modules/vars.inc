@@ -85,12 +85,17 @@ new DiplomyJokes[][512] = {
 	"What do computers snack on? Microchips!",
 	"Somebody stole all my lamps. I couldn't be more delighted!",
 	"I broke my left arm and left leg. It is alright now!",
-	"Three guys walk into a bar. They all said, ouch!",
+	"Three guys walk into a bar. They all said, \"Ouch!\"",
 	"What did the policeman say to his belly button? You're under a vest!",
 	"You're becoming a vegetarian? I think that's a big missed steak!",
 	"What does a dog say when he sits down on a piece of sandpaper? Ruff.",
 	"An English teacher asked a student to name two pronouns. Student replied, \"Who, me?\"",
-	"What do you call a rope made in European Union? Europe."
+	"What do you call a rope made in European Union? Europe.",
+	"What did the shark say when he ate the clownfish? \"This tastes a little funny.\"",
+	"Did you hear about 2 guys that stole a calendar? They each got 6 months!",
+	"What do cows do on date night? They go to the moo-vies.",
+	"Why do French people eat snails? They don't like fast food!",
+	"What do you call a magic dog? A labracadabrador."
 };
 
 
