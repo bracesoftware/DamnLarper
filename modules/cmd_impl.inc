@@ -261,7 +261,7 @@
 		"delimiterlol" • __List of Main Commands__\n\
 		"d_arrow"**`"BOT_PREFIX"help verification`** "d_beta"\n"d_reply"Help about verification system.\n\
 		"d_arrow"**`"BOT_PREFIX"help moderation`**\n"d_reply"Help about moderation commands.\n\
-		"d_arrow"**`"BOT_PREFIX"help economy`**\n"d_reply"Help about economy commands.\n\
+		"d_arrow"**`"BOT_PREFIX"help economy`** "d_new"\n"d_reply"Help about economy commands.\n\
 		"d_arrow"**`"BOT_PREFIX"help afk`**\n"d_reply"Help about AFK system.\n\
 		"d_arrow"**`"BOT_PREFIX"help customcmd`**\n"d_reply"Help with your own custom commands!\n\
 		"d_arrow"**`"BOT_PREFIX"help fun`**\n"d_reply"Other miscellaneous panel - contains a big variety of other types of commands!\n\

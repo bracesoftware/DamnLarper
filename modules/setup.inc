@@ -10,7 +10,7 @@ new datetimelog[256];
 #define BOT_USER_ID "1094936702017093735"
 #define BOT_AUTH_LINK "https://discord.com/api/oauth2/authorize?client_id="BOT_USER_ID"&permissions=8&scope=bot"
 #define BOT_SUPPORT_MAIL "bracetm.official@gmail.com"
-
+#define SUPPORT_SERVER "https://discord.gg/SEvCgZy27a"
 
 #if !defined isnull
 	#define isnull(%1) ((!(%1[0])) || (((%1[0]) == '\1') && (!(%1[1]))))

@@ -8,6 +8,7 @@
 #define d_fullbar2 "<:d_fullbar2:1007988053542973560>"
 #define d_fullbar3 "<:d_fullbar3:1007988082341056634>"
 #define d_beta "<:d_beta:1009087077725519974>"
+#define d_new "<:d_new:1246763523875405856>"
 #define botpfp "<:damn_larper:1094703864512512162>"
 #define damn_larper botpfp
 #define damn_larper_text "<:damn_larper_text:1094703969651150898>"

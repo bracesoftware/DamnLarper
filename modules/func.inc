@@ -90,7 +90,7 @@ public DCC_OnMessageCreate(DCC_Message: message)
 				Thank you for helping us and our community to provide our users and you a better experience! "d_heart"\n\n\
 				**Support Server**\n\
 				"d_reply" If you wish, you can join our support server below.\n\n\
-				["BOT_NAME" • Support](https://discord.gg/SEvCgZy27a)", id);
+				["BOT_NAME" • Support]("SUPPORT_SERVER")", id);
 
 			new DCC_Embed:msg2 = DCC_CreateEmbed(
 				"**__Report Response__**", reportstring, 

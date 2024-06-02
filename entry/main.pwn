@@ -129,7 +129,7 @@ main()
 	print("The script started sir.");
 	print("==========================");
 	strmid(d_annc_title, "We're back!", 0, sizeof d_annc_title);
-	strmid(d_announcement, "The bot is online again; get help at `"BOT_PREFIX"help`.", 0, sizeof d_announcement);
+	strmid(d_announcement, "The bot is online again; get help at `"BOT_PREFIX"help`.\n• **Script Version**\n"d_reply"Bot code version is: `"BOT_VERSION"`", 0, sizeof d_announcement);
 	Damn_SendBotAnnouncement();//RemoveDir("test__dentist", true);
 }
 
