@@ -350,6 +350,23 @@ stock GetData(const id[], const data[])
 			return count;
 		}
 	}
+	if(!strcmp(data, "Worm"))
+	{
+		format(file_name, sizeof file_name,
+			"data/worm_%s.ini", id);
+		if(!fexist(file_name)) return 0;
+		new File: file = fopen(file_name, io_read);
+		if (file)
+		{
+			fread(file, strFromFile2);
+			
+			count = strval(strFromFile2);
+
+			fclose(file);
+
+			return count;
+		}
+	}
 	return 0;
 }
 
@@ -471,6 +488,14 @@ stock SetData(const id[], const data[], count)
 	if(!strcmp(data, "Copper"))
 	{
 		format(file_name, sizeof file_name,"data/copper_%s.ini",id);
+		format(string, sizeof(string), "%i", count);
+		new File: file2 = fopen(file_name, io_write);
+		fwrite(file2, string);
+		fclose(file2);
+	}
+	if(!strcmp(data, "Worm"))
+	{
+		format(file_name, sizeof file_name,"data/worm_%s.ini",id);
 		format(string, sizeof(string), "%i", count);
 		new File: file2 = fopen(file_name, io_write);
 		fwrite(file2, string);
@@ -894,6 +919,10 @@ stock GenerateInvString(const id[], type)
 	if(type == IST_COPPER)
 	{
 		format(string, sizeof string, ""d_reply" "d_copper" • **Copper**: %ix\n", GetData(id, "Copper"));
+	}
+	if(type == IST_WORM)
+	{
+		format(string, sizeof string, ""d_reply" "d_worm" • **Worm**: %ix\n", GetData(id, "Worm"));
 	}
 
 	return string;

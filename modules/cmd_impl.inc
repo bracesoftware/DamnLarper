@@ -421,7 +421,7 @@
 		""), GetMention(useridmention));
 
 		if(page == 2) DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
-		"**__Help Panel__**", "**RolePlay System commands**\n\n\
+		"**__Help Panel__**", "**__Economy commands__**\n\n\
 		"d_arrow"**`"BOT_PREFIX"mystats`**\n"d_reply"View your statistics!\n\
 		"d_arrow"**`"BOT_PREFIX"mine`**\n"d_reply"Go mining and find something valuable!\n\
 		"d_arrow"**`"BOT_PREFIX"melt`**\n"d_reply"Melt stuff to get other stuff!\n\
@@ -432,6 +432,7 @@
 		"d_arrow"**`"BOT_PREFIX"make`**\n"d_reply"Make items out of other items!\n\
 		"d_arrow"**`"BOT_PREFIX"openchest`**\n"d_reply"Open a chest!\n\
 		"d_arrow"**`"BOT_PREFIX"dig`**\n"d_reply"Go digging into the dirt and hopefully find something!\n\
+		"d_arrow"**`"BOT_PREFIX"sell`**\n"d_reply"Sell an item!\n\
 		\nPage: 2 of 2\n\
 		", 
 		"",
@@ -3097,6 +3098,7 @@
 		%s\
 		%s\
 		%s\
+		%s\
 		",
 		(GetData(id, "Gold") == 0) ? "" : GenerateInvString(id, IST_GOLD),
 		
@@ -3120,7 +3122,9 @@
 		
 		(GetData(id, "Banknotes") == 0) ? "" : GenerateInvString(id, IST_BANKNOTE),
 
-		(GetData(id, "Copper") == 0) ? "" : GenerateInvString(id, IST_COPPER));
+		(GetData(id, "Copper") == 0) ? "" : GenerateInvString(id, IST_COPPER),
+
+		(GetData(id, "Worm") == 0) ? "" : GenerateInvString(id, IST_WORM));
 
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Your Found & Produced Items Inventory__**", inv, 
@@ -3512,6 +3516,71 @@
 	return 1;
 }
 
+
+@discord() command:sell(@discord() cmd_params)
+{
+	SetUpCommandChannel(channel,slashchannel);
+
+	new id[DCC_ID_SIZE];
+	DCC_GetUserId(author, id);
+
+	new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
+
+	new item[30],quantity;
+
+	if(sscanf(params, "s[30]i", item, quantity))
+	{
+		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
+		"**__Sell Command__**", ""delimiterlol" • You can sell sellable items for a good price!\n\
+		Usage: `"BOT_PREFIX"sell [item] [quantity]`\n\n\
+		**__Sellable Items__**\n\
+		**`copper`**\n"d_reply"Sell 1x "d_copper" | `Copper` for "d_coin" `50`!\n\
+		**`worm`**\n"d_reply"Sell 1x "d_worm" | `Worm` for "d_coin" `10`!\n\
+		", 
+		"","", col_embed, datetimelog, 
+		"","",""), GetMention(useridmention));
+		return 1;
+	}
+
+	if(quantity == 0)
+	{
+		@discord() SendMsg(channel, ""d_reply" **How?** • You can't use zero as quantity!");
+		return 1;
+	}
+
+	if(!strcmp(item, "copper"))
+	{
+		if(GetData(id, "Copper") < quantity)
+		{
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have that much "d_copper" | `Copper`.");
+			return 1;
+		}
+		SetData(id, "Balance", GetData(id, "Balance") + (quantity*50));
+		SetData(id, "Copper", GetData(id, "Copper") - quantity);
+		@discord() SendMsg(channel, ""d_reply" **ITEM SOLD** • You successfully sold %ix "d_copper" | `Copper` and got %ix "d_coin" | `Coins`!", quantity, quantity*50);
+		return 1;
+	}
+
+	if(!strcmp(item, "worm"))
+	{
+		if(GetData(id, "Worm") < quantity)
+		{
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have that much "d_worm" | `Worm`.");
+			return 1;
+		}
+		SetData(id, "Balance", GetData(id, "Balance") + (quantity*10));
+		SetData(id, "Worm", GetData(id, "Worm") - quantity);
+		@discord() SendMsg(channel, ""d_reply" **ITEM SOLD** • You successfully sold %ix "d_worm" | `Worm` and got %ix "d_coin" | `Coins`!", quantity, quantity*10);
+		return 1;
+	}
+	
+	else
+	{
+		@discord() SendMsg(channel, ""d_reply" **WHAT** • You can't sell that on the black market!");
+		@discord() SendInfo(channel, "Use `"BOT_PREFIX"sell` to view a list of sellable items.");
+	}
+	return 1;
+}
 
 @discord() command:mystats(@discord() cmd_params)
 {
@@ -4340,8 +4409,9 @@ static GetFeed()
 	}
 
 	new copper = random(5);
+	new worm = random(5);
 	
-	if(copper == 0)
+	if(copper == 0 && worm == 0)
 	{
 		SetEnergy(id, GetEnergy(id) - 1);
 		@discord() SendMsg(channel, "**<@%s>**\n\n"d_reply" **DIGGING FINISHED** • You've been digging for a while, but you could not find anything!", id);
@@ -4349,8 +4419,9 @@ static GetFeed()
 	}
 
 
-	@discord() SendMsg(channel, "**<@%s>**\n\n"d_reply" **DIGGING FINISHED** • You've been digging for a while, you found:\n\n%ix "d_copper" | `Copper`\n", id, copper);
+	@discord() SendMsg(channel, "**<@%s>**\n\n"d_reply" **DIGGING FINISHED** • You've been digging for a while, you found:\n\n%ix "d_copper" | `Copper`\n%ix "d_worm" | `Worm`\n", id, copper,worm);
 	SetData(id, "Copper", GetData(id, "Copper") + copper);
+	SetData(id, "Worm", GetData(id, "Worm") + worm);
 
 	SetEnergy(id, GetEnergy(id) - 1);
 
@@ -4362,8 +4433,10 @@ static GetFeed()
 			return 1;
 		}
 		copper = random(5);
-		@discord() SendInfo(channel, "**<@%s>**\n\n"d_reply" **PET BONUS** • Your pet somehow managed to help you, he mined this for you:\n\n%ix "d_copper" | `Copper`\n", id, copper);
+		worm = random(5);
+		@discord() SendInfo(channel, "**<@%s>**\n\n"d_reply" **PET BONUS** • Your pet somehow managed to help you, he mined this for you:\n\n%ix "d_copper" | `Copper`\n%ix "d_worm" | `Worm`\n", id, copper,worm);
 		SetData(id, "Copper", GetData(id, "Copper") + copper);
+		SetData(id, "Worm", GetData(id, "Worm") + worm);
 		SetPetEnergy(id, GetPetEnergy(id) - 1);
 	}
 

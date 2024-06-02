@@ -52,6 +52,7 @@
 #define d_paper "<:d_paper:1008015390766530580>"
 #define d_banknote "<:d_banknote:1007992117550911598>"
 #define d_copper "<:d_copper:1095608869725675541>"
+#define d_worm "<:d_worm:1246790144300810334>"
 //////////////////////////////////virtual pets////////////////////////////////////
 #define d_parrot "<:d_parrot:1007595843215425580>"
 #define d_dog "<:d_dog:1008841252650889286>"

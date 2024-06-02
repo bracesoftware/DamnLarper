@@ -169,6 +169,7 @@ stock bool:IsUserABot_2(DCC_User:user)
 #define IST_PAPER 			10
 #define IST_BANKNOTE 		11
 #define IST_COPPER 			12
+#define IST_WORM 			13
 
 
 #define CHEST_COMMON 		1
