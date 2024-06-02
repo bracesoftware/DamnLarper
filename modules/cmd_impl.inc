@@ -240,9 +240,11 @@
     DCC_GetChannelGuild(channel, guild);
     new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
     
-    new option[30];
+    new option[30],page;
 
-    if(sscanf(params, "s[30]", option))
+    sscanf(params, "s[30]i", option, page);
+
+    if(strlen(option) < 2)
 	{
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Main Bot Panel__**", "\n\n\
@@ -267,7 +269,6 @@
 		"d_arrow"**`"BOT_PREFIX"help bump`**\n"d_reply"Help about server bumping and leaderboard.\n\
 		"d_arrow"**`"BOT_PREFIX"help lists`**\n"d_reply"Lists system help.\n\
 		"d_arrow"**`"BOT_PREFIX"help pets`**\n"d_reply"Help with pet system!\n\
-		"d_arrow"**`"BOT_PREFIX"help roleplay`**\n"d_reply"Bot's role-play system help.\n\
 		"d_arrow"**`"BOT_PREFIX"help security`**\n"d_reply"Anti-raid and security system help.\n\
 		"d_arrow"**`"BOT_PREFIX"help achievements`**\n"d_reply"Achievement system help.\n\
 		"d_arrow"**`"BOT_PREFIX"help socialmedia`**\n"d_reply"Social media system help.\n\n\
@@ -284,6 +285,10 @@
 	}
 	if(!strcmp(option, "bracetm"))
 	{
+		if(page != 0)
+		{
+			@discord() SendInfo(channel, "**No pages!** "d_star" Page number (*namely %i*) is not required for this help menu!", page);
+		}
 		modcheck;
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__"BRACE_TEAM" Dev Team Commands__**", "\n\n\
@@ -306,6 +311,10 @@
 	}
 	if(!strcmp(option, "premium"))
 	{
+		if(page != 0)
+		{
+			@discord() SendInfo(channel, "**No pages!** "d_star" Page number (*namely %i*) is not required for this help menu!", page);
+		}
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__"BOT_NAME" Premium Information__**", "If you have any related questions about premium or how can you get it, contact us @ **"BOT_SUPPORT_MAIL"**.\n\n\
 		**Commands**\n\n\
@@ -323,6 +332,10 @@
 	}
 	if(!strcmp(option, "verification"))
 	{
+		if(page != 0)
+		{
+			@discord() SendInfo(channel, "**No pages!** "d_star" Page number (*namely %i*) is not required for this help menu!", page);
+		}
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Help Panel__**", "**Verification System Commands**\n\n\
 		"d_arrow"**`"BOT_PREFIX"verify`**\n"d_reply"Verify yourself!\n\
@@ -338,6 +351,10 @@
 	//other systems
 	if(!strcmp(option, "custom"))
 	{
+		if(page != 0)
+		{
+			@discord() SendInfo(channel, "**No pages!** "d_star" Page number (*namely %i*) is not required for this help menu!", page);
+		}
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Custom Features Help Panel__**", "\n\n\
 		Nothing to see here!", 
@@ -350,6 +367,10 @@
 	}
 	if(!strcmp(option, "moderation"))
 	{
+		if(page != 0)
+		{
+			@discord() SendInfo(channel, "**No pages!** "d_star" Page number (*namely %i*) is not required for this help menu!", page);
+		}
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Help Panel__**", "**Moderation Commands**\n\n\
 		"d_arrow"**`"BOT_PREFIX"serverconfig`**\n"d_reply"Setup "BOT_NAME" in your server!\n\
@@ -367,7 +388,17 @@
 	}
 	if(!strcmp(option, "economy"))
 	{
-		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
+		if(page == 0)
+		{
+			@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"help economy [menu page]`");
+			return 1;
+		}
+		if(page > 2)
+		{
+			@discord() SendInfo(channel, "That page number is invalid.");
+			return 1;
+		}
+		if(page == 1) DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Help Panel__**", "**__Economy commands__**\n\n\
 		"d_arrow"**`"BOT_PREFIX"bal` `"BOT_PREFIX"balance`**\n"d_reply"View your balance.\n\
 		"d_arrow"**`"BOT_PREFIX"work`**\n"d_reply"Work and earn money.\n\
@@ -381,6 +412,27 @@
 		"d_arrow"**`"BOT_PREFIX"daily`**\n"d_reply"Claim your daily money.\n\
 		"d_arrow"**`"BOT_PREFIX"beg`**\n"d_reply"Beg for money on the streets!\n\
 		"d_arrow"**`"BOT_PREFIX"heist`**\n"d_reply"Rob someone's bank balance!\n\
+		\nPage: 1 of 2\n\
+		", 
+		"",
+		"", col_embed, datetimelog, 
+		"",
+		"",
+		""), GetMention(useridmention));
+
+		if(page == 2) DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
+		"**__Help Panel__**", "**RolePlay System commands**\n\n\
+		"d_arrow"**`"BOT_PREFIX"mystats`**\n"d_reply"View your statistics!\n\
+		"d_arrow"**`"BOT_PREFIX"mine`**\n"d_reply"Go mining and find something valuable!\n\
+		"d_arrow"**`"BOT_PREFIX"melt`**\n"d_reply"Melt stuff to get other stuff!\n\
+		"d_arrow"**`"BOT_PREFIX"hunt`**\n"d_reply"Go hunting and find stuff!\n\
+		"d_arrow"**`"BOT_PREFIX"eat`**\n"d_reply"Consume stuff and max out your energy!\n\
+		"d_arrow"**`"BOT_PREFIX"fish`**\n"d_reply"Go fishing and get fish or something else!\n\
+		"d_arrow"**`"BOT_PREFIX"chop`**\n"d_reply"Go chopping and get planks!\n\
+		"d_arrow"**`"BOT_PREFIX"make`**\n"d_reply"Make items out of other items!\n\
+		"d_arrow"**`"BOT_PREFIX"openchest`**\n"d_reply"Open a chest!\n\
+		"d_arrow"**`"BOT_PREFIX"dig`**\n"d_reply"Go digging into the dirt and hopefully find something!\n\
+		\nPage: 2 of 2\n\
 		", 
 		"",
 		"", col_embed, datetimelog, 
@@ -391,6 +443,10 @@
 	}
 	if(!strcmp(option, "afk"))
 	{
+		if(page != 0)
+		{
+			@discord() SendInfo(channel, "**No pages!** "d_star" Page number (*namely %i*) is not required for this help menu!", page);
+		}
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Help Panel__**", "**__AFK commands__**\n\n\
 		"d_arrow"**`"BOT_PREFIX"afk`**\n"d_reply"Set your AFK status.\n\
@@ -404,6 +460,10 @@
 	}
 	if(!strcmp(option, "customcmd"))
 	{
+		if(page != 0)
+		{
+			@discord() SendInfo(channel, "**No pages!** "d_star" Page number (*namely %i*) is not required for this help menu!", page);
+		}
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Help Panel__**", "**__Custom Command help__**\n\n\
 		"d_arrow"**`"BOT_PREFIX"declcmd`**\n"d_reply"Declare (create) a custom command.\n\
@@ -418,6 +478,10 @@
 	}
 	if(!strcmp(option, "fun"))
 	{
+		if(page != 0)
+		{
+			@discord() SendInfo(channel, "**No pages!** "d_star" Page number (*namely %i*) is not required for this help menu!", page);
+		}
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Help Panel__**", "**Miscellaneous commands**\n\n\
 		"d_arrow"**`"BOT_PREFIX"search`**\n"d_reply"Let me Google stuff for you!\n\
@@ -433,6 +497,10 @@
 	}
 	if(!strcmp(option, "levels"))
 	{
+		if(page != 0)
+		{
+			@discord() SendInfo(channel, "**No pages!** "d_star" Page number (*namely %i*) is not required for this help menu!", page);
+		}
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Help Panel__**", "**__Leveling system help__**\n\n\
 		"delimiterlol" This is a message-based leveling system. Statistics and rewards \
@@ -450,6 +518,10 @@
 	}
 	if(!strcmp(option, "bump"))
 	{
+		if(page != 0)
+		{
+			@discord() SendInfo(channel, "**No pages!** "d_star" Page number (*namely %i*) is not required for this help menu!", page);
+		}
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Help Panel__**", ""d_reply" This system is under heavily development.\n\n\
 		"d_arrow"**`"BOT_PREFIX"bump`**\n"d_reply"Bump your server!\n\
@@ -463,6 +535,10 @@
 	}
 	if(!strcmp(option, "lists"))
 	{
+		if(page != 0)
+		{
+			@discord() SendInfo(channel, "**No pages!** "d_star" Page number (*namely %i*) is not required for this help menu!", page);
+		}
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Help Panel__**", "**List System commands**\n\n\
 		"d_arrow"**`"BOT_PREFIX"createlist`**\n"d_reply"Create a list!\n\
@@ -478,6 +554,10 @@
 	}
 	if(!strcmp(option, "pets"))
 	{
+		if(page != 0)
+		{
+			@discord() SendInfo(channel, "**No pages!** "d_star" Page number (*namely %i*) is not required for this help menu!", page);
+		}
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Help Panel__**", "**Pet System commands**\n\n\
 		"d_arrow"**`"BOT_PREFIX"petshop`**\n"d_reply"List of pets you can buy!\n\
@@ -494,30 +574,12 @@
 		""), GetMention(useridmention));
 		return 1;
 	}
-	if(!strcmp(option, "roleplay"))
-	{
-		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
-		"**__Help Panel__**", "**RolePlay System commands**\n\n\
-		"d_arrow"**`"BOT_PREFIX"mystats`**\n"d_reply"View your statistics!\n\
-		"d_arrow"**`"BOT_PREFIX"mine`**\n"d_reply"Go mining and find something valuable!\n\
-		"d_arrow"**`"BOT_PREFIX"melt`**\n"d_reply"Melt stuff to get other stuff!\n\
-		"d_arrow"**`"BOT_PREFIX"hunt`**\n"d_reply"Go hunting and find stuff!\n\
-		"d_arrow"**`"BOT_PREFIX"eat`**\n"d_reply"Consume stuff and max out your energy!\n\
-		"d_arrow"**`"BOT_PREFIX"fish`**\n"d_reply"Go fishing and get fish or something else!\n\
-		"d_arrow"**`"BOT_PREFIX"chop`**\n"d_reply"Go chopping and get planks!\n\
-		"d_arrow"**`"BOT_PREFIX"make`**\n"d_reply"Make items out of other items!\n\
-		"d_arrow"**`"BOT_PREFIX"openchest`**\n"d_reply"Open a chest!\n\
-		"d_arrow"**`"BOT_PREFIX"dig`**\n"d_reply"Go digging into the dirt and hopefully find something!\n\
-		", 
-		"",
-		"", col_embed, datetimelog, 
-		"",
-		"",
-		""), GetMention(useridmention));
-		return 1;
-	}
 	if(!strcmp(option, "security"))
 	{
+		if(page != 0)
+		{
+			@discord() SendInfo(channel, "**No pages!** "d_star" Page number (*namely %i*) is not required for this help menu!", page);
+		}
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Help Panel__**", "**Anti-raid System commands**\n\n\
 		"d_arrow" Nothing to see here yet!", 
@@ -530,6 +592,10 @@
 	}
 	if(!strcmp(option, "socialmedia"))
 	{
+		if(page != 0)
+		{
+			@discord() SendInfo(channel, "**No pages!** "d_star" Page number (*namely %i*) is not required for this help menu!", page);
+		}
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Help Panel__**", "**Social Media System**\n\n\
 		"d_arrow"**`"BOT_PREFIX"smregister`**\n"d_reply"Register an account on social media or change a current account's nickname.\n\
@@ -550,6 +616,10 @@
 	}
 	if(!strcmp(option, "achievements"))
 	{
+		if(page != 0)
+		{
+			@discord() SendInfo(channel, "**No pages!** "d_star" Page number (*namely %i*) is not required for this help menu!", page);
+		}
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Help Panel__**", "**Achievement System**\n\n\
 		"d_arrow"**`"BOT_PREFIX"achievements`**\n"d_reply"View the list of all the achievements that can be unlocked!\n\
@@ -2610,7 +2680,7 @@
 			"d_reply" Price: "d_ruby"`10`\n\n\
 			"d_axe" • **Axe** (*ID: `10`*)\n\
 			"d_reply" Price: "d_coin"`8000`\n\n\
-			\n**Page: 1**", 
+			\n**Page: 1 of 2**", 
 			"",
 			"", col_embed, datetimelog, 
 			"",
@@ -2632,7 +2702,7 @@
 			"d_reply" Price: "d_coin"`20000`\n\n\
 			"d_backpack" • **Backpack** (*ID: `15`*)\n\
 			"d_reply" Price: "d_coin"`5000`\n\n\
-			\n**Page: 2**", 
+			\n**Page: 2 of 2**", 
 			"",
 			"", col_embed, datetimelog, 
 			"",
