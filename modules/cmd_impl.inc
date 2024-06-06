@@ -1128,6 +1128,8 @@
 
 	@discord() SendMsg(channel, "• **Last Update**\n"d_reply"Script was (re)compiled last time at `%s-%s`.\n• **Script Version**\n"d_reply"Bot code version: `"BOT_VERSION"`",__date, __time);
 
+	@discord() SendInfo(channel, ""d_warning" We're currently working on following systems:\n\n"d_arrow""d_xp" | `Experience Points`\n"d_reply"A new currency!");
+
 	return 1;
 }
 
@@ -1876,7 +1878,7 @@
 
 	DCC_GetUserId(author, id);
 
-	CommandCooldownMin(channel, id, "work", "Stop right there worker!");
+	CommandCooldownMin(channel, id, "work", "Stop right there worker; you got to rest first!");
 
 	if(GetEnergy(id) == 0)
 	{
@@ -2672,6 +2674,18 @@
 			"d_reply" Price: "d_coin"`20000`\n\n\
 			"d_furnace" • **Furnace** (*ID: `5`*)\n\
 			"d_reply" Price: "d_ruby"`20`\n\n\
+			\nPage: 1 of 3", 
+			"",
+			"", col_embed, datetimelog, 
+			"",
+			"",""), GetMention(useridmention));
+		return 1;
+	}
+	if(page == 2)
+	{
+		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
+		"**__"BOT_NAME" Shop__**",
+			""d_reply" **SHOP** • This is the list of items you can purchase.\n\n\
 			"d_slingshot" • **Slingshot** (*ID: `6`*)\n\
 			"d_reply" Price: "d_ruby"`15`\n\n\
 			"d_mask" • **"BOT_NAME"-looking Mask** (*ID: `7`*)\n\
@@ -2682,14 +2696,14 @@
 			"d_reply" Price: "d_ruby"`10`\n\n\
 			"d_axe" • **Axe** (*ID: `10`*)\n\
 			"d_reply" Price: "d_coin"`8000`\n\n\
-			\n**Page: 1 of 2**", 
+			\nPage: 2 of 3", 
 			"",
 			"", col_embed, datetimelog, 
 			"",
 			"",""), GetMention(useridmention));
 		return 1;
 	}
-	if(page == 2)
+	if(page == 3)
 	{
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__"BOT_NAME" Shop__**",
@@ -2704,7 +2718,7 @@
 			"d_reply" Price: "d_coin"`20000`\n\n\
 			"d_backpack" • **Backpack** (*ID: `15`*)\n\
 			"d_reply" Price: "d_coin"`5000`\n\n\
-			\n**Page: 2 of 2**", 
+			\nPage: 3 of 3", 
 			"",
 			"", col_embed, datetimelog, 
 			"",

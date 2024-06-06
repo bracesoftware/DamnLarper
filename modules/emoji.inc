@@ -9,6 +9,7 @@
 #define d_fullbar3 "<:d_fullbar3:1007988082341056634>"
 #define d_beta "<:d_beta:1009087077725519974>"
 #define d_new "<:d_new:1246763523875405856>"
+#define d_warning "<:d_warning:1246932496361455626>"
 #define botpfp "<:damn_larper:1094703864512512162>"
 #define damn_larper botpfp
 #define damn_larper_text "<:damn_larper_text:1094703969651150898>"
@@ -23,6 +24,7 @@
 #define d_heart "<:d_heart:1006632843948064779>"
 ////////////////////////////currency//////////////////////////////////////////
 #define d_coin "<:d_coin:1006610627864829952>"
+#define d_xp "<:d_xp:1248344334143721574>"
 /////////////////////////////shop items/////////////////////////////////////////
 #define d_phone "<:d_phone:1006598039466672280>"
 #define d_gamepad "<:d_gamepad:1006612825013235825>"

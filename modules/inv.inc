@@ -112,6 +112,23 @@ stock GetData(const id[], const data[])
 			return count;
 		}
 	}
+	if(!strcmp(data, "XP"))
+	{
+		format(file_name, sizeof file_name,
+			"data/xp_%s.ini", id);
+		if(!fexist(file_name)) return 0;
+		new File: file = fopen(file_name, io_read);
+		if (file)
+		{
+			fread(file, strFromFile2);
+			
+			count = strval(strFromFile2);
+
+			fclose(file);
+
+			return count;
+		}
+	}
 	if(!strcmp(data, "Balance"))
 	{
 		format(file_name, sizeof file_name,
@@ -376,6 +393,14 @@ stock SetData(const id[], const data[], count)
 	if(!strcmp(data, "Level"))
 	{
 		format(file_name, sizeof file_name,"data/lvl_%s.ini",id);
+		format(string, sizeof(string), "%i", count);
+		new File: file2 = fopen(file_name, io_write);
+		fwrite(file2, string);
+		fclose(file2);
+	}
+	if(!strcmp(data, "XP"))
+	{
+		format(file_name, sizeof file_name,"data/xp_%s.ini",id);
 		format(string, sizeof(string), "%i", count);
 		new File: file2 = fopen(file_name, io_write);
 		fwrite(file2, string);
