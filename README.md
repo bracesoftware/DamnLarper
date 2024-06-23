@@ -5,7 +5,7 @@
 # Damn Larper
 
 <img height="30" align="left" src="pawn_logo.png">
-<img height="30" align="left" src="bracetm_product.png">
+<img height="30" align="left" src="brace_product.png">
 <img height="30" align="left" href="https://sa-mp.com" src="samp_logo.png">
 <img height="30" align="left" src="omp_compatible.png">
 <img height="30" align="left" src="discord_logo.png">
