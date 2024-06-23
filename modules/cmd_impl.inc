@@ -249,9 +249,10 @@
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__Main Bot Panel__**", "\n\n\
 		"delimiterlol" • __List of Informational & Pinned Commands__\n\
-		"d_arrow"**`"BOT_PREFIX"help bracetm`**\n"d_reply"Exclusive commands for the "BRACE_TEAM" team!\n\
+		"d_arrow"**`"BOT_PREFIX"help bracetm` "d_warning"**\n"d_reply"Exclusive commands for the "BRACE_TEAM" team!\n\
 		"d_arrow"**`"BOT_PREFIX"help premium`**\n"d_reply"Exclusive commands for the "BOT_NAME" Premium users!\n\
 		"d_arrow"**`"BOT_PREFIX"help custom`**\n"d_reply"View help panel for custom server features.\n\
+		"d_arrow"**`"BOT_PREFIX"help marketplace` "d_beta"**\n"d_reply"View the Damn Larper Marketplace and buy some amazing perks.\n\
 		"d_arrow"**`"BOT_PREFIX"version`**\n"d_reply"Last bot update.\n\
 		"d_arrow"**`"BOT_PREFIX"website`**\n"d_reply"Link to our website where you can find various information and other links.\n\
 		"d_arrow"**`"BOT_PREFIX"errors`**\n"d_reply"Check for the bot errors.\n\
@@ -302,6 +303,7 @@
 		"d_arrow"**`"BOT_PREFIX"addpremium`**\n"d_reply"Give someone the "BOT_NAME" Premium perks!\n\
 		"d_arrow"**`"BOT_PREFIX"delpremium`**\n"d_reply"Take "BOT_NAME" Premium perks from someone and make them mad!\n\
 		"d_arrow"**`"BOT_PREFIX"botannc`**\n"d_reply"Send an announcement to all servers the bot is in (and properly set up)!\n\
+		"d_arrow"**`"BOT_PREFIX"addxp`**\n"d_reply"Give someone "d_xp" | `Experience Points`!\n\
 		", 
 		"",
 		"", col_embed, datetimelog, 
@@ -323,6 +325,7 @@
 		\n**Other Features**\n\n\
 		"d_premium" **Skip Command Cooldown**\n"d_reply"Mine, beg, chop and do other stuff without being disturbed by that annoying command cooldown!\n\n\
 		"d_premium" **Access Special Pets**\n"d_reply"With premium perks, you can access special pets in the pet shop such as "d_pepefrog" | `Pepe Frog`!\n\n\
+		"d_premium" **A Very Big Wallet**\n"d_reply"Your "d_wallet" | `Wallet` has now infinite space; with premium perks activated, you can fit billions of coins in there!\n\n\
 		", 
 		"",
 		"", col_embed, datetimelog, 
@@ -341,6 +344,25 @@
 		"**__Help Panel__**", "**Verification System Commands**\n\n\
 		"d_arrow"**`"BOT_PREFIX"verify`**\n"d_reply"Verify yourself!\n\
 		"d_arrow"**`"BOT_PREFIX"newverifycode`**\n"d_reply"Get a new verification code in case of anything!\n\
+		\n", 
+		"",
+		"", col_embed, datetimelog, 
+		"",
+		"",
+		""), GetMention(useridmention));
+		return 1;
+	}
+	if(!strcmp(option, "marketplace"))
+	{
+		if(page != 0)
+		{
+			@discord() SendInfo(channel, "**No pages!** "d_star" Page number (*namely %i*) is not required for this help menu!", page);
+		}
+		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
+		"**__Help Panel__**", "**Marketplace Commands**\n\n\
+		"d_arrow"**`"BOT_PREFIX"marketplace`**\n"d_reply"View the Damn Larper Marketplace!\n\
+		"d_arrow"**`"BOT_PREFIX"purchase`**\n"d_reply"Purchase something from the marketplace!\n\
+		"d_arrow"**`"BOT_PREFIX"myxp`**\n"d_reply"Check how many "d_xp" | `Experience Points` do you have!\n\
 		\n", 
 		"",
 		"", col_embed, datetimelog, 
@@ -1893,7 +1915,7 @@
 		return 1;
 	}
 
-	if(GetData(id, "Balance") >= 25000)
+	if(GetData(id, "Balance") >= default_wallet_size && GetPremium(id) == 0)
 	{
 		@discord() SendMsg(channel, "> "d_reply" **ERROR** • Your wallet is full of coins - there is no space left for more!\n\
 			"delimiterlol" **TIP** • Use `"BOT_PREFIX"dep` to deposit your coins and free up space.");
@@ -2108,6 +2130,12 @@
 	if(money > GetData(id, "DepBalance"))
 	{
 		@discord() SendMsg(channel, ""d_reply" **NOT ENOUGH MONEY** • You don't have that much coins in your bank!");
+		return 1;
+	}
+
+	if(money > default_wallet_size && GetPremium(id) == 0)
+	{
+		@discord() SendInfo(channel, "That's too much money! You can store up to %ix "d_coin" | `Coins` in your wallet.",default_wallet_size);
 		return 1;
 	}
 
@@ -2577,7 +2605,7 @@
 		}
 		if(quantity > (d_max_bar_points - GetPetEnergy(id)))
 		{
-			@discord() SendMsg(channel, ""d_reply" **STATISTICS ERROR** • Your pet is not that hungry! You need to give him %ix "d_cookedmeat" | `Cooked Meat` to fill up its energy bar.", 5 - GetEnergy(id));
+			@discord() SendMsg(channel, ""d_reply" **STATISTICS ERROR** • Your pet is not that hungry! You need to give him %ix "d_cookedmeat" | `Cooked Meat` to fill up its energy bar.", d_max_bar_points - GetPetEnergy(id));
 			return 1;
 		}
 		SetData(id, "CookedMeat", GetData(id, "CookedMeat") - quantity);
@@ -2601,7 +2629,7 @@
 		}
 		if(quantity > (d_max_bar_points - GetPetEnergy(id)))
 		{
-			@discord() SendMsg(channel, ""d_reply" **STATISTICS ERROR** • Your pet is not that hungry! You need to give him %ix "d_fruits" | `Fruits` to fill up its energy bar.", 5 - GetEnergy(id));
+			@discord() SendMsg(channel, ""d_reply" **STATISTICS ERROR** • Your pet is not that hungry! You need to give him %ix "d_fruits" | `Fruits` to fill up its energy bar.", d_max_bar_points - GetPetEnergy(id));
 			return 1;
 		}
 		SetData(id, "Fruits", GetData(id, "Fruits") - quantity);
@@ -2625,7 +2653,7 @@
 		}
 		if(quantity > (d_max_bar_points - GetPetEnergy(id)))
 		{
-			@discord() SendMsg(channel, ""d_reply" **STATISTICS ERROR** • Your pet is not that hungry! You need to give him %ix "d_cookedfish" | `Cooked Fish` to fill up its energy bar.", 5 - GetEnergy(id));
+			@discord() SendMsg(channel, ""d_reply" **STATISTICS ERROR** • Your pet is not that hungry! You need to give him %ix "d_cookedfish" | `Cooked Fish` to fill up its energy bar.", d_max_bar_points - GetPetEnergy(id));
 			return 1;
 		}
 		SetData(id, "CookedFish", GetData(id, "CookedFish") - quantity);
@@ -2674,7 +2702,7 @@
 			"d_reply" Price: "d_coin"`20000`\n\n\
 			"d_furnace" • **Furnace** (*ID: `5`*)\n\
 			"d_reply" Price: "d_ruby"`20`\n\n\
-			\nPage: 1 of 3", 
+			\nPage: 1 of 4", 
 			"",
 			"", col_embed, datetimelog, 
 			"",
@@ -2696,7 +2724,7 @@
 			"d_reply" Price: "d_ruby"`10`\n\n\
 			"d_axe" • **Axe** (*ID: `10`*)\n\
 			"d_reply" Price: "d_coin"`8000`\n\n\
-			\nPage: 2 of 3", 
+			\nPage: 2 of 4", 
 			"",
 			"", col_embed, datetimelog, 
 			"",
@@ -2718,7 +2746,21 @@
 			"d_reply" Price: "d_coin"`20000`\n\n\
 			"d_backpack" • **Backpack** (*ID: `15`*)\n\
 			"d_reply" Price: "d_coin"`5000`\n\n\
-			\nPage: 3 of 3", 
+			\nPage: 3 of 4", 
+			"",
+			"", col_embed, datetimelog, 
+			"",
+			"",""), GetMention(useridmention));
+		return 1;
+	}
+	if(page == 4)
+	{
+		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
+		"**__"BOT_NAME" Shop__**",
+			""d_reply" **SHOP** • This is the list of items you can purchase.\n\n\
+			"d_rifle" • **Rifle** (*ID: `16`*)\n\
+			"d_reply" Price: "d_banknote"`100`\n\n\
+			\nPage: 4 of 4", 
 			"",
 			"", col_embed, datetimelog, 
 			"",
@@ -3014,6 +3056,24 @@
 		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_backpack" | `Backpack` for "d_coin" `5000`!");
 		return 1;
 	}
+	if(id == 16)
+	{
+		if(GetData(user, "Banknotes") < 100)
+		{
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough money to purchase this item!");
+			return 1;
+		}
+		if(GetInvData(user, "Rifle") == 1)
+		{
+			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own a "d_rifle" | `Rifle`!");
+			return 1;
+		}
+		SetInvData(user, "Rifle");
+		SetData(user, "Banknotes", GetData(user, "Banknotes") - 100);
+		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought a "d_rifle" | `Rifle` for "d_banknote" `100`!");
+		//@discord() SendInfo(channel, "Your coins will be now deposited to your safe instead of a bank! Now noone knows your safe passcode and won't be able to steal your deposited money!");
+		return 1;
+	}
 
 	@discord() SendMsg(channel, ""d_reply" **ERROR** • Wrong item ID was given, please recheck the shop!");
 
@@ -3072,6 +3132,7 @@
 		%s\
 		%s\
 		%s\
+		%s\
 		",
 		GetInvData(id, "Phone") ? ""d_reply" "d_phone" • **Phone** (*ID: `1`*)\n" : "",
 		GetInvData(id, "Gamepad") ? ""d_reply" "d_gamepad" • **Gamepad** (*ID: `2`*)\n" : "",
@@ -3087,7 +3148,8 @@
 		GetInvData(id, "Safe") ? ""d_reply" "d_safe" • **Safe** (*ID: `12`*)\n" : "",
 		GetInvData(id, "ProtectiveShield") ? ""d_reply" "d_protectiveshield" • **Protective Shield** (*ID: `13`*)\n" : "",
 		GetInvData(id, "Shovel") ? ""d_reply" "d_shovel" • **Shovel** (*ID: `14`*)\n" : "",
-		GetInvData(id, "Backpack") ? ""d_reply" "d_backpack" • **Backpack** (*ID: `15`*)\n" : ""
+		GetInvData(id, "Backpack") ? ""d_reply" "d_backpack" • **Backpack** (*ID: `15`*)\n" : "",
+		GetInvData(id, "Rifle") ? ""d_reply" "d_rifle" • **Rifle** (*ID: `16`*)\n" : ""
 		);
 
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
@@ -4524,8 +4586,146 @@ static GetFeed()
 		return 1;
 	}
 
+	@discord() SendMsg(channel, ""d_reply" • Announcement is being send; please wait a bit...");
 	Damn_SendBotAnnouncement();
 	@discord() SendMsg(channel, ""d_reply" • Announcement was successfully sent.");
+
+	return 1;
+}
+///////////////////
+@discord() command:marketplace(@discord() cmd_params)
+{
+	SetUpCommandChannel(channel,slashchannel);
+
+	new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
+
+	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
+		"**__"BOT_NAME" Marketplace__**",
+			""d_reply" **Marketplace** • This is the list of items you can purchase.\n\n\
+			"d_premium" • **Damn Larper Premium** (*ID: `1`*)\n\
+			"d_reply"Access more stuff with the premium perks! View the help panel for more information.\n\
+			\t\t\t\t\tPrice: "d_xp" `100`\n\n\
+			"d_commonchest" • **Common Chest** (*ID: `2`*)\n\
+			"d_reply"Open the "d_commonchest" | `Common Chest` and acquire great rewards!\n\
+			\t\t\t\t\tPrice: "d_xp" `10`\n\n\
+			"d_rarechest" • **Rare Chest** (*ID: `3`*)\n\
+			"d_reply"Open the "d_rarechest" | `Rare Chest` and acquire amazing rewards!\n\
+			\t\t\t\t\tPrice: "d_xp" `20`\n\n\
+			\nPage: 1 of 1", 
+			"",
+			"", col_embed, datetimelog, 
+			"",
+			"",""), GetMention(useridmention));
+		return 1;
+}
+
+
+@discord() command:purchase(@discord() cmd_params)
+{
+	SetUpCommandChannel(channel,slashchannel);
+
+	new id, user[DCC_ID_SIZE];
+
+	DCC_GetUserId(author, user);
+
+	if(sscanf(params, "i", id))
+	{
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"purchase [item ID]`");
+		return 1;
+	}
+
+	if(id == 1)
+	{
+		if(GetData(user, "XP") < 100)
+		{
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough "d_xp" | `Experience Points` to purchase this item!");
+			return 1;
+		}
+		if(GetPremium(user) == 1)
+		{
+			@discord() SendMsg(channel, ""d_reply" **ITEM OWNED** • You already own "d_premium" | **Damn Larper Premium**!");
+			return 1;
+		}
+		SetPremium(user,1);
+		SetData(user, "XP", GetData(user, "XP") - 100);
+		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought "d_premium" | **Damn Larper Premium** for "d_xp" `100`!");
+		return 1;
+	}
+	if(id == 2)
+	{
+		if(GetData(user, "XP") < 10)
+		{
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough "d_xp" | `Experience Points` to purchase this item!");
+			return 1;
+		}
+		
+		SaveCommonChest(user, GetCommonChest(user) + 1);
+		SetData(user, "XP", GetData(user, "XP") - 10);
+		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought 1x "d_commonchest" | `Common Chest` for "d_xp" `10`!");
+		return 1;
+	}
+	if(id == 3)
+	{
+		if(GetData(user, "XP") < 20)
+		{
+			@discord() SendMsg(channel, ""d_reply" **BALANCE ERROR** • You do not have enough "d_xp" | `Experience Points` to purchase this item!");
+			return 1;
+		}
+		
+		SaveRareChest(user, GetRareChest(user) + 1);
+		SetData(user, "XP", GetData(user, "XP") - 20);
+		@discord() SendMsg(channel, ""d_reply" **ITEM BOUGHT** • You successfully bought 1x "d_rarechest" | `Rare Chest` for "d_xp" `20`!");
+		return 1;
+	}
+
+	@discord() SendMsg(channel, ""d_reply" **ERROR** • Wrong item ID was given, please recheck the marketplace!");
+	return 1;
+}
+
+
+@discord() command:myxp(@discord() cmd_params)
+{
+	SetUpCommandChannel(channel,slashchannel);
+
+	new user[DCC_ID_SIZE];
+
+	DCC_GetUserId(author, user);
+
+	@discord() SendMsg(channel, ""d_reply" **Your XP!** • You have %ix "d_xp" | `Experience Points`.", GetData(user, "XP"));
+	return 1;
+}
+
+///////////////
+@discord() command:addxp(@discord() cmd_params)
+{
+	SetUpCommandChannel(channel,slashchannel);
+
+	modcheck;
+
+	new user[DCC_ID_SIZE + 10], amount;
+
+	if(sscanf(params, "s[40]i", user,amount))
+	{
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"addxp [user ID or user mention] [amount]`");
+		return 1;
+	}
+
+	for(new i; i <= strlen(user); i++)
+	{
+		if(user[i] == '<') strdel(user, i, i+1);
+		if(user[i] == '@') strdel(user, i, i+1);
+		if(user[i] == '>') strdel(user, i, i+1);
+		if(user[i] == '!') strdel(user, i, i+1);
+		if(user[i] == '\32') strdel(user, i, i+1);
+	}
+
+	usercheck(user);
+
+	SetData(user, "XP", GetData(user, "XP")+amount);
+	
+	@discord() SendMsg(channel, ""d_reply" **Added Experience Points** • <@%s> was given %ix "d_xp" | `Experience Points`.", user,amount);
+
+	@discord() SendDM(DCC_FindUserById(user), "**Experience Points Added** • You were given %ix "d_xp" | `Experience Points` by a global moderator.",amount);
 
 	return 1;
 }

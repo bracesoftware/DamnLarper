@@ -775,6 +775,22 @@ stock GetInvData(const user[], const data[])
 			return strval(strFromFile2);
 		}
 	}
+	if(!strcmp(data, "Rifle"))
+	{
+		format(file_name, sizeof file_name,
+			"inv/rifle_%s.ini", user);
+		//format(strFromFile2, sizeof strFromFile2, "Unknown");
+		if(!fexist(file_name)) return 0;
+		new File: file = fopen(file_name, io_read);
+		if (file)
+		{
+			fread(file, strFromFile2);
+
+			fclose(file);
+
+			return strval(strFromFile2);
+		}
+	}
 	return 0;
 }
 
@@ -882,6 +898,13 @@ stock SetInvData(const user[], const data[])
 	if(!strcmp(data, "Backpack"))
 	{
 		format(file_name, sizeof file_name,"inv/backpack_%s.ini",user);
+		new File: file2 = fopen(file_name, io_write);
+		fwrite(file2, "1");
+		fclose(file2);
+	}
+	if(!strcmp(data, "Rifle"))
+	{
+		format(file_name, sizeof file_name,"inv/rifle_%s.ini",user);
 		new File: file2 = fopen(file_name, io_write);
 		fwrite(file2, "1");
 		fclose(file2);

@@ -196,3 +196,7 @@ public senddm(message[])
 	return 1;
 }
 
+
+////////////
+
+#define default_wallet_size 25000
