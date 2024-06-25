@@ -1,5 +1,7 @@
 // Script written by DEntisT, © & ® BRACE™.
-
+#define d_brace__1 "<:d_brace__1:1255121767895138424>"
+#define d_brace__2 "<:d_brace__2:1255121770105802803>"
+#define d_brace d_brace__1""d_brace__2
 /////////////////////////////system/////////////////////////////////////////
 #define d_emptybar1 "<:d_emptybar1:1007987935049683036>"
 #define d_emptybar2 "<:d_emptybar2:1007987961733840956>"

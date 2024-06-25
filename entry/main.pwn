@@ -18,8 +18,8 @@
 #define @discord%0(%1) @DISCORD_DECORATOR@
 
 #define DAMN_LARPER_MAJOR	"7"
-#define DAMN_LARPER_MINOR	"1"
-#define DAMN_LARPER_RELEASE	"1"
+#define DAMN_LARPER_MINOR	"2"
+#define DAMN_LARPER_RELEASE	"2"
 
 ////////////////////////////////
 
@@ -80,6 +80,9 @@
 // Commands:
 
 #include "../modules/cmd_impl.inc"
+
+// Promo sys:
+#include "../modules/promo.inc"
 
 // Other components:
 

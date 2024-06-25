@@ -293,7 +293,7 @@
 		}
 		modcheck;
 		DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
-		"**__"BRACE_TEAM" Dev Team Commands__**", "\n\n\
+		""BRACE_TEAM" **__Dev Team Commands__**", "\n\n\
 		"d_arrow"**`"BOT_PREFIX"settings`**\n"d_reply"Manage the "BOT_NAME"'s settings!\n\
 		"d_arrow"**`"BOT_PREFIX"saveset`**\n"d_reply"Save the current settings configuration.\n\
 		"d_arrow"**`"BOT_PREFIX"setaccdata`**\n"d_reply"Manage another "BRACE_TEAM" account.\n\
@@ -363,7 +363,12 @@
 		"d_arrow"**`"BOT_PREFIX"marketplace`**\n"d_reply"View the Damn Larper Marketplace!\n\
 		"d_arrow"**`"BOT_PREFIX"purchase`**\n"d_reply"Purchase something from the marketplace!\n\
 		"d_arrow"**`"BOT_PREFIX"myxp`**\n"d_reply"Check how many "d_xp" | `Experience Points` do you have!\n\
-		\n", 
+		\n\n\
+		**"d_brace" Promo Codes**\n\
+		"d_reply"Use the following commands to use the promo code system.\n\n\
+		"d_arrow"**`"BOT_PREFIX"activatepromo`**\n"d_reply"Activate a promo code!\n\
+		"d_arrow"**`"BOT_PREFIX"viewpromo`**\n"d_reply"View what promo codes you have activated!\n\
+		", 
 		"",
 		"", col_embed, datetimelog, 
 		"",
@@ -1133,7 +1138,7 @@
 
 	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
 		"**__"BOT_NAME" • Website__**", "\
-		"d_reply" • Visit our community on the web! Access our site by clicking this [link](https://bracetm.000webhostapp.com/d_damnlarper.html)!", 
+		"d_reply" • Visit our community on the "d_brace" web! Access our site by clicking this [link]("brace_website")!", 
 		"",
 		"", col_embed, datetimelog, 
 		"",
@@ -4727,5 +4732,62 @@ static GetFeed()
 
 	@discord() SendDM(DCC_FindUserById(user), "**Experience Points Added** • You were given %ix "d_xp" | `Experience Points` by a global moderator.",amount);
 
+	return 1;
+}
+
+@discord() command:activatepromo(@discord() cmd_params)
+{
+	SetUpCommandChannel(channel,slashchannel);
+
+	new promocode[32], 
+	user[DCC_ID_SIZE];
+
+	DCC_GetUserId(author, user);
+
+	if(sscanf(params, "s[32]", promocode))
+	{
+		@discord() SendMsg(channel, ""d_reply" **COMMAND ERROR** • Too few or wrong command arguments were given! Please try again using the command template below:\n\n`"BOT_PREFIX"activatepromo [promo code]`");
+		return 1;
+	}
+
+	if(dpp_strcmp(promocode, "braceweb"))
+	{
+		if(GetPromoData(user, "braceweb") == 1)
+		{
+			@discord() SendInfo(channel, "You already have activated this promo code!");
+			return 1;
+		}
+		SetPromoData(user, "braceweb", 1);
+		@discord() SendInfo(channel, "You successfully activated this promo code!");
+		return 1;
+	}
+
+	@discord() SendMsg(channel, ""d_reply" **No Code?** • Wrong promo code was given!");
+	return 1;
+}
+
+@discord() command:viewpromo(@discord() cmd_params)
+{
+	SetUpCommandChannel(channel,slashchannel);
+
+	new user[DCC_ID_SIZE];
+
+	DCC_GetUserId(author, user);
+	new useridmention[DCC_ID_SIZE];DCC_GetUserId(author,useridmention);
+
+	new inv[4096];
+
+	format(inv, sizeof inv, ""d_reply" **Promo Codes** • This is the list of promo codes you have activated!\n\n\
+	%s\
+	",
+	GetPromoData(user, "braceweb") ? "`braceweb`\n"d_reply"This promo code activates a 50\% discount in the marketplace!\n" : ""
+	);
+
+	DCC_SendChannelEmbedMessage(channel, DCC_CreateEmbed(
+	"**__Your Promo Codes__**", inv, 
+	"",
+	"", col_embed, datetimelog, 
+	"",
+	"",""), GetMention(useridmention));
 	return 1;
 }

@@ -11,6 +11,7 @@ new datetimelog[256];
 #define BOT_AUTH_LINK "https://discord.com/api/oauth2/authorize?client_id="BOT_USER_ID"&permissions=8&scope=bot"
 #define BOT_SUPPORT_MAIL "bracetm.official@gmail.com"
 #define SUPPORT_SERVER "https://discord.gg/SEvCgZy27a"
+#define brace_website "https://bracetm.github.io/web/index.html"
 
 #if !defined isnull
 	#define isnull(%1) ((!(%1[0])) || (((%1[0]) == '\1') && (!(%1[1]))))
@@ -49,7 +50,7 @@ new BOT_BETA_PHASE = 1;
 
 #define BOT_VERSION "v"DAMN_LARPER_MAJOR"."DAMN_LARPER_MINOR"-R"DAMN_LARPER_RELEASE""
 #define BOT_NAME "Damn Larper"
-#define BRACE_TEAM "® 𝐁 𝐑 𝐀 𝐂 𝐄™"
+#define BRACE_TEAM d_brace__1""d_brace__2
 
 #define @DISCORD_DECORATOR@SendMsg(%1,%2) \
 	format(formatted, sizeof formatted,%2); \
